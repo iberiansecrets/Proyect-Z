@@ -5,14 +5,24 @@ public class EnemyController : MonoBehaviour
     public Transform target;
     public float speed = 3f;
     public float damage = 10f;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
-        
+        //Busca al jugador en la escena
+        if (target == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                target = playerObj.transform;
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró ningún objeto con tag 'Player'.");
+            }
+        }
     }
-
-    // Update is called once per frame 
+    
     void Update()
     {
         if (target == null) return;
