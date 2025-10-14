@@ -5,9 +5,13 @@ public class EnemyController : MonoBehaviour
     public Transform target;
     public float speed = 3f;
     public float damage = 10f;
+
+    private Rigidbody rb;
     
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+
         //Busca al jugador en la escena
         if (target == null)
         {
@@ -23,13 +27,25 @@ public class EnemyController : MonoBehaviour
         }
     }
     
-    void Update()
+    void FixedUpdate()
     {
         if (target == null) return;
 
+        // Dirección hacia el jugador
         Vector3 direction = (target.position - transform.position).normalized;
-        transform.position += direction * speed * Time.deltaTime;
-        transform.forward = direction;
+
+        // Calcula la nueva posición con detección de colisiones
+        Vector3 newPosition = rb.position + direction * speed * Time.fixedDeltaTime;
+
+        // Mueve el Rigidbody usando físicas
+        rb.MovePosition(newPosition);
+
+        // Rota para mirar al jugador
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            rb.MoveRotation(targetRotation);
+        }
     }
 
     void OnCollisionStay(Collision collision)
