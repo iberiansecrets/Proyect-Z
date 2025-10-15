@@ -2,53 +2,72 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movimiento")]
     public float moveSpeed = 9f;
-    public GameObject bulletPrefab;
-    public Transform bulletShot;
+
+    [Header("Disparo")]
+    public GameObject bulletPrefab;          // Bala normal (click izquierdo)
+    public GameObject bulletPushPrefab;      // Bala que empuja (click derecho)
+    public Transform bulletShot;             // Punto desde donde se dispara
     public float bulletSpeed = 20f;
 
     private Rigidbody rb;
     private Vector3 moveInput;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
-
         moveInput = new Vector3(moveX, 0f, moveZ).normalized;
 
-        if (Input.GetButtonDown("Fire1")) {
-            Shoot();
+        // 🔹 Click izquierdo: bala normal
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoot(bulletPrefab);
+        }
+
+        // 🔹 Click derecho: bala que empuja
+        if (Input.GetButtonDown("Fire2"))
+        {
+            Shoot(bulletPushPrefab);
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (moveInput.magnitude > 0f)
         {
             Vector3 movimiento = moveInput * moveSpeed * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + movimiento);
         }
-        else if (moveInput.sqrMagnitude < 0.01f)
-        {
-            rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, Vector3.zero, 0.1f);
-        }
     }
 
-    void Shoot()
+    void Shoot(GameObject prefab)
     {
-        GameObject bala = Instantiate(bulletPrefab, bulletShot.position, bulletShot.rotation);
-        Rigidbody rb = bala.GetComponent<Rigidbody>();
-        if (rb != null)
+        // Evita errores si no hay prefab asignado
+        if (prefab == null || bulletShot == null)
         {
-            rb.linearVelocity = bulletShot.forward * bulletSpeed;
+            Debug.LogWarning(" Prefab o bulletShot no asignado en PlayerController.");
+            return;
+        }
+
+        // Instanciar la bala
+        GameObject bala = Instantiate(prefab, bulletShot.position, bulletShot.rotation);
+
+        // Asignar velocidad inicial
+        Rigidbody rbBala = bala.GetComponent<Rigidbody>();
+        if (rbBala != null)
+        {
+            rbBala.linearVelocity = bulletShot.forward * bulletSpeed;
+        }
+        else
+        {
+            Debug.LogWarning("El prefab de bala no tiene Rigidbody.");
         }
     }
 }
