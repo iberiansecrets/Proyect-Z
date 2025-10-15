@@ -7,7 +7,7 @@ public class EnemyController : MonoBehaviour
     public float damage = 10f;
 
     private Rigidbody rb;
-    
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,22 +22,22 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("No se encontró ningún objeto con tag 'Player'.");
+                Debug.LogWarning("No se encontro ningun objeto con tag 'Player'.");
             }
         }
     }
-    
+
     void FixedUpdate()
     {
         if (target == null) return;
 
-        // Dirección hacia el jugador
+        // Direccion hacia el jugador
         Vector3 direction = (target.position - transform.position).normalized;
 
-        // Calcula la nueva posición con detección de colisiones
+        // Calcula la nueva posicion con deteccion de colisiones
         Vector3 newPosition = rb.position + direction * speed * Time.fixedDeltaTime;
 
-        // Mueve el Rigidbody usando físicas
+        // Mueve el Rigidbody usando fisicas
         rb.MovePosition(newPosition);
 
         // Rota para mirar al jugador
@@ -52,11 +52,11 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Enemigo colisionó con el jugador");
+            Debug.Log("Enemigo colision con el jugador");
             PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
             if (saludJugador != null)
             {
-                saludJugador.RecibirDaño(damage);
+                saludJugador.RecibirDaÃ±o(damage);
             }
         }
     }
