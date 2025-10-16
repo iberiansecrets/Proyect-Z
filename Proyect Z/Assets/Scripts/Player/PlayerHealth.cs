@@ -31,7 +31,7 @@ public class PlayerHealth : MonoBehaviour
     public void RecibirDaño(float cantidad)
     {
         if (Time.time - tiempoUltimoDaño < cooldownDaño)
-            return; // Aún en cooldown
+            return; // Cooldown
 
         tiempoUltimoDaño = Time.time;
         vidaActual -= cantidad;
@@ -46,6 +46,6 @@ public class PlayerHealth : MonoBehaviour
     private void Muerte()
     {
         Debug.Log("Jugador muerto");
-        // Aquí podrías desactivar controles, reproducir animaciones, etc.
+        GameManager.Instance.JugadorDerrotado();
     }
 }

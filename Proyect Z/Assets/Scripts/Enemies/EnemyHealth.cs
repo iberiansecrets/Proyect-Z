@@ -23,8 +23,9 @@ public class EnemyHealth : MonoBehaviour
 
     void Morir()
     {
-        // Aquí puedes añadir efectos de muerte, partículas, sonido, etc.
         Debug.Log($"{gameObject.name} ha sido derrotado!");
+        if (GameManager.Instance != null)
+            GameManager.Instance.DesregistrarEnemigo(gameObject);
         Destroy(gameObject);
     }
 }

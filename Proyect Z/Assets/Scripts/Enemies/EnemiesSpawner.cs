@@ -42,6 +42,10 @@ public class EnemiesSpawner : MonoBehaviour
         //Instancia al zombie desde ahí
         GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
         zombiesSpawned.Add(newZombie);
+
+        // Notificar al GameManager que hay un nuevo enemigo
+        if (GameManager.Instance != null)
+            GameManager.Instance.RegistrarEnemigo(newZombie);
     }
 
     //Método usado únicamente como DEBUG. Elimina a todos los zombies de la escena.
