@@ -43,6 +43,11 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void Heal(float cantidad)
+    {
+        vidaActual = Mathf.Min(vidaActual + cantidad, vidaMaxima);
+    }
+
     private void Muerte()
     {
         Debug.Log("Jugador muerto");
