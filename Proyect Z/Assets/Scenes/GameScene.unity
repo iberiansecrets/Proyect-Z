@@ -776,7 +776,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8e4a9085b6795449dd7a5f9d64228c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zombiePrefab: {fileID: 6194605335806130593, guid: 7a4117fca4cd79a45b21f3bd23f362ac, type: 3}
+  zombiesPrefab:
+  - {fileID: 6194605335806130593, guid: 7a4117fca4cd79a45b21f3bd23f362ac, type: 3}
+  - {fileID: 929835613075624577, guid: 653a27d7d984729439e7d4680df8037d, type: 3}
+  - {fileID: 3883655744420111400, guid: 8afaeda663c1c87408eaa39a8db0a736, type: 3}
   maxZombies: 20
   spawnInterval: 0.3
   spawnPoints:
@@ -2252,7 +2255,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 9
-  bulletPrefab: {fileID: 8177276827871608672, guid: e5448a8200d24ad498b3fe6ea4f857ef, type: 3}
+  pistolBulletPrefab: {fileID: 8177276827871608672, guid: e5448a8200d24ad498b3fe6ea4f857ef, type: 3}
+  shotgunBulletPrefab: {fileID: 8177276827871608672, guid: c625bd8bc03a76746ab3d8b3795fc29b, type: 3}
+  shotgunAngle: 10
+  shotgunPellets: 3
   bulletPushPrefab: {fileID: 8177276827871608672, guid: 5c99ba47186d43c41a1ceebedac6e90a, type: 3}
   bulletShot: {fileID: 967683808}
   bulletSpeed: 20
@@ -2550,8 +2556,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1842206135}
   - component: {fileID: 1842206134}
+  - component: {fileID: 1842206136}
   m_Layer: 0
-  m_Name: HealthKitSpawner
+  m_Name: ObjectSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2572,7 +2579,7 @@ MonoBehaviour:
   healthPickupPrefab: {fileID: 5932888860459228288, guid: 12f43d56a1b8ee0438115aee0ebdd47d, type: 3}
   areaCenter: {x: 0, y: 1, z: 0}
   areaSize: {x: 40, y: 0, z: 40}
-  respawnDelay: 20
+  respawnDelay: 15
 --- !u!4 &1842206135
 Transform:
   m_ObjectHideFlags: 0
@@ -2588,6 +2595,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1842206136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842206133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4c32a99bd3df83458a9cc6ee339b162, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shotgunPrefab: {fileID: 5932888860459228288, guid: 3c001ed4fcaebe44ca0d772261809e47, type: 3}
+  areaCenter: {x: 0, y: 1, z: 0}
+  areaSize: {x: 40, y: 0, z: 40}
+  respawnDelay: 22
 --- !u!1 &1869773956
 GameObject:
   m_ObjectHideFlags: 0
