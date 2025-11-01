@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class EnemiesSpawner : MonoBehaviour
 {
     [Header("Configuración general")]
-    [SerializeField] private GameObject zombiePrefab; //Prefab del zombie
+    [SerializeField] private List<GameObject> zombiesPrefab = new List<GameObject>();
     [SerializeField] private int maxZombies = 10; //Máximo de zombies creados (por defecto, es 10)
     [SerializeField] private float spawnInterval = 3f; //Tiempo entre apariciones (por defecto, 3 segundos)
 
@@ -30,7 +30,7 @@ public class EnemiesSpawner : MonoBehaviour
     private void SpawnZombie()
     {
         //Comprobar que hay puntos de respawn en la lista
-        if(spawnPoints.Length == 0 || zombiePrefab == null)
+        if(spawnPoints.Length == 0 || zombiesPrefab.Count == 0)
         {
             Debug.Log("No hay puntos de respawn en el mapa. Añadelos a la lista.");
             return;
@@ -40,7 +40,7 @@ public class EnemiesSpawner : MonoBehaviour
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
         //Instancia al zombie desde ahí
-        GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject newZombie = Instantiate(zombiesPrefab[Random.Range(0,zombiesPrefab.Count)], spawnPoint.position, spawnPoint.rotation);
         zombiesSpawned.Add(newZombie);
 
         // Notificar al GameManager que hay un nuevo enemigo
