@@ -473,7 +473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1619696888}
-  offset: {x: 0, y: 10, z: 0}
+  offset: {x: 0, y: 15, z: 0}
 --- !u!1 &408627855
 GameObject:
   m_ObjectHideFlags: 0
@@ -2259,6 +2259,8 @@ MonoBehaviour:
   shotgunBulletPrefab: {fileID: 8177276827871608672, guid: c625bd8bc03a76746ab3d8b3795fc29b, type: 3}
   shotgunAngle: 10
   shotgunPellets: 3
+  rifleBulletPrefab: {fileID: 8177276827871608672, guid: d77eae82ca559cf458e980f08c1e0654, type: 3}
+  rifleFireTime: 0.2
   bulletPushPrefab: {fileID: 8177276827871608672, guid: 5c99ba47186d43c41a1ceebedac6e90a, type: 3}
   bulletShot: {fileID: 967683808}
   bulletSpeed: 20
@@ -2557,6 +2559,7 @@ GameObject:
   - component: {fileID: 1842206135}
   - component: {fileID: 1842206134}
   - component: {fileID: 1842206136}
+  - component: {fileID: 1842206137}
   m_Layer: 0
   m_Name: ObjectSpawner
   m_TagString: Untagged
@@ -2611,6 +2614,22 @@ MonoBehaviour:
   areaCenter: {x: 0, y: 1, z: 0}
   areaSize: {x: 40, y: 0, z: 40}
   respawnDelay: 22
+--- !u!114 &1842206137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842206133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c02d361c0294a9499db8785698e7b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  riflePrefab: {fileID: 5932888860459228288, guid: 05bbcc2c3d0d06e4ba39668c8c7313a0, type: 3}
+  areaCenter: {x: 0, y: 1, z: 0}
+  areaSize: {x: 40, y: 0, z: 40}
+  respawnDelay: 20
 --- !u!1 &1869773956
 GameObject:
   m_ObjectHideFlags: 0

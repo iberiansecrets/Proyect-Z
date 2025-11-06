@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7721883802429330407}
   - component: {fileID: 882907700315638842}
   - component: {fileID: 6403382377859395460}
-  - component: {fileID: -3386631831623227872}
+  - component: {fileID: -408541744777169475}
   m_Layer: 8
-  m_Name: ShotgunBullet
+  m_Name: RifleBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12dc6e9c7dd411949931cee1e2b26886, type: 2}
+  - {fileID: 2100000, guid: bce5e537ff2141348a5ed186bbfbd824, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -137,7 +137,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-3386631831623227872
+--- !u!114 &-408541744777169475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,5 +149,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee5be91f8f789f42b530e47880f2ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanciaMaxima: 7
-  damage: 15
+  distanciaMaxima: 15
+  damage: 8

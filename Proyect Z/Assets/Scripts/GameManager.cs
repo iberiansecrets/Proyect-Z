@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     void FinalizarJuego(string mensaje)
     {
         juegoTerminado = true;
-        Time.timeScale = 0f; // pausa todo el juego (movimiento, físicas, etc.)
+        Time.timeScale = 0f; 
 
         if (gameOverUI != null)
         {
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             gameOverText.text = mensaje;
         }
 
-        // Opcional: desactivar control del jugador
+        
         if (playerHealth != null)
         {
             var controller = playerHealth.GetComponent<PlayerController>();
@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     void VolverAlMenu()
     {
-        Time.timeScale = 1f; // restaurar tiempo normal
-        SceneManager.LoadScene("MainMenu"); // nombre de tu escena de menú
+        Time.timeScale = 1f; 
+        SceneManager.LoadScene("MainMenu"); //Vuelve al menú principal
     }
 }
