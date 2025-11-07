@@ -1,59 +1,107 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemiesSpawner : MonoBehaviour
 {
     [Header("Configuración general")]
-    [SerializeField] private List<GameObject> zombiesPrefab = new List<GameObject>();
-    [SerializeField] private int maxZombies = 10; //Máximo de zombies creados (por defecto, es 10)
-    [SerializeField] private float spawnInterval = 3f; //Tiempo entre apariciones (por defecto, 3 segundos)
+    [SerializeField] private List<GameObject> zombiesPrefab = new List<GameObject>(); // Lista de prefabs de zombies
+    [SerializeField] private float spawnInterval = 2f; // Tiempo entre apariciones (por defecto, 2 segundos)
+    [SerializeField] private int maxZombiesSimultaneos = 10; // Máximo de zombies vivos al mismo tiempo
 
-    [Header("Puntos de aparición (SpawnPoints")]
-    [SerializeField] private Transform[] spawnPoints; //Lista de los SpawnPoints
+    [Header("Puntos de aparición (SpawnPoints)")]
+    [SerializeField] private Transform[] spawnPoints; // Lista de puntos donde pueden aparecer zombies
 
-    //Variables
-    private float timer = 0f;
+    // Variables internas
     private List<GameObject> zombiesSpawned = new List<GameObject>();
+    private bool spawningActive = false; // Controla si la oleada está activa
 
-    private void Update()
+    public void GenerarOleada(int cantidad)
     {
-        timer += Time.deltaTime;
-
-        //Si ha pasado el tiempo necesario, spawn de un zombie. ¡OJO! No debe sobrepasar el máximo.
-        if(timer > spawnInterval && zombiesSpawned.Count < maxZombies)
+        if (spawnPoints.Length == 0 || zombiesPrefab.Count == 0)
         {
-            SpawnZombie();
-            timer = 0f;
+            Debug.LogWarning("No hay puntos de spawn o prefabs de zombies asignados.");
+            return;
         }
+
+        // Si ya hay una oleada activa, detenerla antes de iniciar una nueva
+        StopAllCoroutines();
+        StartCoroutine(SpawnRoutine(cantidad));
+
+        Debug.Log($"Cantidad de zombies generada: {cantidad}");
+    }
+
+    private IEnumerator SpawnRoutine(int cantidad)
+    {
+        spawningActive = true;
+        zombiesSpawned.Clear();
+
+        for (int i = 0; i < cantidad; i++)
+        {
+            // Esperar un momento antes de cada spawn
+            yield return new WaitForSeconds(spawnInterval);
+
+            // Evitar superar el límite simultáneo de zombies vivos
+            if (zombiesSpawned.Count < maxZombiesSimultaneos)
+            {
+                SpawnZombie();
+            }
+            else
+            {
+                // Esperar hasta que haya espacio disponible antes de seguir
+                yield return new WaitUntil(() => zombiesSpawned.Count < maxZombiesSimultaneos);
+                SpawnZombie();
+            }
+        }
+
+        spawningActive = false;
     }
 
     private void SpawnZombie()
     {
-        //Comprobar que hay puntos de respawn en la lista
-        if(spawnPoints.Length == 0 || zombiesPrefab.Count == 0)
+        if (spawnPoints.Length == 0 || zombiesPrefab.Count == 0)
         {
-            Debug.Log("No hay puntos de respawn en el mapa. Añadelos a la lista.");
+            Debug.Log("No hay puntos de respawn en el mapa. Añádelos a la lista.");
             return;
         }
 
-        //Pilla cualquier punto de spawn
+        // Escoge un punto de spawn aleatorio
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-        //Instancia al zombie desde ahí
-        GameObject newZombie = Instantiate(zombiesPrefab[Random.Range(0,zombiesPrefab.Count)], spawnPoint.position, spawnPoint.rotation);
+        // Instancia un tipo aleatorio de zombie
+        GameObject zombiePrefab = zombiesPrefab[Random.Range(0, zombiesPrefab.Count)];
+        GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
+
         zombiesSpawned.Add(newZombie);
 
         // Notificar al GameManager que hay un nuevo enemigo
         if (GameManager.Instance != null)
             GameManager.Instance.RegistrarEnemigo(newZombie);
+
+        // Suscribirse al evento de muerte del zombie (si existe el componente EnemyHealth)
+        EnemyHealth health = newZombie.GetComponent<EnemyHealth>();
+        if (health != null)
+            health.onDeath += () => OnZombieDeath(newZombie);
     }
 
-    //Método usado únicamente como DEBUG. Elimina a todos los zombies de la escena.
+    private void OnZombieDeath(GameObject zombie)
+    {
+        // Eliminarlo de la lista local
+        if (zombiesSpawned.Contains(zombie))
+            zombiesSpawned.Remove(zombie);
+
+        // Notificar al GameManager que un enemigo ha muerto
+        if (GameManager.Instance != null)
+            GameManager.Instance.EnemigoDerrotado();
+    }
+    
+
     public void DestroyAllZombies()
     {
-        foreach(var zombie in zombiesSpawned)
+        foreach (var zombie in zombiesSpawned)
         {
-            if(zombie != null) Destroy(zombie);
+            if (zombie != null)
+                Destroy(zombie);
         }
         zombiesSpawned.Clear();
     }
