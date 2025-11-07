@@ -15,9 +15,12 @@ public class EnemiesSpawner : MonoBehaviour
     // Variables internas
     private List<GameObject> zombiesSpawned = new List<GameObject>();
     private bool spawningActive = false; // Controla si la oleada está activa
+    private int oleadaActual = 1;
 
-    public void GenerarOleada(int cantidad)
+    public void GenerarOleada(int cantidad, int numeroOleada)
     {
+        oleadaActual = numeroOleada;
+
         if (spawnPoints.Length == 0 || zombiesPrefab.Count == 0)
         {
             Debug.LogWarning("No hay puntos de spawn o prefabs de zombies asignados.");
@@ -81,7 +84,18 @@ public class EnemiesSpawner : MonoBehaviour
         // Suscribirse al evento de muerte del zombie (si existe el componente EnemyHealth)
         EnemyHealth health = newZombie.GetComponent<EnemyHealth>();
         if (health != null)
+        {
+            float multiplicadorVida = 1f + (oleadaActual - 1) * 0.2f; // Aumenta 20% por oleada
+            health.vidaMaxima *= multiplicadorVida;
             health.onDeath += () => OnZombieDeath(newZombie);
+        }
+
+        EnemyController controller = newZombie.GetComponent<EnemyController>();
+        if (controller != null)
+        {
+            float multiplicadorDaño = 1f + (oleadaActual - 1) * 0.15f; // Aumenta 15% por oleada
+            controller.damage *= multiplicadorDaño;
+        }
     }
 
     private void OnZombieDeath(GameObject zombie)
