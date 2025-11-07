@@ -6,38 +6,38 @@ public class PlayerController : MonoBehaviour
     [Header("Movimiento")]
     public float moveSpeed = 9f;
 
-    [Header("Disparo")]
-    public GameObject pistolBulletPrefab;          // Bala normal (click izquierdo)
-    public GameObject shotgunBulletPrefab;      // Balas de escopeta
-    public GameObject rifleBulletPrefab; // Balas de fusil de asalto
-    public GameObject bulletPushPrefab;      // Bala que empuja (click derecho)
+    [Header("Prefabs")]
+    public GameObject pistolBulletPrefab;      // Bala normal (click izquierdo)
+    public GameObject shotgunBulletPrefab;     // Balas de escopeta
+    public GameObject rifleBulletPrefab;       // Balas de fusil de asalto
+    public GameObject bulletPushPrefab;        // Bala que empuja (click derecho)
+    public Transform bulletShot;               // Punto desde donde se dispara
 
-    // Control de balas de escopeta
-    public float shotgunAngle = 10f; // Grados de dispersión para izquierda y derecha
-    public int shotgunPellets = 3; // Balas que lanza la escopeta
-
-    // Control de balas del rifle
-    public float rifleFireTime = 0.1f; // Tiempo de espera entre disparos de balas de fusil
-    private float nextFireTime = 0f; // Control de cadencia de las armas
-
-    private GameObject currentGunPrefab; // Prefab del arma actual
-    
-    public Transform bulletShot;             // Punto desde donde se dispara
     public float bulletSpeed = 20f;
 
-    [Header("Temporizadores")]
-    private float shotgunTimer = 10f;
-    private float rifleTimer = 7f;
+    public float shotgunAngle = 10f;           // Grados de dispersión para izquierda y derecha
+    public int shotgunPellets = 3;             // Balas que lanza la escopeta
 
+    [Header("Delays")]
+    public float shotgunFireDelay = 0.6f;      // Tiempo entre disparos de escopeta
+    public float pistolFireDelay = 0.3f;       // Tiempo entre disparos de pistola
+    public float pushFireDelay = 0.8f;         // Tiempo entre empujes
+    public float rifleFireTime = 0.03f;         // Tiempo entre disparos de balas de fusil
+        
+    private float nextFireTime = 0f;           // Control de cadencia de disparo del fusil
+
+    [Header("Temporizadores de armas")]
+    private float shotgunTimer = 10f;
+    private float rifleTimer = 8f;
+
+    private GameObject currentGunPrefab;       // Prefab del arma actual
     private Rigidbody rb;
     private Vector3 moveInput;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        //Al iniciar el juego, el personaje siempre empieza con pistola
-        currentGunPrefab = pistolBulletPrefab;
+        currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
     }
 
     void Update()
@@ -46,12 +46,13 @@ public class PlayerController : MonoBehaviour
         float moveZ = Input.GetAxisRaw("Vertical");
         moveInput = new Vector3(moveX, 0f, moveZ).normalized;
 
-        // Click izquierdo: bala actual
+        // Disparo principal
         ComprobarArma();
 
-        // Click derecho: bala que empuja
-        if (Input.GetButtonDown("Fire2"))
+        // Click derecho: bala que empuja (con retardo)
+        if (Input.GetButtonDown("Fire2") && Time.time >= nextFireTime)
         {
+            nextFireTime = Time.time + pushFireDelay;
             Shoot(bulletPushPrefab);
         }
     }
@@ -67,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     void ComprobarArma()
     {
-        // Arma automática (mantienes el clic para disparar)
+        // Rifle automático
         if (currentGunPrefab == rifleBulletPrefab)
         {
             if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
@@ -76,15 +77,21 @@ public class PlayerController : MonoBehaviour
                 Shoot(currentGunPrefab);
             }
         }
-        // Arma semiautomática (disparas una bala cada vez)
-        else if (Input.GetButtonDown("Fire1"))
+        // Escopeta con retardo
+        else if (currentGunPrefab == shotgunBulletPrefab)
         {
-            if (currentGunPrefab == shotgunBulletPrefab)
+            if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
             {
+                nextFireTime = Time.time + shotgunFireDelay;
                 ShootShotgun();
             }
-            else
+        }
+        // Pistola semiautomática con retardo
+        else if (currentGunPrefab == pistolBulletPrefab)
+        {
+            if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
             {
+                nextFireTime = Time.time + pistolFireDelay;
                 Shoot(currentGunPrefab);
             }
         }
@@ -92,17 +99,14 @@ public class PlayerController : MonoBehaviour
 
     void Shoot(GameObject prefab)
     {
-        // Evita errores si no hay prefab asignado
         if (prefab == null || bulletShot == null)
         {
-            Debug.LogWarning(" Prefab o bulletShot no asignado en PlayerController.");
+            Debug.LogWarning("Prefab o bulletShot no asignado en PlayerController.");
             return;
         }
 
-        // Instanciar la bala
         GameObject bala = Instantiate(prefab, bulletShot.position, bulletShot.rotation);
 
-        // Asignar velocidad inicial
         Rigidbody rbBala = bala.GetComponent<Rigidbody>();
         if (rbBala != null)
         {
@@ -116,23 +120,21 @@ public class PlayerController : MonoBehaviour
 
     void ShootShotgun()
     {
-        //Ponemos el "ángulo" de las balas
         float[] angulos = { -shotgunAngle, 0, shotgunAngle };
 
-        //Disparamos las balas de la escopeta a la vez 
         foreach (float angulo in angulos)
         {
             Quaternion rotacion = bulletShot.rotation * Quaternion.Euler(0, angulo, 0);
-
             GameObject bala = Instantiate(shotgunBulletPrefab, bulletShot.position, rotacion);
-            Rigidbody rbBala = bala.GetComponent<Rigidbody>();
 
-            if(rbBala != null)
+            Rigidbody rbBala = bala.GetComponent<Rigidbody>();
+            if (rbBala != null)
             {
                 rbBala.linearVelocity = bala.transform.forward * bulletSpeed;
             }
         }
     }
+
 
     public void EquipPistol()
     {
@@ -158,6 +160,7 @@ public class PlayerController : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(RifleTimer());
     }
+
     private IEnumerator ShotgunTimer()
     {
         yield return new WaitForSeconds(shotgunTimer);

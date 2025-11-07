@@ -6,13 +6,11 @@ public class BulletController : MonoBehaviour
     public float damage = 10f;
     private Vector3 puntoInicial;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         puntoInicial = transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
         float distanciaRecorrida = Vector3.Distance(puntoInicial, transform.position);
@@ -21,19 +19,26 @@ public class BulletController : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     void OnCollisionEnter(Collision collision)
     {
-        //Si impacta con un enemigo
         if (collision.gameObject.CompareTag("Enemy"))
         {
             EnemyHealth enemigo = collision.gameObject.GetComponent<EnemyHealth>();
             if (enemigo != null)
             {
-                enemigo.RecibirDaño(damage);
+                // Escalar el daño según la mejora del jugador
+                float dañoFinal = damage;
+
+                if (GameManager.Instance != null && GameManager.Instance.playerHealth != null)
+                {
+                    dañoFinal *= GameManager.Instance.playerHealth.multiplicadorDaño;
+                }
+
+                enemigo.RecibirDaño((int)dañoFinal);
             }
         }
 
-        //Destruye la bala en cualquier caso al impactar
         Destroy(gameObject);
     }
 }
