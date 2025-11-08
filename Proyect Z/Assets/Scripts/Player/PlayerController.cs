@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public GameObject pistolBulletPrefab;      // Bala normal (click izquierdo)
     public GameObject shotgunBulletPrefab;     // Balas de escopeta
     public GameObject rifleBulletPrefab;       // Balas de fusil de asalto
+    public GameObject sniperBulletPrefab;      // Balas de francotirador
     public GameObject bulletPushPrefab;        // Bala que empuja (click derecho)
     public Transform bulletShot;               // Punto desde donde se dispara
 
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     [Header("Temporizadores de armas")]
     private float shotgunTimer = 10f;
     private float rifleTimer = 8f;
+    private float sniperTimer = 12f;
 
     private GameObject currentGunPrefab;       // Prefab del arma actual
     private Rigidbody rb;
@@ -74,7 +76,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
             {
-                nextFireTime = Time.time + rifleFireTime;
+                nextFireTime = Time.time + rifleFireDelay;
                 Shoot(currentGunPrefab);
             }
         }
@@ -85,6 +87,15 @@ public class PlayerController : MonoBehaviour
             {
                 nextFireTime = Time.time + shotgunFireDelay;
                 ShootShotgun();
+            }
+        }
+        // Francotirador con retardo
+        else if (currentGunPrefab == sniperBulletPrefab)
+        {
+            if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
+            {
+                nextFireTime = Time.time + sniperFireDelay;
+                Shoot(currentGunPrefab);
             }
         }
         // Pistola semiautomática con retardo
@@ -161,6 +172,14 @@ public class PlayerController : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(RifleTimer());
     }
+    public void EquipSniper()
+    {
+        currentGunPrefab = sniperBulletPrefab;
+        bulletSpeed = 60f;
+        Debug.Log("Ahora tienes un rifle de francotirador");
+        StopAllCoroutines();
+        StartCoroutine(SniperTimer());
+    }
 
     private IEnumerator ShotgunTimer()
     {
@@ -171,6 +190,12 @@ public class PlayerController : MonoBehaviour
     private IEnumerator RifleTimer()
     {
         yield return new WaitForSeconds(rifleTimer);
+        EquipPistol();
+    }
+
+    private IEnumerator SniperTimer()
+    {
+        yield return new WaitForSeconds(sniperTimer);
         EquipPistol();
     }
 }
