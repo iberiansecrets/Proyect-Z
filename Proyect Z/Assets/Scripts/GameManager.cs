@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
 
         // Genera los enemigos de la oleada
         if (enemiesSpawner != null)
-            enemiesSpawner.GenerarOleada(enemigosRestantes);
+            enemiesSpawner.GenerarOleada(enemigosRestantes, rondaActual);
 
         rondaActiva = true;
         juegoTerminado = false;

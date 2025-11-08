@@ -901,8 +901,8 @@ MonoBehaviour:
   - {fileID: 6194605335806130593, guid: 7a4117fca4cd79a45b21f3bd23f362ac, type: 3}
   - {fileID: 929835613075624577, guid: 653a27d7d984729439e7d4680df8037d, type: 3}
   - {fileID: 3883655744420111400, guid: 8afaeda663c1c87408eaa39a8db0a736, type: 3}
-  spawnInterval: 0.3
-  maxZombiesSimultaneos: 10
+  spawnInterval: 0.7
+  maxZombiesSimultaneos: 32
   spawnPoints:
   - {fileID: 537956943}
   - {fileID: 29938304}
