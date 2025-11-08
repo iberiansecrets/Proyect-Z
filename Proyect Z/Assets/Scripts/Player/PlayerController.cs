@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public GameObject pistolBulletPrefab;      // Bala normal (click izquierdo)
     public GameObject shotgunBulletPrefab;     // Balas de escopeta
     public GameObject rifleBulletPrefab;       // Balas de fusil de asalto
+    public GameObject sniperBulletPrefab;      // Balas de francotirador
     public GameObject bulletPushPrefab;        // Bala que empuja (click derecho)
     public Transform bulletShot;               // Punto desde donde se dispara
 
@@ -22,13 +23,15 @@ public class PlayerController : MonoBehaviour
     public float shotgunFireDelay = 0.6f;      // Tiempo entre disparos de escopeta
     public float pistolFireDelay = 0.3f;       // Tiempo entre disparos de pistola
     public float pushFireDelay = 0.8f;         // Tiempo entre empujes
-    public float rifleFireTime = 0.03f;         // Tiempo entre disparos de balas de fusil
+    public float rifleFireDelay = 0.03f;        // Tiempo entre disparos de balas de fusil
+    public float sniperFireDelay = 1.2f;        // Tiempo entre disparos de francotirador
         
     private float nextFireTime = 0f;           // Control de cadencia de disparo del fusil
 
     [Header("Temporizadores de armas")]
     private float shotgunTimer = 10f;
     private float rifleTimer = 8f;
+    private float sniperTimer = 12f;
 
     private GameObject currentGunPrefab;       // Prefab del arma actual
     private Rigidbody rb;
@@ -73,7 +76,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
             {
-                nextFireTime = Time.time + rifleFireTime;
+                nextFireTime = Time.time + rifleFireDelay;
                 Shoot(currentGunPrefab);
             }
         }
@@ -84,6 +87,15 @@ public class PlayerController : MonoBehaviour
             {
                 nextFireTime = Time.time + shotgunFireDelay;
                 ShootShotgun();
+            }
+        }
+        // Francotirador con retardo
+        else if (currentGunPrefab == sniperBulletPrefab)
+        {
+            if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
+            {
+                nextFireTime = Time.time + sniperFireDelay;
+                Shoot(currentGunPrefab);
             }
         }
         // Pistola semiautomática con retardo
@@ -160,6 +172,14 @@ public class PlayerController : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(RifleTimer());
     }
+    public void EquipSniper()
+    {
+        currentGunPrefab = sniperBulletPrefab;
+        bulletSpeed = 60f;
+        Debug.Log("Ahora tienes un rifle de francotirador");
+        StopAllCoroutines();
+        StartCoroutine(SniperTimer());
+    }
 
     private IEnumerator ShotgunTimer()
     {
@@ -170,6 +190,12 @@ public class PlayerController : MonoBehaviour
     private IEnumerator RifleTimer()
     {
         yield return new WaitForSeconds(rifleTimer);
+        EquipPistol();
+    }
+
+    private IEnumerator SniperTimer()
+    {
+        yield return new WaitForSeconds(sniperTimer);
         EquipPistol();
     }
 }
