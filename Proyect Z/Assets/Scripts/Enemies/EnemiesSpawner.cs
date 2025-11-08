@@ -95,6 +95,9 @@ public class EnemiesSpawner : MonoBehaviour
         {
             float multiplicadorDaño = 1f + (oleadaActual - 1) * 0.15f; // Aumenta 15% por oleada
             controller.damage *= multiplicadorDaño;
+
+            float multiplicadorVelocidad = 1f + (oleadaActual - 1) * 0.12f; // Aumenta 12% por oleada
+            controller.speed *= multiplicadorVelocidad;
         }
     }
 
