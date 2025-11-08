@@ -2728,9 +2728,11 @@ MonoBehaviour:
   bulletPushPrefab: {fileID: 8177276827871608672, guid: 5c99ba47186d43c41a1ceebedac6e90a, type: 3}
   shotgunAngle: 10
   shotgunPellets: 3
-  rifleFireTime: 0.2
-  bulletShot: {fileID: 967683808}
-  bulletSpeed: 20
+  shotgunFireDelay: 0.6
+  pistolFireDelay: 0.3
+  pushFireDelay: 0.8
+  rifleFireDelay: 0.2
+  sniperFireDelay: 1.2
 --- !u!114 &1619696890
 MonoBehaviour:
   m_ObjectHideFlags: 0
