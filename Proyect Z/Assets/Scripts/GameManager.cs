@@ -248,4 +248,9 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu"); //Vuelve al menú principal
     }
+
+    public int GetEnemigosRestantes()
+    {
+        return enemigosRestantes;
+    }
 }

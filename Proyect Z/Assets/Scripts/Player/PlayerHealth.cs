@@ -88,4 +88,14 @@ public class PlayerHealth : MonoBehaviour
         dañoEmpuje += valor;
         Debug.Log("El empuje ahora causa daño: " + valor);
     }
+
+    public float GetVidaActual()
+    {
+        return vidaActual;
+    }
+
+    public float GetVidaMaxima()
+    {
+        return vidaMaxima;
+    }
 }
