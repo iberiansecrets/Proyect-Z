@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public float shotgunFireDelay = 0.6f;      // Tiempo entre disparos de escopeta
     public float pistolFireDelay = 0.3f;       // Tiempo entre disparos de pistola
     public float pushFireDelay = 0.8f;         // Tiempo entre empujes
-    public float rifleFireDelay = 0.03f;        // Tiempo entre disparos de balas de fusil
+    public float rifleFireDelay = 0.2f;        // Tiempo entre disparos de balas de fusil
     public float sniperFireDelay = 1.2f;        // Tiempo entre disparos de francotirador
         
     private float nextFireTime = 0f;           // Control de cadencia de disparo del fusil

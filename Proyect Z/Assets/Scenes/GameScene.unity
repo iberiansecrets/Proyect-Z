@@ -2872,7 +2872,7 @@ MonoBehaviour:
   shotgunFireDelay: 0.6
   pistolFireDelay: 0.3
   pushFireDelay: 0.8
-  rifleFireDelay: 0.03
+  rifleFireDelay: 0.2
   sniperFireDelay: 1.2
 --- !u!114 &1619696890
 MonoBehaviour:
