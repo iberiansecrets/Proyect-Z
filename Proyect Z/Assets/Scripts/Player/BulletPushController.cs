@@ -3,8 +3,8 @@ using UnityEngine;
 public class BulletPushController : MonoBehaviour
 {
     public float distanciaMaxima = 10f;
-    public float damage = 10f;
-    public float pushForce = 15f; // fuerza del retroceso
+    public float damage = 0f;
+    public float pushForce = 500f; // Fuerza base de empuje
     private Vector3 puntoInicial;
 
     void Start()
@@ -25,24 +25,33 @@ public class BulletPushController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Daño
-            EnemyHealth enemigo = collision.gameObject.GetComponent<EnemyHealth>();
-            if (enemigo != null)
+            PlayerHealth player = GameManager.Instance?.playerHealth;
+
+            // Aplicar daño solo si el empuje hace daño
+            if (player != null && player.dañoEmpuje > 0)
             {
-                enemigo.RecibirDaño(damage);
+                EnemyHealth enemigo = collision.gameObject.GetComponent<EnemyHealth>();
+                if (enemigo != null)
+                {
+                    float dañoFinal = player.dañoEmpuje * player.multiplicadorDaño;
+                    enemigo.RecibirDaño((int)dañoFinal);
+                }
             }
 
-            // Rigidbody del enemigo
+            // Calcular empuje con el multiplicador del jugador
             Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
             if (enemyRb != null && !enemyRb.isKinematic)
             {
-                //  Dirección desde el enemigo hacia la bala (opuesta al impacto)
                 Vector3 pushDirection = (collision.transform.position - transform.position).normalized;
                 pushDirection.y = 0f;
 
-                enemyRb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+                float fuerzaFinal = pushForce;
+                if (player != null)
+                    fuerzaFinal *= player.multiplicadorEmpuje;
 
-                Debug.Log($"Empuje aplicado: {pushDirection * pushForce}");
+                enemyRb.AddForce(pushDirection * fuerzaFinal, ForceMode.Impulse);
+
+                Debug.Log($"Empuje aplicado: {pushDirection * fuerzaFinal}");
             }
         }
 
