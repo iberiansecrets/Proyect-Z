@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUI;      // Panel de UI
     public TMP_Text gameOverText;
     public TMP_Text rondaText; // Texto de la ronda actual en pantalla
-    public TMP_Text timerText; // Texto del temporizador total
     public Button returnButton;
 
     [Header("Rondas")]
@@ -26,10 +25,6 @@ public class GameManager : MonoBehaviour
     private int enemigosRestantes;
     private bool rondaActiva = false;
     private bool juegoTerminado = false;
-
-    [Header ("Temporizador")]
-    public float tiempoTotal = 600f; // 10 minutos
-    private bool temporizadorActivo = true;
 
     [Header("Mejoras")]
     public GameObject mejorasUI; // Panel con los botones de mejoras
@@ -63,32 +58,6 @@ public class GameManager : MonoBehaviour
         IniciarRonda(); // Inicia la primera ronda
     }
 
-    void Update()
-    {
-        // Actualizar temporizador
-        if (temporizadorActivo && !juegoTerminado)
-        {
-            tiempoTotal -= Time.deltaTime;
-            ActualizarTimerUI();
-
-            if (tiempoTotal <= 0)
-            {
-                tiempoTotal = 0;
-                temporizadorActivo = false;
-                FinalizarJuego("¡Se acabó el tiempo!");
-            }
-        }
-    }
-
-    private void ActualizarTimerUI()
-    {
-        if (timerText == null) return;
-
-        int minutos = Mathf.FloorToInt(tiempoTotal / 60);
-        int segundos = Mathf.FloorToInt(tiempoTotal % 60);
-        timerText.text = $"{minutos:00}:{segundos:00}";
-    }
-
     void IniciarRonda()
     {
         Debug.Log($"Iniciando ronda {rondaActual}");
@@ -106,15 +75,12 @@ public class GameManager : MonoBehaviour
 
         rondaActiva = true;
         juegoTerminado = false;
-        temporizadorActivo = true;
     }
-
     void AcabarRonda()
     {
         Debug.Log($"Ronda {rondaActual} acabada!");
         rondaActiva = false;
         Time.timeScale = 0f;
-        temporizadorActivo = false;
         float random = Random.Range(5, 5 * dificultad);
         enemigosPorRonda += (int)random;
         // Si se completan todas las rondas, el jugador gana
@@ -225,7 +191,6 @@ public class GameManager : MonoBehaviour
     {
         juegoTerminado = true;
         rondaActiva = false;
-        temporizadorActivo = false;
         Time.timeScale = 0f;
 
         if (gameOverUI != null)
