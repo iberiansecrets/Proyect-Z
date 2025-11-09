@@ -12,12 +12,16 @@ public class PlayerController : MonoBehaviour
     public GameObject rifleBulletPrefab;       // Balas de fusil de asalto
     public GameObject sniperBulletPrefab;      // Balas de francotirador
     public GameObject bulletPushPrefab;        // Bala que empuja (click derecho)
+    public GameObject decoyPrefab;             // Señuelo
+    
     public Transform bulletShot;               // Punto desde donde se dispara
 
-    public float bulletSpeed = 20f;
+    public float bulletSpeed = 20f;            // Velocidad de la bala (cambia dependiendo del arma de ese momento)
 
     public float shotgunAngle = 10f;           // Grados de dispersión para izquierda y derecha
     public int shotgunPellets = 3;             // Balas que lanza la escopeta
+
+    public float throwForce = 10f;             // Fuerza con la que se lanza el señuelo
 
     [Header("Delays")]
     public float shotgunFireDelay = 0.6f;      // Tiempo entre disparos de escopeta
@@ -27,6 +31,8 @@ public class PlayerController : MonoBehaviour
     public float sniperFireDelay = 1.2f;        // Tiempo entre disparos de francotirador
         
     private float nextFireTime = 0f;           // Control de cadencia de disparo del fusil
+
+    private int numDecoy = 0; // Número de señuelos que tiene el jugador
 
     [Header("Temporizadores de armas")]
     private float shotgunTimer = 10f;
@@ -57,6 +63,12 @@ public class PlayerController : MonoBehaviour
         {
             nextFireTime = Time.time + pushFireDelay;
             Shoot(bulletPushPrefab);
+        }
+
+        // Lanzamiento de señuelo
+        if(Input.GetKeyDown(KeyCode.G) && numDecoy > 0)
+        {
+            LanzarDecoy();
         }
     }
 
@@ -181,6 +193,36 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(SniperTimer());
     }
 
+    public void AddDecoy()
+    {
+        Debug.Log("Has recogido un señuelo.");
+        numDecoy++;
+    }
+
+    public void LanzarDecoy()
+    {
+        if (decoyPrefab == null)
+        {
+            Debug.LogWarning("Prefab del señuelo no asignado.");
+            return;
+        }
+
+        // Crear el señuelo frente al jugador
+        Vector3 spawnPos = transform.position + transform.forward * 1.5f;
+        GameObject newDecoy = Instantiate(decoyPrefab, spawnPos, Quaternion.identity);
+
+        // Aplicar fuerza para lanzarlo
+        Rigidbody rb = newDecoy.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.AddForce(transform.forward * throwForce, ForceMode.VelocityChange);
+        }
+
+        Debug.Log($"Señuelo lanzado, ahora te quedan {numDecoy}");
+
+        numDecoy--;
+    }
     private IEnumerator ShotgunTimer()
     {
         yield return new WaitForSeconds(shotgunTimer);

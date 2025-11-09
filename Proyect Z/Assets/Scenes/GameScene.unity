@@ -2865,10 +2865,12 @@ MonoBehaviour:
   rifleBulletPrefab: {fileID: 8177276827871608672, guid: d77eae82ca559cf458e980f08c1e0654, type: 3}
   sniperBulletPrefab: {fileID: 1859077683758257554, guid: 89cea171b1ad8404597aa105174a6f05, type: 3}
   bulletPushPrefab: {fileID: 8177276827871608672, guid: 5c99ba47186d43c41a1ceebedac6e90a, type: 3}
+  decoyPrefab: {fileID: 5279487715909621298, guid: 5e35a44832a35fa40b2c34939e6f987e, type: 3}
   bulletShot: {fileID: 967683808}
   bulletSpeed: 20
   shotgunAngle: 10
   shotgunPellets: 3
+  throwForce: 10
   shotgunFireDelay: 0.6
   pistolFireDelay: 0.3
   pushFireDelay: 0.8
@@ -3174,6 +3176,7 @@ GameObject:
   - component: {fileID: 1842206136}
   - component: {fileID: 1842206137}
   - component: {fileID: 1842206138}
+  - component: {fileID: 1842206139}
   m_Layer: 0
   m_Name: ObjectSpawner
   m_TagString: Untagged
@@ -3260,6 +3263,22 @@ MonoBehaviour:
   areaCenter: {x: 0, y: 1, z: 0}
   areaSize: {x: 40, y: 0, z: 40}
   respawnDelay: 25
+--- !u!114 &1842206139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842206133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c519776ed17a7648afdc80505bc49f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decoyPrefab: {fileID: 5932888860459228288, guid: 02e4abc2b0367ea41966d67995c53c69, type: 3}
+  areaCenter: {x: 0, y: 1, z: 0}
+  areaSize: {x: 40, y: 0, z: 40}
+  respawnDelay: 40
 --- !u!1 &1850299613
 GameObject:
   m_ObjectHideFlags: 0
