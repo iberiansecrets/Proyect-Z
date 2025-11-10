@@ -2866,7 +2866,8 @@ MonoBehaviour:
   sniperBulletPrefab: {fileID: 1859077683758257554, guid: 89cea171b1ad8404597aa105174a6f05, type: 3}
   bulletPushPrefab: {fileID: 8177276827871608672, guid: 5c99ba47186d43c41a1ceebedac6e90a, type: 3}
   bulletShot: {fileID: 967683808}
-  bulletSpeed: 20
+  tracerPrefab: {fileID: 8585775230367205006, guid: 413072cbb704863479a012cbb7358a99, type: 3}
+  bulletSpeed: 30
   shotgunAngle: 10
   shotgunPellets: 3
   shotgunFireDelay: 0.6
