@@ -2867,14 +2867,15 @@ MonoBehaviour:
   bulletPushPrefab: {fileID: 8177276827871608672, guid: 5c99ba47186d43c41a1ceebedac6e90a, type: 3}
   decoyPrefab: {fileID: 5279487715909621298, guid: 5e35a44832a35fa40b2c34939e6f987e, type: 3}
   bulletShot: {fileID: 967683808}
-  bulletSpeed: 20
+  tracerPrefab: {fileID: 8585775230367205006, guid: 413072cbb704863479a012cbb7358a99, type: 3}
+  bulletSpeed: 100
   shotgunAngle: 10
   shotgunPellets: 3
   throwForce: 10
   shotgunFireDelay: 0.6
-  pistolFireDelay: 0.3
+  pistolFireDelay: 0.2
   pushFireDelay: 0.8
-  rifleFireDelay: 0.2
+  rifleFireDelay: 0.15
   sniperFireDelay: 1.2
 --- !u!114 &1619696890
 MonoBehaviour:

@@ -16,7 +16,14 @@ public class PlayerController : MonoBehaviour
     
     public Transform bulletShot;               // Punto desde donde se dispara
 
-    public float bulletSpeed = 20f;            // Velocidad de la bala (cambia dependiendo del arma de ese momento)
+    public GameObject tracerPrefab; // Prefab tracer escopeta
+    private int pellets = 8;
+    private float spreadAngle = 15f;
+    private float range = 10f;
+    private float damage = 10f;
+
+    public float bulletSpeed = 100f;
+
 
     public float shotgunAngle = 10f;           // Grados de dispersión para izquierda y derecha
     public int shotgunPellets = 3;             // Balas que lanza la escopeta
@@ -25,9 +32,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Delays")]
     public float shotgunFireDelay = 0.6f;      // Tiempo entre disparos de escopeta
-    public float pistolFireDelay = 0.3f;       // Tiempo entre disparos de pistola
+    public float pistolFireDelay = 0.2f;       // Tiempo entre disparos de pistola
     public float pushFireDelay = 0.8f;         // Tiempo entre empujes
-    public float rifleFireDelay = 0.2f;        // Tiempo entre disparos de balas de fusil
+    public float rifleFireDelay = 0.15f;        // Tiempo entre disparos de balas de fusil
     public float sniperFireDelay = 1.2f;        // Tiempo entre disparos de francotirador
         
     private float nextFireTime = 0f;           // Control de cadencia de disparo del fusil
@@ -121,7 +128,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Shoot(GameObject prefab)
+    /*void Shoot(GameObject prefab)
     {
         if (prefab == null || bulletShot == null)
         {
@@ -140,9 +147,42 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogWarning("El prefab de bala no tiene Rigidbody.");
         }
+    }*/
+
+    void Shoot(GameObject prefab)
+    {
+        if (prefab == null || bulletShot == null)
+        {
+            Debug.LogWarning("Prefab o bulletShot no asignado en PlayerController.");
+            return;
+        }
+
+        // Determinación spread
+        float spreadAngle = 0f;
+        if (prefab == pistolBulletPrefab)
+            spreadAngle = 1.5f;
+        else if (prefab == rifleBulletPrefab)
+            spreadAngle = 3f;
+
+        // Calcular rotación aleatoria dentro del spread
+        Quaternion spreadRotation = bulletShot.rotation *
+            Quaternion.Euler(Random.Range(-spreadAngle, spreadAngle), Random.Range(-spreadAngle, spreadAngle), 0f);
+
+        // Instanciar la bala con esa rotación
+        GameObject bala = Instantiate(prefab, bulletShot.position, spreadRotation);
+
+        Rigidbody rbBala = bala.GetComponent<Rigidbody>();
+        if (rbBala != null)
+        {
+            rbBala.linearVelocity = bala.transform.forward * bulletSpeed;
+        }
+        else
+        {
+            Debug.LogWarning("El prefab de bala no tiene Rigidbody.");
+        }
     }
 
-    void ShootShotgun()
+    /*void ShootShotgun()
     {
         float[] angulos = { -shotgunAngle, 0, shotgunAngle };
 
@@ -157,20 +197,62 @@ public class PlayerController : MonoBehaviour
                 rbBala.linearVelocity = bala.transform.forward * bulletSpeed;
             }
         }
-    }
+    }*/
 
+    void ShootShotgun()
+    {
+        for (int i = 0; i < pellets; i++)
+        {
+            Quaternion spreadRot = bulletShot.rotation *
+                Quaternion.Euler(Random.Range(-spreadAngle, spreadAngle),
+                                 Random.Range(-spreadAngle, spreadAngle),
+                                 0f);
+
+            Ray ray = new Ray(bulletShot.position, spreadRot * Vector3.forward);
+            RaycastHit hit;
+
+            Vector3 endPoint = bulletShot.position + ray.direction * range;
+
+            if (Physics.Raycast(ray, out hit, range))
+            {
+                endPoint = hit.point;
+
+                if (hit.collider.CompareTag("Enemy"))
+                {
+                    EnemyHealth enemy = hit.collider.GetComponent<EnemyHealth>();
+                    if (enemy != null)
+                    {
+                        float dañoFinal = damage;
+                        if (GameManager.Instance?.playerHealth != null)
+                            dañoFinal *= GameManager.Instance.playerHealth.multiplicadorDaño;
+                        enemy.RecibirDaño((int)dañoFinal);
+                    }
+                }
+            }
+
+            // Crea el tracer visual
+            GameObject tracer = Instantiate(tracerPrefab);
+            LineRenderer lr = tracer.GetComponent<LineRenderer>();
+            if (lr != null)
+            {
+                lr.SetPosition(0, bulletShot.position);
+                lr.SetPosition(1, endPoint);
+            }
+            Destroy(tracer, 0.05f);
+        }
+    }
 
     public void EquipPistol()
     {
         currentGunPrefab = pistolBulletPrefab;
-        bulletSpeed = 20f;
+        bulletSpeed = 100;
         Debug.Log("Ahora tienes una pistola.");
     }
 
     public void EquipShotgun()
     {
         currentGunPrefab = shotgunBulletPrefab;
-        bulletSpeed = 15f;
+        bulletSpeed = 18f;
         Debug.Log("Ahora tienes una escopeta");
         StopAllCoroutines();
         StartCoroutine(ShotgunTimer());
@@ -179,7 +261,7 @@ public class PlayerController : MonoBehaviour
     public void EquipRifle()
     {
         currentGunPrefab = rifleBulletPrefab;
-        bulletSpeed = 30f;
+        bulletSpeed = 100f;
         Debug.Log("Ahora tienes un fusil de asalto");
         StopAllCoroutines();
         StartCoroutine(RifleTimer());
@@ -187,7 +269,7 @@ public class PlayerController : MonoBehaviour
     public void EquipSniper()
     {
         currentGunPrefab = sniperBulletPrefab;
-        bulletSpeed = 60f;
+        bulletSpeed = 200f;
         Debug.Log("Ahora tienes un rifle de francotirador");
         StopAllCoroutines();
         StartCoroutine(SniperTimer());
