@@ -49,8 +49,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 3
-  damage: 10
+  speed: 1.5
+  damage: 15
 --- !u!114 &4532924378044431817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e3628d3a20adbb4dbbffed630255839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidaMaxima: 30
+  vidaMaxima: 50
 --- !u!136 &7453374060133754624
 CapsuleCollider:
   m_ObjectHideFlags: 0

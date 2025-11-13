@@ -900,7 +900,7 @@ MonoBehaviour:
   zombiesPrefab:
   - {fileID: 6194605335806130593, guid: 7a4117fca4cd79a45b21f3bd23f362ac, type: 3}
   - {fileID: 8687749909253655505, guid: 1de398d6bf43a1643865242c4ca4cdab, type: 3}
-  - {fileID: 3883655744420111400, guid: 8afaeda663c1c87408eaa39a8db0a736, type: 3}
+  - {fileID: 6375028266648102635, guid: f263c8e8254207e418cf6983444dbce7, type: 3}
   spawnInterval: 0.7
   maxZombiesSimultaneos: 32
   spawnPoints:
