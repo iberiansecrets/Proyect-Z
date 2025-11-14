@@ -50,9 +50,16 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector3 moveInput;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip pistolSFX;
+    public AudioClip shotgunSFX;
+    public AudioClip rifleSFX;
+    public AudioClip sniperSFX;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
         currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
     }
 
@@ -97,6 +104,7 @@ public class PlayerController : MonoBehaviour
             {
                 nextFireTime = Time.time + rifleFireDelay;
                 Shoot(currentGunPrefab);
+                PlayWeaponSound(rifleSFX);
             }
         }
         // Escopeta con retardo
@@ -106,6 +114,7 @@ public class PlayerController : MonoBehaviour
             {
                 nextFireTime = Time.time + shotgunFireDelay;
                 ShootShotgun();
+                PlayWeaponSound(shotgunSFX);
             }
         }
         // Francotirador con retardo
@@ -115,6 +124,7 @@ public class PlayerController : MonoBehaviour
             {
                 nextFireTime = Time.time + sniperFireDelay;
                 Shoot(currentGunPrefab);
+                PlayWeaponSound(sniperSFX);
             }
         }
         // Pistola semiautomática con retardo
@@ -124,6 +134,7 @@ public class PlayerController : MonoBehaviour
             {
                 nextFireTime = Time.time + pistolFireDelay;
                 Shoot(currentGunPrefab);
+                PlayWeaponSound(pistolSFX);
             }
         }
     }
@@ -321,5 +332,11 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(sniperTimer);
         EquipPistol();
+    }
+
+    void PlayWeaponSound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+            audioSource.PlayOneShot(clip);
     }
 }
