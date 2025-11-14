@@ -15,6 +15,12 @@ public class EnemyController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
+        if (rb != null)
+        {
+            // Congela la rotación en los ejes X y Z para evitar que el enemigo se vuelque
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        }
+
         // Busca al jugador al iniciar
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
@@ -33,7 +39,10 @@ public class EnemyController : MonoBehaviour
         if (target == null) return;
 
         // Dirección hacia el objetivo actual
-        Vector3 direction = (target.position - transform.position).normalized;
+        //Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 direction = target.position - transform.position;
+        direction.y = 0f; // Mantener movimiento en el plano horizontal
+        direction.Normalize();
 
         // Movimiento con física
         Vector3 newPosition = rb.position + direction * speed * Time.fixedDeltaTime;

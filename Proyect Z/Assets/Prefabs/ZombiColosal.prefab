@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8505665870530300474}
   - component: {fileID: 2867222121721224703}
   - component: {fileID: 4532924378044431817}
-  - component: {fileID: 7453374060133754624}
   - component: {fileID: 3422786527936736186}
+  - component: {fileID: 3393712583815118602}
   m_Layer: 0
   m_Name: ZombiColosal
   m_TagString: Enemy
@@ -64,29 +64,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vidaMaxima: 50
---- !u!136 &7453374060133754624
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8687749909253655505}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.58955383
-  m_Height: 2.9652262
-  m_Direction: 1
-  m_Center: {x: 0.0009841919, y: -0.1910994, z: 0.12818718}
 --- !u!54 &3422786527936736186
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -112,8 +89,29 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!65 &3393712583815118602
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8687749909253655505}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2877738, y: 2.851764, z: 1.0875825}
+  m_Center: {x: 0.006255963, y: -0.4629407, z: 0.15639977}
 --- !u!1001 &6452845438548706200
 PrefabInstance:
   m_ObjectHideFlags: 0
