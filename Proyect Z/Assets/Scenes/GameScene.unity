@@ -961,8 +961,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vidaMaxima: 100
   "cooldownDa\xF1o": 1
-  "multiplicadorDa\xF1o": 1
-  multiplicadorEmpuje: 1
+  "multiplicadorDa\xF1o": 1.2
+  multiplicadorEmpuje: 1.2
   "da\xF1oEmpuje": 0
   barraDeVida: {fileID: 713875589}
 --- !u!114 &432614872
@@ -1105,7 +1105,7 @@ Transform:
   m_GameObject: {fileID: 498354694}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2663,7 +2663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd67bea8223a7a240bf69ca49bef8191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
+  playerHealth: {fileID: 432614871}
   enemiesSpawner: {fileID: 498354696}
   gameOverUI: {fileID: 576696503}
   gameOverText: {fileID: 1988334760}

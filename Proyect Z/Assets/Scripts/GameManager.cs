@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     [Header("Rondas")]
     public int rondaActual = 1;
     public int enemigosPorRonda = 7;
-    public float dificultad = 1.3f; // Aumenta el número de enemigos por ronda
+    public float dificultad = 1.6f; // Aumenta el número de enemigos por ronda
     public int maxRondas = 10; // Máximo de rondas del juego
 
     private int enemigosRestantes;
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         "Velocidad",
         "Empuje",
         "Daño",
-        "DañoEmpuje"
+        "Daño_Empuje"
     };
 
     void Awake()
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         rondaActiva = false;
         Time.timeScale = 0f;
         temporizadorActivo = false;
-        float random = Random.Range(5, 5 * dificultad);
+        float random = Random.Range(3, 5 * dificultad);
         enemigosPorRonda += (int)random;
         // Si se completan todas las rondas, el jugador gana
         if (rondaActual >= maxRondas)

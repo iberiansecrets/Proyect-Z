@@ -245,7 +245,7 @@ public class PlayerController : MonoBehaviour
     public void EquipPistol()
     {
         currentGunPrefab = pistolBulletPrefab;
-        bulletSpeed = 100;
+        bulletSpeed = 25f;
         Debug.Log("Ahora tienes una pistola.");
     }
 
@@ -261,7 +261,7 @@ public class PlayerController : MonoBehaviour
     public void EquipRifle()
     {
         currentGunPrefab = rifleBulletPrefab;
-        bulletSpeed = 100f;
+        bulletSpeed = 40f;
         Debug.Log("Ahora tienes un fusil de asalto");
         StopAllCoroutines();
         StartCoroutine(RifleTimer());
@@ -269,7 +269,7 @@ public class PlayerController : MonoBehaviour
     public void EquipSniper()
     {
         currentGunPrefab = sniperBulletPrefab;
-        bulletSpeed = 200f;
+        bulletSpeed = 70f;
         Debug.Log("Ahora tienes un rifle de francotirador");
         StopAllCoroutines();
         StartCoroutine(SniperTimer());
@@ -299,11 +299,11 @@ public class PlayerController : MonoBehaviour
         {
             rb.isKinematic = false;
             rb.AddForce(transform.forward * throwForce, ForceMode.VelocityChange);
-        }
-
-        Debug.Log($"Señuelo lanzado, ahora te quedan {numDecoy}");
+        }        
 
         numDecoy--;
+
+        Debug.Log($"Señuelo lanzado, ahora te quedan {numDecoy}");
     }
     private IEnumerator ShotgunTimer()
     {
