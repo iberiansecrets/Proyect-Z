@@ -3344,7 +3344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c02d361c0294a9499db8785698e7b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  riflePrefab: {fileID: 5932888860459228288, guid: 05bbcc2c3d0d06e4ba39668c8c7313a0, type: 3}
+  riflePrefab: {fileID: 1253603883243199120, guid: 0967392f658a2aa448542447e7edb031, type: 3}
   areaCenter: {x: 0, y: 1, z: 0}
   areaSize: {x: 40, y: 0, z: 40}
   respawnDelay: 20
