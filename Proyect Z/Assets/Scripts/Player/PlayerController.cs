@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip shotgunSFX;
     public AudioClip rifleSFX;
     public AudioClip sniperSFX;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();

@@ -107,6 +107,10 @@ public class GameManager : MonoBehaviour
         rondaActiva = true;
         juegoTerminado = false;
         temporizadorActivo = true;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        FindObjectOfType<CursorManager>().ActivarCrosshair();
     }
 
     void AcabarRonda()
@@ -117,6 +121,7 @@ public class GameManager : MonoBehaviour
         temporizadorActivo = false;
         float random = Random.Range(3, 5 * dificultad);
         enemigosPorRonda += (int)random;
+        FindObjectOfType<CursorManager>().DesactivarCrosshair();
         // Si se completan todas las rondas, el jugador gana
         if (rondaActual >= maxRondas)
         {
