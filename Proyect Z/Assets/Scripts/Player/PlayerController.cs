@@ -57,6 +57,17 @@ public class PlayerController : MonoBehaviour
     public AudioClip rifleSFX;
     public AudioClip sniperSFX;
 
+    [Header("UI Armas")]
+    public GameObject uiPistol;
+    public GameObject uiShotgun;
+    public GameObject uiRifle;
+    public GameObject uiSniper;
+
+    public TMPro.TMP_Text timerShotgunText;
+    public TMPro.TMP_Text timerRifleText;
+    public TMPro.TMP_Text timerSniperText;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -259,13 +270,19 @@ public class PlayerController : MonoBehaviour
         currentGunPrefab = pistolBulletPrefab;
         bulletSpeed = 25f;
         Debug.Log("Ahora tienes una pistola.");
+
+        MostrarUIArmaActual(uiPistol);
     }
 
     public void EquipShotgun()
     {
         currentGunPrefab = shotgunBulletPrefab;
         bulletSpeed = 18f;
+
         Debug.Log("Ahora tienes una escopeta");
+
+        MostrarUIArmaActual(uiShotgun);
+
         StopAllCoroutines();
         StartCoroutine(ShotgunTimer());
     }
@@ -274,7 +291,11 @@ public class PlayerController : MonoBehaviour
     {
         currentGunPrefab = rifleBulletPrefab;
         bulletSpeed = 40f;
+
         Debug.Log("Ahora tienes un fusil de asalto");
+
+        MostrarUIArmaActual(uiRifle);
+
         StopAllCoroutines();
         StartCoroutine(RifleTimer());
     }
@@ -282,7 +303,11 @@ public class PlayerController : MonoBehaviour
     {
         currentGunPrefab = sniperBulletPrefab;
         bulletSpeed = 70f;
+
         Debug.Log("Ahora tienes un rifle de francotirador");
+
+        MostrarUIArmaActual(uiSniper);
+
         StopAllCoroutines();
         StartCoroutine(SniperTimer());
     }
@@ -317,21 +342,46 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log($"Señuelo lanzado, ahora te quedan {numDecoy}");
     }
+
     private IEnumerator ShotgunTimer()
     {
-        yield return new WaitForSeconds(shotgunTimer);
+        float time = shotgunTimer;
+
+        while (time > 0)
+        {
+            timerShotgunText.text = time.ToString("0.0");
+            time -= Time.deltaTime;
+            yield return null;
+        }
+
         EquipPistol();
     }
 
     private IEnumerator RifleTimer()
     {
-        yield return new WaitForSeconds(rifleTimer);
+        float time = rifleTimer;
+
+        while (time > 0)
+        {
+            timerRifleText.text = time.ToString("0.0");
+            time -= Time.deltaTime;
+            yield return null;
+        }
+
         EquipPistol();
     }
 
     private IEnumerator SniperTimer()
     {
-        yield return new WaitForSeconds(sniperTimer);
+        float time = sniperTimer;
+
+        while (time > 0)
+        {
+            timerSniperText.text = time.ToString("0.0");
+            time -= Time.deltaTime;
+            yield return null;
+        }
+
         EquipPistol();
     }
 
@@ -339,5 +389,15 @@ public class PlayerController : MonoBehaviour
     {
         if (audioSource != null && clip != null)
             audioSource.PlayOneShot(clip);
+    }
+
+    void MostrarUIArmaActual(GameObject objetoUI)
+    {
+        uiPistol.SetActive(false);
+        uiShotgun.SetActive(false);
+        uiRifle.SetActive(false);
+        uiSniper.SetActive(false);
+
+        objetoUI.SetActive(true);
     }
 }

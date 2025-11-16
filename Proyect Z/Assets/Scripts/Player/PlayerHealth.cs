@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("UI")]
     public Slider barraDeVida;
+    public TMP_Text vidaRestante;
 
     void Start()
     {
@@ -31,6 +33,9 @@ public class PlayerHealth : MonoBehaviour
     {
         if (barraDeVida != null)
             barraDeVida.value = vidaActual;
+
+        if (vidaRestante != null)
+            vidaRestante.text = vidaActual.ToString("0");
     }
 
     public void RecibirDaño(float cantidad)
