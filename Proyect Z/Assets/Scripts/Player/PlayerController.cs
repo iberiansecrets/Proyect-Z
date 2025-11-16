@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
     public TMPro.TMP_Text timerRifleText;
     public TMPro.TMP_Text timerSniperText;
 
+    public bool isPaused = false;
 
     void Start()
     {
@@ -77,6 +78,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (isPaused) return;
+        
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
         moveInput = new Vector3(moveX, 0f, moveZ).normalized;
@@ -100,6 +103,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isPaused) return;
+
         if (moveInput.magnitude > 0f)
         {
             Vector3 movimiento = moveInput * moveSpeed * Time.fixedDeltaTime;
