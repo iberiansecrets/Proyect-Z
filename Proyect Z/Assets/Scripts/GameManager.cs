@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     private int enemigosRestantes;
     private bool rondaActiva = false;
-    private bool juegoTerminado = false;
+    public bool juegoTerminado = false;
 
     [Header ("Temporizador")]
     public float tiempoTotal = 600f; // 10 minutos
@@ -238,6 +238,13 @@ public class GameManager : MonoBehaviour
             gameOverUI.SetActive(true);
             gameOverText.text = mensaje;
         }
+
+        var cursorManager = FindObjectOfType<CursorManager>();
+        if (cursorManager != null)
+            cursorManager.DesactivarCrosshair();
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         // Desactiva el movimiento del jugador
         if (playerHealth != null)

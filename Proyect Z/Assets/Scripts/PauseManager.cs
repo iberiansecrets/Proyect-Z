@@ -19,6 +19,9 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.juegoTerminado)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused) ResumeGame();
