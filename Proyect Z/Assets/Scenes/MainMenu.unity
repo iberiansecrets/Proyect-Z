@@ -5897,8 +5897,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Daniel Duque Rodr\xEDguez\nJavier Miguel Mart\xEDn Ull\xE1n\n\xC1lvaro
-    Jim\xE9nez Lozano\nAntonio Mor\xE1n Barrera\r\nCarlos Mart\xEDn Hern\xE1ndez"
+  m_text: 'Daniel Duque Rodriguez
+
+    Javier Miguel Martin Ullan
+
+    Alvaro Jimenez
+    Lozano
+
+    Antonio Moran Barrera
+
+    Carlos Martin Hernandez'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 459c8bef8eebe5f42a95e483bd154354, type: 2}
   m_sharedMaterial: {fileID: -2209487363326989174, guid: 459c8bef8eebe5f42a95e483bd154354, type: 2}
