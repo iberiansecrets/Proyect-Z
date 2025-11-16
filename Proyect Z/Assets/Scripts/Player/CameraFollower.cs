@@ -2,19 +2,22 @@ using UnityEngine;
 
 public class CameraFollower : MonoBehaviour
 {
-    public Transform target;
+    public Transform targetA;   // Primer objeto
+    public Transform targetB;   // Segundo objeto
     public Vector3 offset = new Vector3(0f, 10f, 0f);
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private Transform currentTarget;
 
-    // Update is called once per frame
     void Update()
     {
-        if (target != null)
-            transform.position = target.position + offset;
+        // Detectar cuál está activo
+        if (targetA != null && targetA.gameObject.activeSelf)
+            currentTarget = targetA;
+        else if (targetB != null && targetB.gameObject.activeSelf)
+            currentTarget = targetB;
+
+        // Seguir al target actual
+        if (currentTarget != null)
+            transform.position = currentTarget.position + offset;
     }
 }
