@@ -248,7 +248,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void VolverAlMenu()
+    public void VolverAlMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu"); //Vuelve al menú principal
