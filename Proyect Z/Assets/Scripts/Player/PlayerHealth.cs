@@ -21,7 +21,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
-        vidaActual = vidaMaxima;
+        vidaActual = 50;
 
         if (barraDeVida != null)
             barraDeVida.maxValue = vidaMaxima;

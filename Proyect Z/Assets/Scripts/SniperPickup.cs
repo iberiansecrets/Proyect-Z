@@ -7,11 +7,12 @@ public class SniperPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController pc = other.GetComponent<PlayerController>();
+            ObjectSpawner ob = FindObjectOfType<ObjectSpawner>();
             if (pc != null)
             {
                 pc.EquipSniper();
             }
-
+            ob.armaGenerada = false;
             Destroy(gameObject);
         }
     }

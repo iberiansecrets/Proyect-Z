@@ -31,7 +31,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         if (playerHealth == null) return false;
         float ratio = playerHealth.GetVidaActual() / playerHealth.GetVidaMaxima();
-        return ratio < 0.35f;
+        return ratio < 0.85f;
     }
 
     public bool MuchosZombies()
@@ -54,6 +54,7 @@ public class ObjectSpawner : MonoBehaviour
 
         GameObject nuevo = Instantiate(medkitPrefab, randomPos, Quaternion.identity);
         objetosActivos.Add(nuevo);
+        vidaGenerada = true;
         Debug.Log($"[ObjectSpawner] ha generado: {medkitPrefab}");
 
         // Elimina referencia cuando el objeto desaparece
@@ -72,6 +73,7 @@ public class ObjectSpawner : MonoBehaviour
 
         GameObject nuevo = Instantiate(shotgunPrefab, randomPos, Quaternion.identity);
         objetosActivos.Add(nuevo);
+        armaGenerada = true;
         Debug.Log($"[ObjectSpawner] ha generado: {shotgunPrefab}");
 
         // Elimina referencia cuando el objeto desaparece
@@ -90,6 +92,7 @@ public class ObjectSpawner : MonoBehaviour
 
         GameObject nuevo = Instantiate(riflePrefab, randomPos, Quaternion.identity);
         objetosActivos.Add(nuevo);
+        armaGenerada = true;
         Debug.Log($"[ObjectSpawner] ha generado: {riflePrefab}");
 
         // Elimina referencia cuando el objeto desaparece
@@ -108,6 +111,7 @@ public class ObjectSpawner : MonoBehaviour
 
         GameObject nuevo = Instantiate(sniperPrefab, randomPos, Quaternion.identity);
         objetosActivos.Add(nuevo);
+        armaGenerada = true;
         Debug.Log($"[ObjectSpawner] ha generado: {sniperPrefab}");
 
         // Elimina referencia cuando el objeto desaparece
@@ -130,5 +134,15 @@ public class ObjectSpawner : MonoBehaviour
     {
         int numero = Random.Range(0, 1);
         return numero;
+    }
+
+    public bool GetVidaGenerada()
+    {
+        return !vidaGenerada;
+    }
+
+    public bool GetArmaGenerada()
+    {
+        return !armaGenerada;
     }
 }
