@@ -19,8 +19,21 @@ public class ObjectSpawner : MonoBehaviour
     public Vector3 areaSize = new Vector3(30f, 0f, 30f);
 
     [Header("Parámetros")]
-    public int umbralZombies = 12;       // Límite de zombies para "presión alta"
+    public int umbralZombies = 5;       // Límite de zombies para "presión alta"
     public int maxObjetosActivos = 3;    // Límite total de objetos en el mapa
+
+    public int minEscopeta = 1;
+    public int numEscopeta = 1;
+    public int maxEscopeta = 10;
+
+    public int minRifle = 1;
+    public int numRifle = 1;
+    public int maxRifle = 10;
+
+    public int minFranco = 1;
+    public int numFranco = 1;
+    public int maxFranco = 10;
+
 
     [HideInInspector] public bool vidaGenerada = false;
     [HideInInspector] public bool armaGenerada = false;
@@ -31,7 +44,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         if (playerHealth == null) return false;
         float ratio = playerHealth.GetVidaActual() / playerHealth.GetVidaMaxima();
-        return ratio < 0.85f;
+        return ratio < 0.35f;
     }
 
     public bool MuchosZombies()
@@ -74,6 +87,8 @@ public class ObjectSpawner : MonoBehaviour
         GameObject nuevo = Instantiate(shotgunPrefab, randomPos, Quaternion.identity);
         objetosActivos.Add(nuevo);
         armaGenerada = true;
+        numEscopeta++;
+        Debug.Log(numEscopeta);
         Debug.Log($"[ObjectSpawner] ha generado: {shotgunPrefab}");
 
         // Elimina referencia cuando el objeto desaparece
@@ -93,6 +108,8 @@ public class ObjectSpawner : MonoBehaviour
         GameObject nuevo = Instantiate(riflePrefab, randomPos, Quaternion.identity);
         objetosActivos.Add(nuevo);
         armaGenerada = true;
+        numRifle++;
+        Debug.Log(numRifle);
         Debug.Log($"[ObjectSpawner] ha generado: {riflePrefab}");
 
         // Elimina referencia cuando el objeto desaparece
@@ -112,6 +129,8 @@ public class ObjectSpawner : MonoBehaviour
         GameObject nuevo = Instantiate(sniperPrefab, randomPos, Quaternion.identity);
         objetosActivos.Add(nuevo);
         armaGenerada = true;
+        numFranco++;
+        Debug.Log(numFranco);
         Debug.Log($"[ObjectSpawner] ha generado: {sniperPrefab}");
 
         // Elimina referencia cuando el objeto desaparece
@@ -144,5 +163,28 @@ public class ObjectSpawner : MonoBehaviour
     public bool GetArmaGenerada()
     {
         return !armaGenerada;
+    }
+
+    public float GetNumEscopeta()
+    {
+        float escopetaNormalizada = Normalizar(numEscopeta, minEscopeta, maxEscopeta);
+        return escopetaNormalizada;
+    }
+
+    public float GetNumRifle()
+    {
+        float rifleNormalizado = Normalizar(numRifle, minRifle, maxRifle);
+        return rifleNormalizado;
+    }
+
+    public float GetNumFranco()
+    {
+        float francoNormalizado = Normalizar(numFranco, minFranco, maxFranco);
+        return francoNormalizado;
+    }
+
+    public float Normalizar(int valor, int min, int max)
+    {
+        return (float)(valor - min) / (max - min);
     }
 }

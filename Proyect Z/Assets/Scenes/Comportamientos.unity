@@ -270,6 +270,15 @@ MonoBehaviour:
   areaSize: {x: 40, y: 0, z: 40}
   umbralZombies: 15
   maxObjetosActivos: 3
+  minEscopeta: 1
+  numEscopeta: 1
+  maxEscopeta: 10
+  minRifle: 1
+  numRifle: 1
+  maxRifle: 10
+  minFranco: 1
+  numFranco: 1
+  maxFranco: 10
   vidaGenerada: 0
   armaGenerada: 0
 --- !u!114 &157105728
@@ -307,7 +316,7 @@ MonoBehaviour:
         - a8531a6b-3b3f-4f30-8266-5c93332da41c
       - name: Vida_baja?
         id: 8520cefc-9f05-4134-a32a-562fda0f3832
-        position: {x: -150, y: 400}
+        position: {x: -300, y: 400}
         node:
           rid: 3139739210661757005
         references:
@@ -322,7 +331,7 @@ MonoBehaviour:
         - 307b129d-33ee-4b79-b89e-ddfa2a2969eb
       - name: Vida_Generada?
         id: 307b129d-33ee-4b79-b89e-ddfa2a2969eb
-        position: {x: -150, y: 600}
+        position: {x: -300, y: 600}
         node:
           rid: 3139739210661757009
         references:
@@ -345,10 +354,11 @@ MonoBehaviour:
         - 073c03d3-dbdc-4128-a257-942512447a56
         childIds:
         - 8520cefc-9f05-4134-a32a-562fda0f3832
+        - 5e8f78d2-c94e-496a-aad7-b2a4b7472c9c
         - 56031f80-9d39-477d-89c3-5fca7dd54a09
       - name: Pulso_Chequeo
         id: 56031f80-9d39-477d-89c3-5fca7dd54a09
-        position: {x: 150, y: 400}
+        position: {x: 300, y: 400}
         node:
           rid: 3139739487365234690
         references:
@@ -362,7 +372,7 @@ MonoBehaviour:
         childIds: []
       - name: GenerarBotiquin
         id: da200f61-700a-4c0a-8418-4745b94bf3fe
-        position: {x: -150, y: 800}
+        position: {x: -300, y: 800}
         node:
           rid: 3139739487365234692
         references:
@@ -374,10 +384,408 @@ MonoBehaviour:
         parentIds:
         - 307b129d-33ee-4b79-b89e-ddfa2a2969eb
         childIds: []
+      - name: Muchos_Zombies
+        id: 5e8f78d2-c94e-496a-aad7-b2a4b7472c9c
+        position: {x: 0, y: 400}
+        node:
+          rid: 1836830304554188800
+        references:
+        - fieldName: Perception
+          value:
+            rid: 1836830304554188803
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - a8531a6b-3b3f-4f30-8266-5c93332da41c
+        childIds:
+        - da2ec66c-eea8-4221-952c-b701421c98e3
+      - name: 
+        id: da2ec66c-eea8-4221-952c-b701421c98e3
+        position: {x: 0, y: 600}
+        node:
+          rid: 1836830304554188801
+        references:
+        - fieldName: Perception
+          value:
+            rid: 1836830304554188804
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 5e8f78d2-c94e-496a-aad7-b2a4b7472c9c
+        childIds:
+        - 7f7f35c5-ebc6-4d3d-899a-944fe1f8d675
+      - name: GenerarArma
+        id: 7f7f35c5-ebc6-4d3d-899a-944fe1f8d675
+        position: {x: 0, y: 800}
+        node:
+          rid: 1836830304554188802
+        references:
+        - fieldName: Action
+          value:
+            rid: 1836830304554188818
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - da2ec66c-eea8-4221-952c-b701421c98e3
+        childIds: []
+    - name: US_Armas
+      id: 7856d914-449d-4882-a2ce-8111e567fd02
+      graph:
+        rid: 1836830304554188805
+      nodes:
+      - name: SpawnEscopeta
+        id: db41b0ba-84dc-4a1c-a364-78610974df43
+        position: {x: 600, y: 0}
+        node:
+          rid: 1836830304554188806
+        references:
+        - fieldName: Action
+          value:
+            rid: 1836830304554188814
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds: []
+        childIds:
+        - df8d9ffe-1ec6-4b9f-a17b-a5dd5699bc43
+      - name: SpawnRifle
+        id: 50b9f5ca-9d0e-4db9-92dd-7799f980e28a
+        position: {x: 600, y: 200}
+        node:
+          rid: 1836830304554188810
+        references:
+        - fieldName: Action
+          value:
+            rid: 1836830304554188815
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds: []
+        childIds:
+        - f17ad16c-ba4d-4aa0-be14-3de7753eb661
+      - name: SpawnFranco
+        id: c787b609-c53d-40d3-928c-3d2a50d6e212
+        position: {x: 600, y: 400}
+        node:
+          rid: 1836830304554188811
+        references:
+        - fieldName: Action
+          value:
+            rid: 1836830304554188816
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds: []
+        childIds:
+        - d0b55502-ad7a-4f04-8bbf-483e4395ae66
+      - name: 
+        id: 05f5fec6-bb40-4819-8cf6-bdbc7eb15c7e
+        position: {x: 0, y: 0}
+        node:
+          rid: 1836830304554188913
+        references:
+        - fieldName: Variable
+          value:
+            rid: 1836830304554188914
+          fieldType: System.Func`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - df8d9ffe-1ec6-4b9f-a17b-a5dd5699bc43
+        childIds: []
+      - name: 
+        id: 03a46d42-6650-4975-859e-24b8aadea99c
+        position: {x: 0, y: 200}
+        node:
+          rid: 1836830304554188915
+        references:
+        - fieldName: Variable
+          value:
+            rid: 1836830304554188916
+          fieldType: System.Func`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - f17ad16c-ba4d-4aa0-be14-3de7753eb661
+        childIds: []
+      - name: 
+        id: 62a0455f-746b-4f63-985c-85041994e480
+        position: {x: 0, y: 400}
+        node:
+          rid: 1836830304554188917
+        references:
+        - fieldName: Variable
+          value:
+            rid: 1836830304554188918
+          fieldType: System.Func`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - d0b55502-ad7a-4f04-8bbf-483e4395ae66
+        childIds: []
+      - name: 
+        id: df8d9ffe-1ec6-4b9f-a17b-a5dd5699bc43
+        position: {x: 300, y: 0}
+        node:
+          rid: 1836830304554188928
+        references: []
+        parentIds:
+        - db41b0ba-84dc-4a1c-a364-78610974df43
+        childIds:
+        - 05f5fec6-bb40-4819-8cf6-bdbc7eb15c7e
+      - name: 
+        id: f17ad16c-ba4d-4aa0-be14-3de7753eb661
+        position: {x: 300, y: 200}
+        node:
+          rid: 1836830304554188929
+        references: []
+        parentIds:
+        - 50b9f5ca-9d0e-4db9-92dd-7799f980e28a
+        childIds:
+        - 03a46d42-6650-4975-859e-24b8aadea99c
+      - name: 
+        id: d0b55502-ad7a-4f04-8bbf-483e4395ae66
+        position: {x: 316, y: 416}
+        node:
+          rid: 1836830304554188930
+        references: []
+        parentIds:
+        - c787b609-c53d-40d3-928c-3d2a50d6e212
+        childIds:
+        - 62a0455f-746b-4f63-985c-85041994e480
     pushPerceptions: []
   references:
     version: 2
     RefIds:
+    - rid: 1836830304554188800
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 1836830304554188801
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 1836830304554188802
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 1836830304554188803
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ObjectSpawner
+          methodName: MuchosZombies
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1836830304554188804
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ObjectSpawner
+          methodName: GetArmaGenerada
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 1836830304554188805
+      type: {class: UtilitySystem, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        Inertia: 1.3
+    - rid: 1836830304554188806
+      type: {class: UtilityAction, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        FinishSystemOnComplete: 1
+    - rid: 1836830304554188810
+      type: {class: UtilityAction, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        FinishSystemOnComplete: 1
+    - rid: 1836830304554188811
+      type: {class: UtilityAction, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        FinishSystemOnComplete: 1
+    - rid: 1836830304554188814
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: ObjectSpawner
+          methodName: SpawnEscopeta
+    - rid: 1836830304554188815
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: ObjectSpawner
+          methodName: SpawnFusil
+    - rid: 1836830304554188816
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: ObjectSpawner
+          methodName: SpawnFrancotirador
+    - rid: 1836830304554188818
+      type: {class: SubgraphAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        ExecuteOnLoop: 0
+        InterruptOptions: 0
+        subgraphId: 7856d914-449d-4882-a2ce-8111e567fd02
+    - rid: 1836830304554188913
+      type: {class: VariableFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        min: 0
+        max: 1
+    - rid: 1836830304554188914
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: ObjectSpawner
+        methodName: GetNumEscopeta
+    - rid: 1836830304554188915
+      type: {class: VariableFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        min: 0
+        max: 1
+    - rid: 1836830304554188916
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: ObjectSpawner
+        methodName: GetNumRifle
+    - rid: 1836830304554188917
+      type: {class: VariableFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        min: 0
+        max: 1
+    - rid: 1836830304554188918
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: ObjectSpawner
+        methodName: GetNumFranco
+    - rid: 1836830304554188928
+      type: {class: UnityCurveFactor, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
+      data:
+        PullingEnabled: 1
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0.0000009834766
+            inSlope: -0.74850917
+            outSlope: -0.74850917
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.07387203
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 1836830304554188929
+      type: {class: UnityCurveFactor, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
+      data:
+        PullingEnabled: 1
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0.3999939
+            inSlope: -0.07602879
+            outSlope: -0.07602879
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.40066987
+            value: 0.36953145
+            inSlope: -2.4922042
+            outSlope: -2.4922042
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.095054686
+            outWeight: 0.8588495
+          - serializedVersion: 3
+            time: 0.61358273
+            value: 0.22250597
+            inSlope: -1.9057717
+            outSlope: -1.9057717
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.09411838
+          - serializedVersion: 3
+            time: 1
+            value: 0.29999924
+            inSlope: 0.20054297
+            outSlope: 0.20054297
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 1836830304554188930
+      type: {class: UnityCurveFactor, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
+      data:
+        PullingEnabled: 1
+        curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0.54081446
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 0.44368625
+            value: 0.49643305
+            inSlope: -1.3245455
+            outSlope: -1.3245455
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.09302696
+          - serializedVersion: 3
+            time: 1
+            value: 0.7428513
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
     - rid: 3139739210661756987
       type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
