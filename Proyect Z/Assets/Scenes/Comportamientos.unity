@@ -314,7 +314,7 @@ MonoBehaviour:
         parentIds: []
         childIds:
         - a8531a6b-3b3f-4f30-8266-5c93332da41c
-      - name: Vida_baja?
+      - name: Vida_baja
         id: 8520cefc-9f05-4134-a32a-562fda0f3832
         position: {x: -300, y: 400}
         node:
@@ -329,7 +329,7 @@ MonoBehaviour:
         - a8531a6b-3b3f-4f30-8266-5c93332da41c
         childIds:
         - 307b129d-33ee-4b79-b89e-ddfa2a2969eb
-      - name: Vida_Generada?
+      - name: Vida_Generada
         id: 307b129d-33ee-4b79-b89e-ddfa2a2969eb
         position: {x: -300, y: 600}
         node:
@@ -343,7 +343,7 @@ MonoBehaviour:
         parentIds:
         - 8520cefc-9f05-4134-a32a-562fda0f3832
         childIds:
-        - da200f61-700a-4c0a-8418-4745b94bf3fe
+        - 984c50e0-6fff-42ec-90ee-5fdb0dece544
       - name: Seleccion_principal
         id: a8531a6b-3b3f-4f30-8266-5c93332da41c
         position: {x: 0, y: 200}
@@ -372,7 +372,7 @@ MonoBehaviour:
         childIds: []
       - name: GenerarBotiquin
         id: da200f61-700a-4c0a-8418-4745b94bf3fe
-        position: {x: -300, y: 800}
+        position: {x: -300, y: 1000}
         node:
           rid: 3139739487365234692
         references:
@@ -382,7 +382,7 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - 307b129d-33ee-4b79-b89e-ddfa2a2969eb
+        - 984c50e0-6fff-42ec-90ee-5fdb0dece544
         childIds: []
       - name: Muchos_Zombies
         id: 5e8f78d2-c94e-496a-aad7-b2a4b7472c9c
@@ -399,7 +399,7 @@ MonoBehaviour:
         - a8531a6b-3b3f-4f30-8266-5c93332da41c
         childIds:
         - da2ec66c-eea8-4221-952c-b701421c98e3
-      - name: 
+      - name: Arma_Generada
         id: da2ec66c-eea8-4221-952c-b701421c98e3
         position: {x: 0, y: 600}
         node:
@@ -428,6 +428,16 @@ MonoBehaviour:
         parentIds:
         - da2ec66c-eea8-4221-952c-b701421c98e3
         childIds: []
+      - name: sdfsadf
+        id: 984c50e0-6fff-42ec-90ee-5fdb0dece544
+        position: {x: -300, y: 800}
+        node:
+          rid: 3139739501129367618
+        references: []
+        parentIds:
+        - 307b129d-33ee-4b79-b89e-ddfa2a2969eb
+        childIds:
+        - da200f61-700a-4c0a-8418-4745b94bf3fe
     - name: US_Armas
       id: 7856d914-449d-4882-a2ce-8111e567fd02
       graph:
@@ -446,7 +456,7 @@ MonoBehaviour:
             Culture=neutral, PublicKeyToken=null
         parentIds: []
         childIds:
-        - df8d9ffe-1ec6-4b9f-a17b-a5dd5699bc43
+        - 5f616d0f-c44c-4e26-acb7-01e10dd512e7
       - name: SpawnRifle
         id: 50b9f5ca-9d0e-4db9-92dd-7799f980e28a
         position: {x: 600, y: 200}
@@ -475,9 +485,9 @@ MonoBehaviour:
         parentIds: []
         childIds:
         - d0b55502-ad7a-4f04-8bbf-483e4395ae66
-      - name: 
+      - name: NumeroSpawnEscopeta
         id: 05f5fec6-bb40-4819-8cf6-bdbc7eb15c7e
-        position: {x: 0, y: 0}
+        position: {x: -18, y: 16}
         node:
           rid: 1836830304554188913
         references:
@@ -488,9 +498,9 @@ MonoBehaviour:
             PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
             PublicKeyToken=b77a5c561934e089
         parentIds:
-        - df8d9ffe-1ec6-4b9f-a17b-a5dd5699bc43
+        - 5f616d0f-c44c-4e26-acb7-01e10dd512e7
         childIds: []
-      - name: 
+      - name: NumeroSpawnRifle
         id: 03a46d42-6650-4975-859e-24b8aadea99c
         position: {x: 0, y: 200}
         node:
@@ -505,7 +515,7 @@ MonoBehaviour:
         parentIds:
         - f17ad16c-ba4d-4aa0-be14-3de7753eb661
         childIds: []
-      - name: 
+      - name: NumeroSpawnFrancotirador
         id: 62a0455f-746b-4f63-985c-85041994e480
         position: {x: 0, y: 400}
         node:
@@ -520,17 +530,7 @@ MonoBehaviour:
         parentIds:
         - d0b55502-ad7a-4f04-8bbf-483e4395ae66
         childIds: []
-      - name: 
-        id: df8d9ffe-1ec6-4b9f-a17b-a5dd5699bc43
-        position: {x: 300, y: 0}
-        node:
-          rid: 1836830304554188928
-        references: []
-        parentIds:
-        - db41b0ba-84dc-4a1c-a364-78610974df43
-        childIds:
-        - 05f5fec6-bb40-4819-8cf6-bdbc7eb15c7e
-      - name: 
+      - name: CurvaRifle
         id: f17ad16c-ba4d-4aa0-be14-3de7753eb661
         position: {x: 300, y: 200}
         node:
@@ -540,7 +540,7 @@ MonoBehaviour:
         - 50b9f5ca-9d0e-4db9-92dd-7799f980e28a
         childIds:
         - 03a46d42-6650-4975-859e-24b8aadea99c
-      - name: 
+      - name: CurvaFrancotirador
         id: d0b55502-ad7a-4f04-8bbf-483e4395ae66
         position: {x: 316, y: 416}
         node:
@@ -550,6 +550,16 @@ MonoBehaviour:
         - c787b609-c53d-40d3-928c-3d2a50d6e212
         childIds:
         - 62a0455f-746b-4f63-985c-85041994e480
+      - name: CurvaEscopeta_
+        id: 5f616d0f-c44c-4e26-acb7-01e10dd512e7
+        position: {x: 318, y: 21}
+        node:
+          rid: 3139739501129367611
+        references: []
+        parentIds:
+        - db41b0ba-84dc-4a1c-a364-78610974df43
+        childIds:
+        - 05f5fec6-bb40-4819-8cf6-bdbc7eb15c7e
     pushPerceptions: []
   references:
     version: 2
@@ -675,34 +685,6 @@ MonoBehaviour:
       data:
         componentName: ObjectSpawner
         methodName: GetNumFranco
-    - rid: 1836830304554188928
-      type: {class: UnityCurveFactor, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
-      data:
-        PullingEnabled: 1
-        curve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 0.0000009834766
-            inSlope: -0.74850917
-            outSlope: -0.74850917
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.07387203
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
     - rid: 1836830304554188929
       type: {class: UnityCurveFactor, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
       data:
@@ -712,36 +694,36 @@ MonoBehaviour:
           m_Curve:
           - serializedVersion: 3
             time: 0
-            value: 0.3999939
-            inSlope: -0.07602879
-            outSlope: -0.07602879
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 0.40066987
-            value: 0.36953145
-            inSlope: -2.4922042
-            outSlope: -2.4922042
+            value: 1
+            inSlope: -0.12603837
+            outSlope: -0.12603837
             tangentMode: 0
             weightedMode: 0
-            inWeight: 0.095054686
-            outWeight: 0.8588495
+            inWeight: 0
+            outWeight: 0.12359461
           - serializedVersion: 3
-            time: 0.61358273
-            value: 0.22250597
-            inSlope: -1.9057717
-            outSlope: -1.9057717
+            time: 0.4
+            value: 0.5
+            inSlope: 0.028850434
+            outSlope: 0.028850434
             tangentMode: 0
             weightedMode: 0
             inWeight: 0.33333334
-            outWeight: 0.09411838
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 0.6
+            value: 0.5
+            inSlope: -0.016601555
+            outSlope: -0.016601555
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
           - serializedVersion: 3
             time: 1
-            value: 0.29999924
-            inSlope: 0.20054297
-            outSlope: 0.20054297
+            value: 0
+            inSlope: -1.2500001
+            outSlope: -1.2500001
             tangentMode: 34
             weightedMode: 0
             inWeight: 0.33333334
@@ -758,7 +740,7 @@ MonoBehaviour:
           m_Curve:
           - serializedVersion: 3
             time: 0
-            value: 0.54081446
+            value: 0.7
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -776,7 +758,7 @@ MonoBehaviour:
             outWeight: 0.09302696
           - serializedVersion: 3
             time: 1
-            value: 0.7428513
+            value: 0
             inSlope: 0
             outSlope: 0
             tangentMode: 0
@@ -845,7 +827,7 @@ MonoBehaviour:
     - rid: 3139739487365234691
       type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
       data:
-        delayTime: 5
+        delayTime: 3
     - rid: 3139739487365234692
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
@@ -855,6 +837,16 @@ MonoBehaviour:
         method:
           componentName: ObjectSpawner
           methodName: SpawnBotiquin
+    - rid: 3139739501129367611
+      type: {class: LinearCurveFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        Slope: -1
+        YIntercept: 1
+    - rid: 3139739501129367618
+      type: {class: UnityTimerDecorator, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
+      data:
+        TotalTime: 5
 --- !u!4 &157105729
 Transform:
   m_ObjectHideFlags: 0
@@ -3706,6 +3698,7 @@ MonoBehaviour:
   - {fileID: 484330294}
   - {fileID: 441280546}
   - {fileID: 1074013226}
+  zombiesSpawned: []
 --- !u!4 &1683075327
 Transform:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ public class EnemiesSpawner : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints; // Lista de puntos donde pueden aparecer zombies
 
     // Variables internas
-    private List<GameObject> zombiesSpawned = new List<GameObject>();
+    public List<GameObject> zombiesSpawned = new List<GameObject>();
     private bool spawningActive = false; // Controla si la oleada está activa
 
     public void GenerarOleada(int cantidad)
@@ -73,6 +73,7 @@ public class EnemiesSpawner : MonoBehaviour
         GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
         zombiesSpawned.Add(newZombie);
+        Debug.Log($"{zombiesSpawned.Count}");
 
         // Notificar al GameManager que hay un nuevo enemigo
         if (GameManager.Instance != null)
@@ -88,6 +89,7 @@ public class EnemiesSpawner : MonoBehaviour
     {
         // Eliminarlo de la lista local
         if (zombiesSpawned.Contains(zombie))
+            Debug.Log($"{zombiesSpawned.Count}");
             zombiesSpawned.Remove(zombie);
 
         // Notificar al GameManager que un enemigo ha muerto

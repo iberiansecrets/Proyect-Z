@@ -19,9 +19,9 @@ public class PlayerHealth : MonoBehaviour
     [Header("UI")]
     public Slider barraDeVida;
 
-    void Start()
+    void Awake()
     {
-        vidaActual = 50;
+        vidaActual = vidaMaxima;
 
         if (barraDeVida != null)
             barraDeVida.maxValue = vidaMaxima;

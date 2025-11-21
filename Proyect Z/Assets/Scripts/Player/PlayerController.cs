@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Temporizadores de armas")]
     private float shotgunTimer = 10f;
-    private float rifleTimer = 8f;
-    private float sniperTimer = 12f;
+    private float rifleTimer = 10f;
+    private float sniperTimer = 10f;
 
     private GameObject currentGunPrefab;       // Prefab del arma actual
     private Rigidbody rb;
