@@ -23,12 +23,14 @@ public class BTSpawnerObjetos : BehaviourRunner
 
         // Acciones
         SimpleAction GenerarBotiquin_action = new SimpleAction(m_ObjectSpawner.SpawnBotiquin);
+        DelayAction pulsoChequeo_action = new DelayAction(10f);
         SubsystemAction GenerarArma_action = new SubsystemAction(US_Armas);
 
 
         // Nodos Hoja
         LeafNode GenerarBotiquin = BT_ObjectSpawner.CreateLeafNode(GenerarBotiquin_action);
         LeafNode GenerarArma = BT_ObjectSpawner.CreateLeafNode(GenerarArma_action);
+        LeafNode pulsoChequeo = BT_ObjectSpawner.CreateLeafNode(pulsoChequeo_action);
 
 
         // Condiciones
@@ -42,17 +44,8 @@ public class BTSpawnerObjetos : BehaviourRunner
         Muchos_Zombies.Perception = new ConditionPerception(null, m_ObjectSpawner.MuchosZombies, null);
 
 
-
-
-        // Decoradores de Delay
-        TimerDecoratorNode retardoVida = BT_ObjectSpawner.CreateDecorator<TimerDecoratorNode>(Vida_baja);
-        TimerDecoratorNode retardoArma = BT_ObjectSpawner.CreateDecorator<TimerDecoratorNode>(Muchos_Zombies);
-        retardoVida.Time = 5f;
-        retardoArma.Time = 5f;
-
-
         // Selector Principal
-        SelectorNode Seleccion_principal = BT_ObjectSpawner.CreateComposite<SelectorNode>(false, retardoVida, retardoArma);
+        SelectorNode Seleccion_principal = BT_ObjectSpawner.CreateComposite<SelectorNode>(false, Vida_baja, Muchos_Zombies, pulsoChequeo);
         Seleccion_principal.IsRandomized = false;
 
 

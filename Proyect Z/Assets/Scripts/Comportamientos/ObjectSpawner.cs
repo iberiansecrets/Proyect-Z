@@ -19,8 +19,7 @@ public class ObjectSpawner : MonoBehaviour
     public Vector3 areaSize = new Vector3(30f, 0f, 30f);
 
     [Header("Parámetros")]
-    public int umbralZombies = 5;       // Límite de zombies para "presión alta"
-    public int maxObjetosActivos = 3;    // Límite total de objetos en el mapa
+    public int umbralZombies = 5;       // Límite de zombies para "presión alta"   
 
     public int minEscopeta = 0;            // Minimo para normalizar
     public int numEscopeta = 0;            // Numero de armas spawneadas

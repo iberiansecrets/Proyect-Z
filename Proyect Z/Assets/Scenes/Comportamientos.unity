@@ -270,7 +270,7 @@ MonoBehaviour:
   sniperPrefab: {fileID: 8421224842816088978, guid: 67fe3cf7ae8423743becb3e63364f504, type: 3}
   areaCenter: {x: 0, y: 1, z: 0}
   areaSize: {x: 40, y: 0, z: 40}
-  umbralZombies: 5
+  umbralZombies: 15
   maxObjetosActivos: 3
   minEscopeta: 0
   numEscopeta: 0
