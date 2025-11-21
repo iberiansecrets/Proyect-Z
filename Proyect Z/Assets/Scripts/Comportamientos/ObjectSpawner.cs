@@ -22,23 +22,23 @@ public class ObjectSpawner : MonoBehaviour
     public int umbralZombies = 5;       // Límite de zombies para "presión alta"
     public int maxObjetosActivos = 3;    // Límite total de objetos en el mapa
 
-    public int minEscopeta = 0;
-    public int numEscopeta = 0;
-    public int maxEscopeta = 10;
+    public int minEscopeta = 0;            // Minimo para normalizar
+    public int numEscopeta = 0;            // Numero de armas spawneadas
+    public int maxEscopeta = 10;            // Limite de spawns
 
-    public int minRifle = 0;
-    public int numRifle = 0;
-    public int maxRifle = 10;
+    public int minRifle = 0;            // Minimo para normalizar
+    public int numRifle = 0;            // Numero de armas spawneadas
+    public int maxRifle = 10;            // Limite de spawns
 
-    public int minFranco = 0;
-    public int numFranco = 0;
-    public int maxFranco = 10;
-
+    public int minFranco = 0;            // Minimo para normalizar
+    public int numFranco = 0;            // Numero de armas spawneadas
+    public int maxFranco = 10;            // Limite de spawns
 
     [HideInInspector] public bool vidaGenerada = false;
     [HideInInspector] public bool armaGenerada = false;
 
     private readonly List<GameObject> objetosActivos = new();
+
 
     public bool VidaJugadorBaja()
     {
@@ -147,12 +147,6 @@ public class ObjectSpawner : MonoBehaviour
     {
         Gizmos.color = new Color(0, 1, 0, 0.25f);
         Gizmos.DrawCube(areaCenter, areaSize);
-    }
-
-    public int numeroRandom()
-    {
-        int numero = Random.Range(0, 1);
-        return numero;
     }
 
     public bool GetVidaGenerada()

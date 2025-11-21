@@ -241,6 +241,8 @@ GameObject:
   - component: {fileID: 157105729}
   - component: {fileID: 157105728}
   - component: {fileID: 157105727}
+  - component: {fileID: 157105730}
+  - component: {fileID: 157105731}
   m_Layer: 0
   m_Name: ObjectSpawner (comportamientos)
   m_TagString: Untagged
@@ -268,16 +270,16 @@ MonoBehaviour:
   sniperPrefab: {fileID: 8421224842816088978, guid: 67fe3cf7ae8423743becb3e63364f504, type: 3}
   areaCenter: {x: 0, y: 1, z: 0}
   areaSize: {x: 40, y: 0, z: 40}
-  umbralZombies: 15
+  umbralZombies: 5
   maxObjetosActivos: 3
-  minEscopeta: 1
-  numEscopeta: 1
+  minEscopeta: 0
+  numEscopeta: 0
   maxEscopeta: 10
-  minRifle: 1
-  numRifle: 1
+  minRifle: 0
+  numRifle: 0
   maxRifle: 10
-  minFranco: 1
-  numFranco: 1
+  minFranco: 0
+  numFranco: 0
   maxFranco: 10
   vidaGenerada: 0
   armaGenerada: 0
@@ -288,7 +290,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157105726}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
   m_Name: 
@@ -343,7 +345,7 @@ MonoBehaviour:
         parentIds:
         - 8520cefc-9f05-4134-a32a-562fda0f3832
         childIds:
-        - 984c50e0-6fff-42ec-90ee-5fdb0dece544
+        - da200f61-700a-4c0a-8418-4745b94bf3fe
       - name: Seleccion_principal
         id: a8531a6b-3b3f-4f30-8266-5c93332da41c
         position: {x: 0, y: 200}
@@ -372,7 +374,7 @@ MonoBehaviour:
         childIds: []
       - name: GenerarBotiquin
         id: da200f61-700a-4c0a-8418-4745b94bf3fe
-        position: {x: -300, y: 1000}
+        position: {x: -300, y: 800}
         node:
           rid: 3139739487365234692
         references:
@@ -382,7 +384,7 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - 984c50e0-6fff-42ec-90ee-5fdb0dece544
+        - 307b129d-33ee-4b79-b89e-ddfa2a2969eb
         childIds: []
       - name: Muchos_Zombies
         id: 5e8f78d2-c94e-496a-aad7-b2a4b7472c9c
@@ -428,16 +430,6 @@ MonoBehaviour:
         parentIds:
         - da2ec66c-eea8-4221-952c-b701421c98e3
         childIds: []
-      - name: sdfsadf
-        id: 984c50e0-6fff-42ec-90ee-5fdb0dece544
-        position: {x: -300, y: 800}
-        node:
-          rid: 3139739501129367618
-        references: []
-        parentIds:
-        - 307b129d-33ee-4b79-b89e-ddfa2a2969eb
-        childIds:
-        - da200f61-700a-4c0a-8418-4745b94bf3fe
     - name: US_Armas
       id: 7856d914-449d-4882-a2ce-8111e567fd02
       graph:
@@ -487,7 +479,7 @@ MonoBehaviour:
         - d0b55502-ad7a-4f04-8bbf-483e4395ae66
       - name: NumeroSpawnEscopeta
         id: 05f5fec6-bb40-4819-8cf6-bdbc7eb15c7e
-        position: {x: -18, y: 16}
+        position: {x: 0, y: 0}
         node:
           rid: 1836830304554188913
         references:
@@ -542,7 +534,7 @@ MonoBehaviour:
         - 03a46d42-6650-4975-859e-24b8aadea99c
       - name: CurvaFrancotirador
         id: d0b55502-ad7a-4f04-8bbf-483e4395ae66
-        position: {x: 316, y: 416}
+        position: {x: 300, y: 400}
         node:
           rid: 1836830304554188930
         references: []
@@ -550,9 +542,9 @@ MonoBehaviour:
         - c787b609-c53d-40d3-928c-3d2a50d6e212
         childIds:
         - 62a0455f-746b-4f63-985c-85041994e480
-      - name: CurvaEscopeta_
+      - name: CurvaEscopeta
         id: 5f616d0f-c44c-4e26-acb7-01e10dd512e7
-        position: {x: 318, y: 21}
+        position: {x: 300, y: 0}
         node:
           rid: 3139739501129367611
         references: []
@@ -827,7 +819,7 @@ MonoBehaviour:
     - rid: 3139739487365234691
       type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
       data:
-        delayTime: 3
+        delayTime: 10
     - rid: 3139739487365234692
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
@@ -843,10 +835,6 @@ MonoBehaviour:
         PullingEnabled: 1
         Slope: -1
         YIntercept: 1
-    - rid: 3139739501129367618
-      type: {class: UnityTimerDecorator, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
-      data:
-        TotalTime: 5
 --- !u!4 &157105729
 Transform:
   m_ObjectHideFlags: 0
@@ -862,6 +850,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &157105730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157105726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e5f6381a4a673a4db905bc6d1e8d8c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  m_ObjectSpawner: {fileID: 157105727}
+  _debugger: {fileID: 157105731}
+--- !u!114 &157105731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157105726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1726e9fdb9ff2d4baa8710d607b31ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eventHandler:
+    debugStatusChanges: 1
+    identifier: 
 --- !u!1 &196183898
 GameObject:
   m_ObjectHideFlags: 0
