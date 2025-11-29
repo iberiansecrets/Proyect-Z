@@ -1735,6 +1735,10 @@ MonoBehaviour:
   timerRifleText: {fileID: 1651756027}
   timerSniperText: {fileID: 1324793494}
   isPaused: 0
+  shoveBoxSize: {x: 2, y: 2, z: 3}
+  shoveCooldown: 0.8
+  shoveForce: 800
+  enemigoTag: Enemy
 --- !u!54 &432614874
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7850,6 +7854,10 @@ MonoBehaviour:
   timerRifleText: {fileID: 1651756027}
   timerSniperText: {fileID: 1324793494}
   isPaused: 0
+  shoveBoxSize: {x: 2, y: 2, z: 3}
+  shoveCooldown: 0.8
+  shoveForce: 800
+  enemigoTag: Enemy
 --- !u!54 &1873454170
 Rigidbody:
   m_ObjectHideFlags: 0
