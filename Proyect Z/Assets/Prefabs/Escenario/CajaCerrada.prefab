@@ -52,6 +52,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: CajaCerrada
       objectReference: {fileID: 0}
+    - target: {fileID: 2929999496717701381, guid: edab5ce81ce5cee4a855e483db4dc593, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: da80e2449562d9c4cad9a63051944be1, type: 2}
+    - target: {fileID: 3855234235717497059, guid: edab5ce81ce5cee4a855e483db4dc593, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: da80e2449562d9c4cad9a63051944be1, type: 2}
+    - target: {fileID: 7406144432352572018, guid: edab5ce81ce5cee4a855e483db4dc593, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: da80e2449562d9c4cad9a63051944be1, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
