@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -11,16 +12,17 @@ public class EnemyController : MonoBehaviour
     private Transform player;          // Referencia permanente al jugador
     private Transform decoyTarget;     // Referencia al señuelo actual (si hay)
     private bool followingDecoy = false;
+    private bool isStunned = false;
+    private float originalSpeed;
 
     //Parámetros de Animación Enemigos
     public float velocidad;
     [SerializeField] public Animator zombiAnim;
-
     
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+        originalSpeed = speed;
 
         if (rb != null)
         {
@@ -43,6 +45,17 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        if (isStunned)
+        {
+            // En animaciones mostramos idle
+            velocidad = 0;
+            zombiAnim.SetBool("Movimiento", false);
+            zombiAnim.SetBool("Ataque", false);
+            zombiAnim.ResetTrigger("AtacandoTrigger");
+            zombiAnim.SetTrigger("Idle");
+            return;
+        }
+
         velocidad = rb.linearVelocity.magnitude; //Saber la velocidad del enemigo
         if (target == null) return;
 
@@ -122,5 +135,28 @@ public class EnemyController : MonoBehaviour
         followingDecoy = false;
         decoyTarget = null;
         target = player;
+    }
+
+    public void Stun(float duration)
+    {
+        if (!isStunned)
+            StartCoroutine(StunCoroutine(duration));
+    }
+
+    private IEnumerator StunCoroutine(float duration)
+    {
+        isStunned = true;
+
+        // Desactivar velocidad
+        speed = 0f;
+
+        // Optional: congelar movimiento físico
+        rb.linearVelocity = Vector3.zero;
+
+        yield return new WaitForSeconds(duration);
+
+        // Restablecer estado
+        isStunned = false;
+        speed = originalSpeed;
     }
 }

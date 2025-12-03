@@ -77,6 +77,16 @@ public class PlayerController : MonoBehaviour
 
     private float lastShoveTime;
 
+    [Header("Esquive / Dash")]
+    public float dashDistance = 6f;      // Distancia
+    public float dashDuration = 0.15f;  // Duracion
+    public float dashCooldown = 0.8f;   // Cooldown
+
+    private bool isDashing = false;
+    private float lastDashTime = -999f;
+
+    public bool isInvulnerable = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -111,11 +121,17 @@ public class PlayerController : MonoBehaviour
         {
             LanzarDecoy();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TryDash();
+        }
     }
 
     void FixedUpdate()
     {
         if (isPaused) return;
+        if (isDashing) return;
 
         if (moveInput.magnitude > 0f)
         {
@@ -416,6 +432,27 @@ public class PlayerController : MonoBehaviour
                 enemyHealth.RecibirDaño(dañoInt);
             }
         }
+
+        EnemyController enemyController = enemy.GetComponent<EnemyController>();
+        if (enemyController != null)
+        {
+            enemyController.Stun(1f);   // Aturdir durante 1 segundo
+        }
+    }
+
+    void TryDash()
+    {
+        if (isDashing) return;
+        if (Time.time < lastDashTime + dashCooldown) return;
+
+        lastDashTime = Time.time;
+
+        // Si el jugador no se está moviendo esquiva adelante
+        Vector3 dashDir = moveInput.magnitude > 0.1f
+            ? moveInput.normalized
+            : transform.forward;
+
+        StartCoroutine(DashRoutine(dashDir));
     }
 
     void OnDrawGizmosSelected()
@@ -473,6 +510,29 @@ public class PlayerController : MonoBehaviour
         }
 
         EquipPistol();
+    }
+
+    IEnumerator DashRoutine(Vector3 direction)
+    {
+        isDashing = true;
+        isInvulnerable = true;
+
+        float elapsed = 0f;
+        Vector3 startPos = rb.position;
+        Vector3 endPos = startPos + direction * dashDistance;
+
+        while (elapsed < dashDuration)
+        {
+            float t = elapsed / dashDuration;
+            rb.MovePosition(Vector3.Lerp(startPos, endPos, t));
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        rb.MovePosition(endPos);
+        isDashing = false;
+        isInvulnerable = false;
     }
 
     void PlayWeaponSound(AudioClip clip)
