@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -11,9 +12,15 @@ public class EnemyController : MonoBehaviour
     private Transform decoyTarget;     // Referencia al señuelo actual (si hay)
     private bool followingDecoy = false;
 
+    //Parámetros de Animación Enemigos
+    public float velocidad;
+    [SerializeField] public Animator zombiAnim;
+
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        
 
         if (rb != null)
         {
@@ -34,8 +41,9 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    void Update()
     {
+        velocidad = rb.linearVelocity.magnitude; //Saber la velocidad del enemigo
         if (target == null) return;
 
         // Dirección hacia el objetivo actual
@@ -60,20 +68,45 @@ public class EnemyController : MonoBehaviour
         {
             ResetTarget();
         }
+
+        if ( velocidad > 0.3f)
+        {
+            zombiAnim.SetBool("Movimiento", true);
+            zombiAnim.ResetTrigger("Idle");
+            zombiAnim.ResetTrigger("AtacandoTrigger");
+        }
+        else 
+        {
+            zombiAnim.SetBool("Movimiento", false);
+            
+            if(!zombiAnim.GetBool("Ataque"))
+                zombiAnim.SetTrigger("Idle");
+        }
     }
 
     void OnCollisionStay(Collision collision)
-    {
-        // Solo puede dañar al jugador si no sigue un señuelo
-        if (collision.gameObject.CompareTag("Player") && !followingDecoy)
         {
-            PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
-            if (saludJugador != null)
+            // Solo puede dañar al jugador si no sigue un señuelo
+            if (collision.gameObject.CompareTag("Player") && !followingDecoy)
             {
-                saludJugador.RecibirDaño(damage);
+               
+                PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
+                if (saludJugador != null)
+                {
+                    saludJugador.RecibirDaño(damage);
+                }
+
+                zombiAnim.SetBool("Ataque", true);
+                zombiAnim.SetTrigger("AtacandoTrigger");
+                zombiAnim.ResetTrigger("Idle");
+                zombiAnim.SetBool("Movimiento", false);
+        }
+            else
+            {
+                zombiAnim.SetBool("Ataque", false);
+                zombiAnim.ResetTrigger("AtacandoTrigger");
             }
         }
-    }
 
     // Llamado por el señuelo cuando aparece
     public void SetDecoyTarget(Transform decoy)

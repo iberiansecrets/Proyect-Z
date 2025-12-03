@@ -64,6 +64,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -755582726368422587, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: acae71244250f8c40a54421753de79b6, type: 2}
+    - target: {fileID: -593714205882490957, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: acae71244250f8c40a54421753de79b6, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
       propertyPath: m_Name
       value: HealthKitPrefab
