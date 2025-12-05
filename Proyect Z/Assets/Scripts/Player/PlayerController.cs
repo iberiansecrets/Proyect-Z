@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Terresquall;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,7 +14,14 @@ public class PlayerController : MonoBehaviour
     public GameObject sniperBulletPrefab;      // Balas de francotirador
     public GameObject bulletPushPrefab;        // Bala que empuja (click derecho)
     public GameObject decoyPrefab;             // Señuelo
-    
+
+    [Header("Controles de móvil")]
+    public GameObject moveJoystick; // Joystick de movimiento
+    public GameObject shootJoystick; // Joystick de disparo 
+    public bool isMobile; // Comprobar si está en modo "Móvil"
+    private Vector3 aimInput; // Dirección del joystick de disparo
+    private float aimThreshold = 0.3f; // Sensibilidad para apuntar/disparar
+
     public Transform bulletShot;               // Punto desde donde se dispara
 
     public GameObject tracerPrefab; // Prefab tracer escopeta
@@ -92,36 +100,77 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
+        //isMobile = Application.isMobilePlatform;
+
+        if (isMobile)
+        {
+            Debug.Log("Estamos en móvil");
+            moveJoystick.SetActive(true);
+            shootJoystick.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("Estamos en PC");
+            moveJoystick.SetActive(false);
+            shootJoystick.SetActive(false);
+        }
     }
 
     void Update()
     {
         if (isPaused) return;
-        
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveZ = Input.GetAxisRaw("Vertical");
+        float moveX = 0;
+        float moveZ = 0;
+
+        // Si está en móvil, coge los dos joysticks para disparar
+        if (isMobile)
+        {
+            moveX = VirtualJoystick.GetAxis("Horizontal", 0);
+            moveZ = VirtualJoystick.GetAxis("Vertical", 0);
+
+            float aimX = VirtualJoystick.GetAxis("Horizontal", 1);
+            float aimZ = VirtualJoystick.GetAxis("Vertical", 1);
+
+            aimInput = new Vector3(aimX, 0f, aimZ);
+        }
+        else  // Si está en PC, usa los controles de siempre
+        {
+            moveX = Input.GetAxis("Horizontal");
+            moveZ = Input.GetAxis("Vertical");
+        }
+
         moveInput = new Vector3(moveX, 0f, moveZ).normalized;
 
-        // Disparo principal
-        ComprobarArma();
-
-        // Click derecho: bala que empuja (con retardo)
-        /*if (Input.GetButtonDown("Fire2") && Time.time >= nextFireTime)
+        // Rota los disparos y al jugador a donde apunta el joystick derecho
+        if (isMobile && aimInput.magnitude > aimThreshold)
         {
-            nextFireTime = Time.time + pushFireDelay;
-            Shoot(bulletPushPrefab);
-        }*/
+            Vector3 aimDirection = aimInput.normalized;
+            transform.rotation = Quaternion.LookRotation(aimDirection);
+            bulletShot.rotation = Quaternion.LookRotation(aimDirection);
+        }
 
+        // Disparo principal
+        if (isMobile)
+        {
+            ComprobarArmaMovil();
+        }
+        else
+        {
+            ComprobarArma();
+        }            
+
+        // Click derecho: Empuje de zombies   
         if (Input.GetButtonDown("Fire2")) {
             TryShove();
         }
 
         // Lanzamiento de señuelo
-        if (Input.GetKeyDown(KeyCode.G) && numDecoy > 0)
+        if (Input.GetKeyDown(KeyCode.E) && numDecoy > 0)
         {
             LanzarDecoy();
         }
 
+        // Deslizamiento
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TryDash();
@@ -138,6 +187,45 @@ public class PlayerController : MonoBehaviour
             Vector3 movimiento = moveInput * moveSpeed * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + movimiento);
         }
+    }
+
+    void ComprobarArmaMovil()
+    {
+        // Si el joystick no apunta, no dispares
+        if (aimInput.magnitude < aimThreshold)
+            return;
+
+        // Si no toca disparar aún, no dispares
+        if (Time.time < nextFireTime)
+            return;
+
+        // Determinar delay según arma
+        float delay = GetCurrentFireDelay();
+        nextFireTime = Time.time + delay;
+
+        // Disparo según arma equipada
+        if (currentGunPrefab == shotgunBulletPrefab)
+        {
+            ShootShotgun();
+            PlayWeaponSound(shotgunSFX);
+        }
+        else
+        {
+            Shoot(currentGunPrefab);
+
+            if (currentGunPrefab == pistolBulletPrefab) PlayWeaponSound(pistolSFX);
+            if (currentGunPrefab == rifleBulletPrefab) PlayWeaponSound(rifleSFX);
+            if (currentGunPrefab == sniperBulletPrefab) PlayWeaponSound(sniperSFX);
+        }
+    }
+
+    float GetCurrentFireDelay()
+    {
+        if (currentGunPrefab == rifleBulletPrefab) return rifleFireDelay;
+        if (currentGunPrefab == shotgunBulletPrefab) return shotgunFireDelay;
+        if (currentGunPrefab == sniperBulletPrefab) return sniperFireDelay;
+
+        return pistolFireDelay; // Pistola por defecto
     }
 
     void ComprobarArma()
@@ -448,9 +536,7 @@ public class PlayerController : MonoBehaviour
         lastDashTime = Time.time;
 
         // Si el jugador no se está moviendo esquiva adelante
-        Vector3 dashDir = moveInput.magnitude > 0.1f
-            ? moveInput.normalized
-            : transform.forward;
+        Vector3 dashDir = moveInput.magnitude > 0.1f ? moveInput.normalized : transform.forward;
 
         StartCoroutine(DashRoutine(dashDir));
     }
