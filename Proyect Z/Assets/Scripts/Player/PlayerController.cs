@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Controles de móvil")]
     public GameObject moveJoystick; // Joystick de movimiento
-    public GameObject shootJoystick; // Joystick de disparo 
+    public GameObject shootJoystick; // Joystick de disparo
     public bool isMobile; // Comprobar si está en modo "Móvil"
     private Vector3 aimInput; // Dirección del joystick de disparo
     private float aimThreshold = 0.3f; // Sensibilidad para apuntar/disparar
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     public float pushFireDelay = 0.8f;         // Tiempo entre empujes
     public float rifleFireDelay = 0.15f;        // Tiempo entre disparos de balas de fusil
     public float sniperFireDelay = 1.2f;        // Tiempo entre disparos de francotirador
-        
+
     private float nextFireTime = 0f;           // Control de cadencia de disparo del fusil
 
     private int numDecoy = 0; // Número de señuelos que tiene el jugador
@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     private GameObject currentGunPrefab;       // Prefab del arma actual
     private Rigidbody rb;
     private Vector3 moveInput;
+    private Animator anim;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -74,7 +75,7 @@ public class PlayerController : MonoBehaviour
     public GameObject uiPistol;
     public GameObject uiShotgun;
     public GameObject uiRifle;
-    public GameObject uiSniper;    
+    public GameObject uiSniper;
 
     public TMPro.TMP_Text timerShotgunText;
     public TMPro.TMP_Text timerRifleText;
@@ -105,6 +106,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
+        anim = GetComponentInChildren<Animator>();
         currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
         ActualizarSeñueloUI();
         isMobile = Application.isMobilePlatform;
@@ -152,7 +154,27 @@ public class PlayerController : MonoBehaviour
             moveZ = Input.GetAxis("Vertical");
         }
 
-        moveInput = new Vector3(moveX, 0f, moveZ).normalized;
+        Vector3 moveWorld = new Vector3(moveX, 0f, moveZ).normalized;
+        moveInput = moveWorld; // para usarlo en FixedUpdate para mover al personaje
+
+        // Transformar al espacio local del personaje para las animaciones
+        Vector3 moveLocal = transform.InverseTransformDirection(moveWorld);
+
+        anim.SetFloat("MoveX", moveLocal.x);
+        anim.SetFloat("MoveZ", moveLocal.z);
+        anim.SetBool("IsMoving", moveLocal.magnitude > 0.1f);
+
+        // Cambiar tipo de arma según el prefab actual
+        if (currentGunPrefab == pistolBulletPrefab)
+            anim.SetInteger("WeaponType", 0);
+        else
+            anim.SetInteger("WeaponType", 1);
+
+        // Patada al pulsar click derecho o la tecla que quieras
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            anim.SetTrigger("Kick");
+        }
 
         // Rota los disparos y al jugador a donde apunta el joystick derecho
         if (isMobile && aimInput.magnitude > aimThreshold)
@@ -170,9 +192,9 @@ public class PlayerController : MonoBehaviour
         else
         {
             ComprobarArma();
-        }            
+        }
 
-        // Click derecho: Empuje de zombies   
+        // Click derecho: Empuje de zombies
         if (Input.GetButtonDown("Fire2")) {
             TryShove();
         }
@@ -496,7 +518,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.isKinematic = false;
             rb.AddForce(transform.forward * throwForce, ForceMode.VelocityChange);
-        }        
+        }
 
         numDecoy--;
         ActualizarSeñueloUI();
@@ -541,7 +563,7 @@ public class PlayerController : MonoBehaviour
         if (stats != null)
         {
             fuerzaEmpuje *= stats.multiplicadorEmpuje;
-            dañoExtra = stats.dañoEmpuje;             
+            dañoExtra = stats.dañoEmpuje;
         }
 
         Vector3 direccion = (enemy.transform.position - transform.position).normalized;
