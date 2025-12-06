@@ -1,24 +1,32 @@
+using Unity.VisualScripting;
 using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using System.Collections;
 
 public class EnemyController : MonoBehaviour
 {
     public Transform target;           // Objetivo actual (jugador o señuelo)
-    public float speed = 3f;
-    public float damage = 10f;
+    public float speed;
+    public float damage;
+    public float ratioAtaque;
 
     private Rigidbody rb;
     private Transform player;          // Referencia permanente al jugador
     private Transform decoyTarget;     // Referencia al señuelo actual (si hay)
     private bool followingDecoy = false;
+
     private bool isStunned = false;
     private float originalSpeed;
 
     //Parámetros de Animación Enemigos
     public float velocidad;
     [SerializeField] public Animator zombiAnim;
-    
+    private float distancia;
+
+    private bool isAttacking = false; // bandera interna
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,24 +51,14 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (isStunned)
-        {
-            // En animaciones mostramos idle
-            velocidad = 0;
-            zombiAnim.SetBool("Movimiento", false);
-            zombiAnim.SetBool("Ataque", false);
-            zombiAnim.ResetTrigger("AtacandoTrigger");
-            zombiAnim.SetTrigger("Idle");
-            return;
-        }
-
-        velocidad = rb.linearVelocity.magnitude; //Saber la velocidad del enemigo
         if (target == null) return;
 
+        velocidad = rb.linearVelocity.magnitude; //Saber la velocidad de movimiento
+        distancia = Vector3.Distance(transform.position, target.position); //Saber la distancia al objetivo
+
         // Dirección hacia el objetivo actual
-        //Vector3 direction = (target.position - transform.position).normalized;
         Vector3 direction = target.position - transform.position;
         direction.y = 0f; // Mantener movimiento en el plano horizontal
         direction.Normalize();
@@ -82,44 +80,51 @@ public class EnemyController : MonoBehaviour
             ResetTarget();
         }
 
-        if ( velocidad > 0.3f)
+        if (velocidad > 0.1f && distancia >= ratioAtaque)
         {
             zombiAnim.SetBool("Movimiento", true);
-            zombiAnim.ResetTrigger("Idle");
-            zombiAnim.ResetTrigger("AtacandoTrigger");
+            zombiAnim.SetBool("Ataque", false);
         }
-        else 
+        if (distancia < ratioAtaque)
         {
-            zombiAnim.SetBool("Movimiento", false);
-            
-            if(!zombiAnim.GetBool("Ataque"))
-                zombiAnim.SetTrigger("Idle");
+            newPosition = rb.position; // No se mueve
+            StartCoroutine(AttackRoutine());
+
+        }
+        else
+        {
+            zombiAnim.SetBool("Movimiento", true);
+            zombiAnim.SetBool("Ataque", false);
+            newPosition = rb.position + direction * speed * Time.fixedDeltaTime;
         }
     }
 
-    void OnCollisionStay(Collision collision)
-        {
-            // Solo puede dañar al jugador si no sigue un señuelo
-            if (collision.gameObject.CompareTag("Player") && !followingDecoy)
-            {
-               
-                PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
-                if (saludJugador != null)
-                {
-                    saludJugador.RecibirDaño(damage);
-                }
+    IEnumerator AttackRoutine()
+    {
 
-                zombiAnim.SetBool("Ataque", true);
-                zombiAnim.SetTrigger("AtacandoTrigger");
-                zombiAnim.ResetTrigger("Idle");
-                zombiAnim.SetBool("Movimiento", false);
-        }
-            else
+        zombiAnim.SetBool("Movimiento", false);
+        zombiAnim.SetBool("Ataque", true);
+
+        AnimatorStateInfo stateInfo = zombiAnim.GetCurrentAnimatorStateInfo(0);
+
+        // Duración normalizada: 1.0 equivale a todo el clip
+        float clipLength = stateInfo.length;
+        yield return new WaitForSeconds(stateInfo.length);
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        // Solo puede dañar al jugador si no sigue un señuelo
+        if (collision.gameObject.CompareTag("Player") && !followingDecoy)
+        {
+
+            PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
+            if (saludJugador != null)
             {
-                zombiAnim.SetBool("Ataque", false);
-                zombiAnim.ResetTrigger("AtacandoTrigger");
+                saludJugador.RecibirDaño(damage);
             }
         }
+    }
 
     // Llamado por el señuelo cuando aparece
     public void SetDecoyTarget(Transform decoy)

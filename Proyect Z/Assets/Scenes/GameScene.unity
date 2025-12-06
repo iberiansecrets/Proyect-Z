@@ -2351,8 +2351,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zombiesPrefab:
   - {fileID: 1682183930884348105, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
-  - {fileID: 8687749909253655505, guid: 1de398d6bf43a1643865242c4ca4cdab, type: 3}
-  - {fileID: 7846690003406591006, guid: bbb3780ec04a740458c90dbbb483282c, type: 3}
+  - {fileID: 3252983824783760535, guid: 57c5e32cc9aa175439ee5f4d5d268c0a, type: 3}
+  - {fileID: 4011342380962231938, guid: bbb3780ec04a740458c90dbbb483282c, type: 3}
   spawnInterval: 0.7
   maxZombiesSimultaneos: 32
   spawnPoints:
@@ -3372,7 +3372,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0f683e8131a7e224aa038be5ec576965, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 34ab4adc91958724c82ce904cada74da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3625,7 +3625,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1150010fa44ddb740bb6407ddd8051e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c8e9fac5104d9664ba0efbeacd124d3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
