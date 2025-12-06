@@ -40,6 +40,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void RecibirDaño(float cantidad)
     {
+        PlayerController player = GetComponent<PlayerController>();
+        if (player != null && player.isInvulnerable)
+            return;
+
         if (Time.time - tiempoUltimoDaño < cooldownDaño)
             return; // Cooldown
 

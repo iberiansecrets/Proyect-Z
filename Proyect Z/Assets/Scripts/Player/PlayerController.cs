@@ -61,13 +61,31 @@ public class PlayerController : MonoBehaviour
     public GameObject uiPistol;
     public GameObject uiShotgun;
     public GameObject uiRifle;
-    public GameObject uiSniper;
+    public GameObject uiSniper;    
 
     public TMPro.TMP_Text timerShotgunText;
     public TMPro.TMP_Text timerRifleText;
     public TMPro.TMP_Text timerSniperText;
 
     public bool isPaused = false;
+
+    [Header("Empuje (Hitbox)")]
+    public Vector3 shoveBoxSize = new Vector3(3f, 3f, 3f); // ancho, alto, largo
+    public float shoveCooldown = 0.8f;
+    public float shoveForce = 800f;
+    public string enemigoTag = "Enemy";
+
+    private float lastShoveTime;
+
+    [Header("Esquive / Dash")]
+    public float dashDistance = 6f;      // Distancia
+    public float dashDuration = 0.15f;  // Duracion
+    public float dashCooldown = 0.8f;   // Cooldown
+
+    private bool isDashing = false;
+    private float lastDashTime = -999f;
+
+    public bool isInvulnerable = false;
 
     void Start()
     {
@@ -88,22 +106,32 @@ public class PlayerController : MonoBehaviour
         ComprobarArma();
 
         // Click derecho: bala que empuja (con retardo)
-        if (Input.GetButtonDown("Fire2") && Time.time >= nextFireTime)
+        /*if (Input.GetButtonDown("Fire2") && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + pushFireDelay;
             Shoot(bulletPushPrefab);
+        }*/
+
+        if (Input.GetButtonDown("Fire2")) {
+            TryShove();
         }
 
         // Lanzamiento de señuelo
-        if(Input.GetKeyDown(KeyCode.G) && numDecoy > 0)
+        if (Input.GetKeyDown(KeyCode.G) && numDecoy > 0)
         {
             LanzarDecoy();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TryDash();
         }
     }
 
     void FixedUpdate()
     {
         if (isPaused) return;
+        if (isDashing) return;
 
         if (moveInput.magnitude > 0f)
         {
@@ -348,6 +376,100 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"Señuelo lanzado, ahora te quedan {numDecoy}");
     }
 
+    void TryShove()
+    {
+        if (Time.time < lastShoveTime + shoveCooldown)
+            return;
+
+        lastShoveTime = Time.time;
+
+        Vector3 boxCenter = transform.position + transform.forward * (shoveBoxSize.z * 0.5f);
+
+        Collider[] hits = Physics.OverlapBox(
+            boxCenter,
+            shoveBoxSize * 0.5f,
+            transform.rotation
+        );
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.CompareTag(enemigoTag))
+            {
+                EmpujarEnemigo(hit);
+            }
+        }
+    }
+
+    void EmpujarEnemigo(Collider enemy)
+    {
+        Rigidbody rb = enemy.attachedRigidbody;
+        if (rb == null)
+            return;
+
+        PlayerHealth stats = GetComponent<PlayerHealth>();
+
+        float fuerzaEmpuje = shoveForce;
+        float dañoExtra = 0f;
+
+        if (stats != null)
+        {
+            fuerzaEmpuje *= stats.multiplicadorEmpuje;
+            dañoExtra = stats.dañoEmpuje;             
+        }
+
+        Vector3 direccion = (enemy.transform.position - transform.position).normalized;
+
+        rb.AddForce(direccion * shoveForce, ForceMode.Impulse);
+
+        if (dañoExtra > 0f)
+        {
+            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+
+            if (enemyHealth != null)
+            {
+                int dañoInt = Mathf.CeilToInt(dañoExtra);
+
+                enemyHealth.RecibirDaño(dañoInt);
+            }
+        }
+
+        EnemyController enemyController = enemy.GetComponent<EnemyController>();
+        if (enemyController != null)
+        {
+            enemyController.Stun(1f);   // Aturdir durante 1 segundo
+        }
+    }
+
+    void TryDash()
+    {
+        if (isDashing) return;
+        if (Time.time < lastDashTime + dashCooldown) return;
+
+        lastDashTime = Time.time;
+
+        // Si el jugador no se está moviendo esquiva adelante
+        Vector3 dashDir = moveInput.magnitude > 0.1f
+            ? moveInput.normalized
+            : transform.forward;
+
+        StartCoroutine(DashRoutine(dashDir));
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+
+        Vector3 boxCenter = transform.position + transform.forward * (shoveBoxSize.z * 0.5f);
+
+        Gizmos.matrix = Matrix4x4.TRS(
+            boxCenter,
+            transform.rotation,
+            Vector3.one
+        );
+
+        Gizmos.DrawWireCube(Vector3.zero, shoveBoxSize);
+    }
+
     private IEnumerator ShotgunTimer()
     {
         float time = shotgunTimer;
@@ -388,6 +510,29 @@ public class PlayerController : MonoBehaviour
         }
 
         EquipPistol();
+    }
+
+    IEnumerator DashRoutine(Vector3 direction)
+    {
+        isDashing = true;
+        isInvulnerable = true;
+
+        float elapsed = 0f;
+        Vector3 startPos = rb.position;
+        Vector3 endPos = startPos + direction * dashDistance;
+
+        while (elapsed < dashDuration)
+        {
+            float t = elapsed / dashDuration;
+            rb.MovePosition(Vector3.Lerp(startPos, endPos, t));
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        rb.MovePosition(endPos);
+        isDashing = false;
+        isInvulnerable = false;
     }
 
     void PlayWeaponSound(AudioClip clip)
