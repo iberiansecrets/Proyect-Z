@@ -2332,8 +2332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zombiesPrefab:
   - {fileID: 1682183930884348105, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
-  - {fileID: 8687749909253655505, guid: 1de398d6bf43a1643865242c4ca4cdab, type: 3}
-  - {fileID: 7846690003406591006, guid: bbb3780ec04a740458c90dbbb483282c, type: 3}
+  - {fileID: 3252983824783760535, guid: 57c5e32cc9aa175439ee5f4d5d268c0a, type: 3}
+  - {fileID: 4011342380962231938, guid: bbb3780ec04a740458c90dbbb483282c, type: 3}
   spawnInterval: 0.7
   maxZombiesSimultaneos: 32
   spawnPoints:
