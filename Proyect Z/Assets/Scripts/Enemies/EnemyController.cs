@@ -1,4 +1,5 @@
 using Unity.VisualScripting;
+using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using System.Collections;
@@ -14,7 +15,9 @@ public class EnemyController : MonoBehaviour
     private Transform player;          // Referencia permanente al jugador
     private Transform decoyTarget;     // Referencia al señuelo actual (si hay)
     private bool followingDecoy = false;
-    
+
+    private bool isStunned = false;
+    private float originalSpeed;
 
     //Parámetros de Animación Enemigos
     public float velocidad;
@@ -27,7 +30,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+        originalSpeed = speed;
 
         if (rb != null)
         {
@@ -86,7 +89,7 @@ public class EnemyController : MonoBehaviour
         {
             newPosition = rb.position; // No se mueve
             StartCoroutine(AttackRoutine());
-            
+
         }
         else
         {
@@ -97,7 +100,7 @@ public class EnemyController : MonoBehaviour
     }
 
     IEnumerator AttackRoutine()
-    {       
+    {
 
         zombiAnim.SetBool("Movimiento", false);
         zombiAnim.SetBool("Ataque", true);
@@ -114,13 +117,13 @@ public class EnemyController : MonoBehaviour
         // Solo puede dañar al jugador si no sigue un señuelo
         if (collision.gameObject.CompareTag("Player") && !followingDecoy)
         {
-               
+
             PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
             if (saludJugador != null)
             {
                 saludJugador.RecibirDaño(damage);
             }
-        }            
+        }
     }
 
     // Llamado por el señuelo cuando aparece
@@ -137,5 +140,28 @@ public class EnemyController : MonoBehaviour
         followingDecoy = false;
         decoyTarget = null;
         target = player;
+    }
+
+    public void Stun(float duration)
+    {
+        if (!isStunned)
+            StartCoroutine(StunCoroutine(duration));
+    }
+
+    private IEnumerator StunCoroutine(float duration)
+    {
+        isStunned = true;
+
+        // Desactivar velocidad
+        speed = 0f;
+
+        // Optional: congelar movimiento físico
+        rb.linearVelocity = Vector3.zero;
+
+        yield return new WaitForSeconds(duration);
+
+        // Restablecer estado
+        isStunned = false;
+        speed = originalSpeed;
     }
 }
