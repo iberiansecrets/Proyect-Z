@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
     private Transform player;          // Referencia permanente al jugador
     private Transform decoyTarget;     // Referencia al señuelo actual (si hay)
     private bool followingDecoy = false;
-    
+
     private bool isStunned = false;
     private float originalSpeed;
 
@@ -89,7 +89,7 @@ public class EnemyController : MonoBehaviour
         {
             newPosition = rb.position; // No se mueve
             StartCoroutine(AttackRoutine());
-            
+
         }
         else
         {
@@ -100,7 +100,7 @@ public class EnemyController : MonoBehaviour
     }
 
     IEnumerator AttackRoutine()
-    {       
+    {
 
         zombiAnim.SetBool("Movimiento", false);
         zombiAnim.SetBool("Ataque", true);
@@ -117,13 +117,13 @@ public class EnemyController : MonoBehaviour
         // Solo puede dañar al jugador si no sigue un señuelo
         if (collision.gameObject.CompareTag("Player") && !followingDecoy)
         {
-               
+
             PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
             if (saludJugador != null)
             {
                 saludJugador.RecibirDaño(damage);
             }
-        }            
+        }
     }
 
     // Llamado por el señuelo cuando aparece
