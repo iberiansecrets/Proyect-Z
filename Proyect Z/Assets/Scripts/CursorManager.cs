@@ -9,14 +9,28 @@ public class CursorManager : MonoBehaviour
     [Header("Estado del cursor")]
     public bool useCrosshair = true;
 
+    [SerializeField]private bool isMobile;
+
     void Start()
     {
-        ActivarCrosshair();
+        //isMobile = Application.isMobilePlatform;
+
+        // En móvil nunca va a estar el crosshair personalizado
+        if (isMobile) 
+        {
+            DesactivarCrosshair();
+        }
+        else
+        {
+            ActivarCrosshair();
+        }
     }
 
     void Update()
     {
-        if (useCrosshair && crosshairImage != null)
+
+        // Se mueve SOLAMENTE si no estamos en móvil
+        if (!isMobile && useCrosshair && crosshairImage != null)
         {
             crosshairImage.rectTransform.position = Input.mousePosition;
         }
@@ -24,6 +38,9 @@ public class CursorManager : MonoBehaviour
 
     public void ActivarCrosshair()
     {
+        // Nunca activar en móvil
+        if (isMobile) return;
+
         Cursor.visible = false;
         useCrosshair = true;
 

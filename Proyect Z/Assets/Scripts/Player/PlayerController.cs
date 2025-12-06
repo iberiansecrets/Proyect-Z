@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using Terresquall;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -21,6 +23,9 @@ public class PlayerController : MonoBehaviour
     public bool isMobile; // Comprobar si está en modo "Móvil"
     private Vector3 aimInput; // Dirección del joystick de disparo
     private float aimThreshold = 0.3f; // Sensibilidad para apuntar/disparar
+    public GameObject dashButton; //Botón para dashear
+    public GameObject shoveButton; // Botón para empujar
+    public GameObject decoyButton; // Botón para señuelo
 
     public Transform bulletShot;               // Punto desde donde se dispara
 
@@ -74,6 +79,7 @@ public class PlayerController : MonoBehaviour
     public TMPro.TMP_Text timerShotgunText;
     public TMPro.TMP_Text timerRifleText;
     public TMPro.TMP_Text timerSniperText;
+    public TMP_Text decoyText;
 
     public bool isPaused = false;
 
@@ -100,19 +106,26 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
-        //isMobile = Application.isMobilePlatform;
+        ActualizarSeñueloUI();
+        isMobile = Application.isMobilePlatform;
 
         if (isMobile)
         {
             Debug.Log("Estamos en móvil");
             moveJoystick.SetActive(true);
             shootJoystick.SetActive(true);
+            shoveButton.SetActive(true);
+            dashButton.SetActive(true);
+            decoyButton.SetActive(true);
         }
         else
         {
             Debug.Log("Estamos en PC");
             moveJoystick.SetActive(false);
             shootJoystick.SetActive(false);
+            shoveButton.SetActive(false);
+            dashButton.SetActive(false);
+            decoyButton.SetActive(false);
         }
     }
 
@@ -216,6 +229,24 @@ public class PlayerController : MonoBehaviour
             if (currentGunPrefab == pistolBulletPrefab) PlayWeaponSound(pistolSFX);
             if (currentGunPrefab == rifleBulletPrefab) PlayWeaponSound(rifleSFX);
             if (currentGunPrefab == sniperBulletPrefab) PlayWeaponSound(sniperSFX);
+        }
+    }
+
+    public void ButtonDash()
+    {
+        TryDash();
+    }
+
+    public void ButtonShove()
+    {
+        TryShove();
+    }
+
+    public void ButtonDecoy()
+    {
+        if(numDecoy > 0)
+        {
+            LanzarDecoy();
         }
     }
 
@@ -437,8 +468,16 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Has recogido un señuelo.");
         numDecoy++;
+        ActualizarSeñueloUI();
     }
 
+    public void ActualizarSeñueloUI()
+    {
+        if(decoyText != null)
+        {
+            decoyText.text = $"Señuelos: {numDecoy}";
+        }
+    }
     public void LanzarDecoy()
     {
         if (decoyPrefab == null)
@@ -460,7 +499,7 @@ public class PlayerController : MonoBehaviour
         }        
 
         numDecoy--;
-
+        ActualizarSeñueloUI();
         Debug.Log($"Señuelo lanzado, ahora te quedan {numDecoy}");
     }
 
