@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text gameOverText;
     public TMP_Text rondaText; // Texto de la ronda actual en pantalla
     public TMP_Text timerText; // Texto del temporizador total
-    public Button returnButton;
+    public Button returnButton;    
+    public TMP_Text enemigosRestantesText; // Texto de enemigos restantes
 
     [Header("Rondas")]
     public int rondaActual = 1;
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
         "Velocidad",
         "Empuje",
         "Daño",
-        "Daño_Empuje"
+        "Daño de Empuje"
     };
 
     void Awake()
@@ -78,6 +79,8 @@ public class GameManager : MonoBehaviour
                 FinalizarJuego("¡Se acabó el tiempo!");
             }
         }
+
+        ActualizarEnemigosUI();
     }
 
     private void ActualizarTimerUI()
@@ -89,9 +92,19 @@ public class GameManager : MonoBehaviour
         timerText.text = $"{minutos:00}:{segundos:00}";
     }
 
+    private void ActualizarEnemigosUI()
+    {
+        if (enemigosRestantesText != null)
+        {
+            enemigosRestantesText.text = $"Zombies restantes: {enemigosRestantes/2}";
+        }            
+    }
+
     void IniciarRonda()
     {
         Debug.Log($"Iniciando ronda {rondaActual}");
+
+        ActualizarEnemigosUI();
 
         // Calcula la cantidad de enemigos en función de la dificultad
         enemigosRestantes = enemigosPorRonda;
@@ -176,7 +189,7 @@ public class GameManager : MonoBehaviour
             case "Daño":
                 playerHealth.AumentarDaño(1.2f);
                 break;
-            case "DañoEmpuje":
+            case "Daño de Empuje":
                 playerHealth.AumentarDañoEmpuje(5f);
                 break;
         }
@@ -195,6 +208,7 @@ public class GameManager : MonoBehaviour
         if (juegoTerminado || !rondaActiva) return;
 
         enemigosRestantes--;
+        ActualizarEnemigosUI();
         if (enemigosRestantes <= 0)
         {
             AcabarRonda();
@@ -205,6 +219,7 @@ public class GameManager : MonoBehaviour
     {
         if (juegoTerminado) return;
         enemigosRestantes++;
+        ActualizarEnemigosUI();
     }
 
     public void DesregistrarEnemigo(GameObject enemigo)
@@ -212,6 +227,7 @@ public class GameManager : MonoBehaviour
         if (juegoTerminado) return;
 
         enemigosRestantes--;
+        ActualizarEnemigosUI();
         if (enemigosRestantes <= 0 && rondaActiva)
         {
             AcabarRonda();

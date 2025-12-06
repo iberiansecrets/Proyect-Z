@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class PauseManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
+    public GameObject panelMejoras;
     private bool isPaused = false;
 
     public AudioSource musicManager;
@@ -21,6 +22,8 @@ public class PauseManager : MonoBehaviour
     {
         if (GameManager.Instance != null && GameManager.Instance.juegoTerminado)
             return;
+
+        if (panelMejoras.activeSelf) return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
