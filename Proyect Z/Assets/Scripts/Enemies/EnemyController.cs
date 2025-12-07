@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class EnemyController : MonoBehaviour
 
     private bool isStunned = false;
     private float originalSpeed;
+
+    // Navegación con NavMesh
+    private NavMeshAgent agent;
 
     //Parámetros de Animación Enemigos
     public float velocidad;
@@ -38,6 +42,21 @@ public class EnemyController : MonoBehaviour
             rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         }
 
+        // Agente NavMesh
+        agent = GetComponent<NavMeshAgent>();
+        if(agent == null)
+        {
+            agent = gameObject.AddComponent<NavMeshAgent>();
+        }
+
+        agent.updatePosition = false;
+        agent.updateRotation = false;
+        agent.speed = speed;
+        agent.radius = 0.4f;
+        agent.height = 2;
+        agent.acceleration = 999;
+        agent.angularSpeed = 720;
+
         // Busca al jugador al iniciar
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
@@ -55,13 +74,30 @@ public class EnemyController : MonoBehaviour
     {
         if (target == null) return;
 
-        velocidad = rb.linearVelocity.magnitude; //Saber la velocidad de movimiento
-        distancia = Vector3.Distance(transform.position, target.position); //Saber la distancia al objetivo
+        // Actualiza el destino del NavMesh (jugador o señuelo)
+        agent.SetDestination(target.position);
 
-        // Dirección hacia el objetivo actual
-        Vector3 direction = target.position - transform.position;
-        direction.y = 0f; // Mantener movimiento en el plano horizontal
-        direction.Normalize();
+        velocidad = rb.linearVelocity.magnitude;
+        distancia = Vector3.Distance(transform.position, target.position);
+
+        // Dirección usando NavMesh
+        Vector3 direction;
+
+        // steeringTarget = el siguiente punto del camino
+        Vector3 steering = agent.steeringTarget - transform.position;
+        steering.y = 0f;
+
+        if (steering.magnitude > 0.1f)
+        {
+            direction = steering.normalized;
+        }
+        else
+        {
+            // Si el NavMesh está muy cerca del punto, usa tu método antiguo
+            direction = (target.position - transform.position);
+            direction.y = 0f;
+            direction.Normalize();
+        }
 
         // Movimiento con física
         Vector3 newPosition = rb.position + direction * speed * Time.fixedDeltaTime;
