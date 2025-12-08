@@ -3,6 +3,7 @@ using UnityEngine;
 using Terresquall;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -132,7 +133,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
+    {        
         if (isPaused) return;
         float moveX = 0;
         float moveZ = 0;
@@ -171,7 +172,7 @@ public class PlayerController : MonoBehaviour
             anim.SetInteger("WeaponType", 1);
 
         // Patada al pulsar click derecho o la tecla que quieras
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetButtonDown("Fire2"))
         {
             anim.SetTrigger("Kick");
         }
@@ -697,4 +698,20 @@ public class PlayerController : MonoBehaviour
 
         objetoUI.SetActive(true);
     }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag("Obstacle"))
+        {
+            // Normal de la colisión (dirección hacia afuera del obstáculo)
+            Vector3 normal = collision.contacts[0].normal;
+
+            // Pequeño desplazamiento hacia afuera para evitar incrustarse
+            rb.MovePosition(rb.position + normal * 0.15f);
+
+            // Cancelar velocidad para evitar seguir presionando contra la pared
+            rb.linearVelocity = Vector3.zero;
+        }
+    }
+
 }
