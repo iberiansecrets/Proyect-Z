@@ -3,70 +3,76 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    public GameObject mainMenu;
+    public ParallaxNavigator navigator;
+
+    public RectTransform mainMenu;
+    public RectTransform credits;
+    public RectTransform tutorial;
+    public GameObject mainMenuObject;
     public GameObject settings;
     public GameObject shop;
-    public GameObject credits;
     public GameObject customization;
-    
+
     public void Play()
     {
         SceneManager.LoadScene("GameScene");
     }
 
-    public void ToggleSettings()
+    public void GoToSettings()
     {
-        if (mainMenu.activeSelf)
+        if (mainMenuObject.activeSelf)
         {
-            mainMenu.SetActive(false);
+            mainMenuObject.SetActive(false);
             settings.SetActive(true);
         }
         else
         {
-            mainMenu.SetActive(true);
+            mainMenuObject.SetActive(true);
             settings.SetActive(false);
         }
     }
 
-    public void ToggleShop()
+    public void GoToCustomization()
     {
-        if (mainMenu.activeSelf)
+        if (shop.activeSelf)
         {
-            mainMenu.SetActive(false);
-            shop.SetActive(true);
-        }
-        else
-        {
-            mainMenu.SetActive(true);
             shop.SetActive(false);
-        }
-    }
-
-    public void ToggleCredits()
-    {
-        if (mainMenu.activeSelf)
-        {
-            mainMenu.SetActive(false);
-            credits.SetActive(true);
-        }
-        else
-        {
-            mainMenu.SetActive(true);
-            credits.SetActive(false);
-        }
-    }    
-    
-    public void ToggleCustomization()
-    {
-        if (mainMenu.activeSelf)
-        {
-            mainMenu.SetActive(false);
             customization.SetActive(true);
         }
         else
         {
-            mainMenu.SetActive(true);
+            shop.SetActive(true);
             customization.SetActive(false);
         }
     }
+
+    public void GoToShop()
+    {
+        if (mainMenuObject.activeSelf)
+        {
+            mainMenuObject.SetActive(false);
+            shop.SetActive(true);
+        }
+        else
+        {
+            mainMenuObject.SetActive(true);
+            shop.SetActive(false);
+        }
+    }
+
+    public void GoToCredits()
+    {
+        navigator.MoveTo(credits);
+    }
+
+    public void GoToTutorial()
+    {
+        navigator.MoveTo(tutorial);
+    }
+
+    public void GoToMainMenu()
+    {
+        navigator.MoveTo(mainMenu);
+    }
 }
+

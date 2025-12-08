@@ -1,40 +1,51 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System;
+using UnityEngine;
 
 public class ParallaxScript : MonoBehaviour
 {
     RectTransform rectTransform;
-    Vector2 startPos;
+    RectTransform viewport;
     Vector2 maxOffset;
 
     [SerializeField] int moveModifier = 10;
     [SerializeField] float smoothness = 2f;
 
+    private bool isEffectActive = true;
+
+    private bool isMobile;
+
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
 
-        rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-        rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        rectTransform.anchoredPosition = Vector2.zero;
-        startPos = Vector2.zero;
+        // Buscar el parallax viewport más cercano
+        viewport = GetComponentInParent<ParallaxViewport>().GetComponent<RectTransform>();
 
-        Canvas canvas = GetComponentInParent<Canvas>();
-        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
-        CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();
+        isMobile = Application.isMobilePlatform;
 
+        // Calcular límites correctos por cada parallax
         Vector2 imageSize = GetWorldRect(rectTransform).size;
-        Vector2 canvasSize = GetWorldRect(canvasRect).size;
+        Vector2 viewportSize = GetWorldRect(viewport).size;
 
-        float marginX = Mathf.Max(0, (imageSize.x - canvasSize.x) / 2f);
-        float marginY = Mathf.Max(0, (imageSize.y - canvasSize.y) / 2f);
+        float marginX = Mathf.Max(0, (imageSize.x - viewportSize.x) / 2f);
+        float marginY = Mathf.Max(0, (imageSize.y - viewportSize.y) / 2f);
         maxOffset = new Vector2(marginX, marginY);
+
+        if (isMobile)
+        {
+            isEffectActive = false;
+        }
     }
 
     private void Update()
     {
-        Vector2 pz = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        if (!isEffectActive) return;
+
+        if (isMobile) return;
+
+        Vector2 inputPosition = Input.mousePosition;
+
+        Vector2 pz = Camera.main.ScreenToViewportPoint(inputPosition);
 
         float targetX = (pz.x - 0.5f) * moveModifier;
         float targetY = (pz.y - 0.5f) * moveModifier;
@@ -42,8 +53,18 @@ public class ParallaxScript : MonoBehaviour
         targetX = Mathf.Clamp(targetX, -maxOffset.x, maxOffset.x);
         targetY = Mathf.Clamp(targetY, -maxOffset.y, maxOffset.y);
 
-        Vector2 newPos = Vector2.Lerp(rectTransform.anchoredPosition, new Vector2(targetX, targetY), smoothness * Time.deltaTime);
+        Vector2 newPos = Vector2.Lerp(rectTransform.anchoredPosition,
+                                      new Vector2(targetX, targetY),
+                                      smoothness * Time.deltaTime);
+
         rectTransform.anchoredPosition = newPos;
+    }
+
+    public void SetParallaxActive(bool active)
+    {
+        if (isMobile) return;
+
+        isEffectActive = active;
     }
 
     Rect GetWorldRect(RectTransform rt)
