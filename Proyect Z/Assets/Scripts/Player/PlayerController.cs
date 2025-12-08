@@ -7,11 +7,12 @@ using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
-  [Header("Modelos de armas (hijos del weaponHolder)")]
-public GameObject pistolModel;
-public GameObject shotgunModel;
-public GameObject rifleModel;
-public GameObject sniperModel;
+    [Header("Modelos de armas (hijos del weaponHolder)")]
+    public GameObject pistolModel;
+    public GameObject shotgunModel;
+    public GameObject rifleModel;
+    public GameObject sniperModel;
+    
     [Header("Movimiento")]
     public float moveSpeed = 9f;
 
