@@ -3,9 +3,16 @@ using UnityEngine;
 using Terresquall;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Modelos de armas (hijos del weaponHolder)")]
+    public GameObject pistolModel;
+    public GameObject shotgunModel;
+    public GameObject rifleModel;
+    public GameObject sniperModel;
+    
     [Header("Movimiento")]
     public float moveSpeed = 9f;
 
@@ -171,7 +178,7 @@ public class PlayerController : MonoBehaviour
             anim.SetInteger("WeaponType", 1);
 
         // Patada al pulsar click derecho o la tecla que quieras
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetButtonDown("Fire2"))
         {
             anim.SetTrigger("Kick");
         }
@@ -439,12 +446,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Llamar cada vez que cambies de arma
+    void SetActiveWeapon(GameObject activeWeaponModel)
+    {
+        // Apagar todos
+        pistolModel.SetActive(false);
+        shotgunModel.SetActive(false);
+        rifleModel.SetActive(false);
+        sniperModel.SetActive(false);
+
+        // Encender el que corresponde
+        if(activeWeaponModel != null)
+            activeWeaponModel.SetActive(true);
+    }
+
     public void EquipPistol()
     {
         currentGunPrefab = pistolBulletPrefab;
         bulletSpeed = 25f;
         Debug.Log("Ahora tienes una pistola.");
 
+        SetActiveWeapon(pistolModel);
         MostrarUIArmaActual(uiPistol);
     }
 
@@ -452,11 +474,10 @@ public class PlayerController : MonoBehaviour
     {
         currentGunPrefab = shotgunBulletPrefab;
         bulletSpeed = 18f;
+        Debug.Log("Ahora tienes una escopeta.");
 
-        Debug.Log("Ahora tienes una escopeta");
-
+        SetActiveWeapon(shotgunModel);
         MostrarUIArmaActual(uiShotgun);
-
         StopAllCoroutines();
         StartCoroutine(ShotgunTimer());
     }
@@ -465,23 +486,22 @@ public class PlayerController : MonoBehaviour
     {
         currentGunPrefab = rifleBulletPrefab;
         bulletSpeed = 40f;
+        Debug.Log("Ahora tienes un fusil de asalto.");
 
-        Debug.Log("Ahora tienes un fusil de asalto");
-
+        SetActiveWeapon(rifleModel);
         MostrarUIArmaActual(uiRifle);
-
         StopAllCoroutines();
         StartCoroutine(RifleTimer());
     }
+
     public void EquipSniper()
     {
         currentGunPrefab = sniperBulletPrefab;
         bulletSpeed = 70f;
+        Debug.Log("Ahora tienes un rifle de francotirador.");
 
-        Debug.Log("Ahora tienes un rifle de francotirador");
-
+        SetActiveWeapon(sniperModel);
         MostrarUIArmaActual(uiSniper);
-
         StopAllCoroutines();
         StartCoroutine(SniperTimer());
     }
@@ -697,4 +717,20 @@ public class PlayerController : MonoBehaviour
 
         objetoUI.SetActive(true);
     }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag("Obstacle"))
+        {
+            // Normal de la colisión (dirección hacia afuera del obstáculo)
+            Vector3 normal = collision.contacts[0].normal;
+
+            // Pequeño desplazamiento hacia afuera para evitar incrustarse
+            rb.MovePosition(rb.position + normal * 0.15f);
+
+            // Cancelar velocidad para evitar seguir presionando contra la pared
+            rb.linearVelocity = Vector3.zero;
+        }
+    }
+
 }
