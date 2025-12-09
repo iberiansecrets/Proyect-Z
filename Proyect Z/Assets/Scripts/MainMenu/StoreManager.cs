@@ -149,6 +149,7 @@ public class StoreManager : MonoBehaviour
     public void AbrirPanelMonedas()
     {
         panelSinMonedas.SetActive(false);
+        panelTienda.SetActive(false);
         panelMonedas.SetActive(true);
     }
 

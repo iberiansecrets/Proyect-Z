@@ -40,13 +40,19 @@ public class PlayerHealth : MonoBehaviour
 
     public void RecibirDaño(float cantidad)
     {
+
+        //GetComponent<ParticleSystem>().Play();
+
         PlayerController player = GetComponent<PlayerController>();
         if (player != null && player.isInvulnerable)
             return;
 
         if (Time.time - tiempoUltimoDaño < cooldownDaño)
+        {            
             return; // Cooldown
+        }
 
+        GetComponent<ParticleSystem>().Play();
         tiempoUltimoDaño = Time.time;
         vidaActual -= cantidad;
         vidaActual = Mathf.Clamp(vidaActual, 0, vidaMaxima);

@@ -177,12 +177,7 @@ public class PlayerController : MonoBehaviour
             anim.SetInteger("WeaponType", 0);
         else
             anim.SetInteger("WeaponType", 1);
-
-        // Patada al pulsar click derecho o la tecla que quieras
-        if (Input.GetButtonDown("Fire2"))
-        {
-            anim.SetTrigger("Kick");
-        }
+        
 
         // Rota los disparos y al jugador a donde apunta el joystick derecho
         if (isMobile && aimInput.magnitude > aimThreshold)
@@ -551,6 +546,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time < lastShoveTime + shoveCooldown)
             return;
 
+        anim.SetTrigger("Kick");
         lastShoveTime = Time.time;
 
         Vector3 boxCenter = transform.position + transform.forward * (shoveBoxSize.z * 0.5f);

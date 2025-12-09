@@ -24,6 +24,7 @@ public class EnemyHealth : MonoBehaviour
     {
         if (isDead) return; // Evita aplicar daño una vez muerto
 
+        GetComponent<ParticleSystem>().Play();
         vidaActual -= cantidad;
         Debug.Log($"{gameObject.name} recibió {cantidad} de daño. Vida restante: {vidaActual}");
 
