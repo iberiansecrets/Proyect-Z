@@ -115,6 +115,7 @@ public class PlayerController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         anim = GetComponentInChildren<Animator>();
         currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
+        SetActiveWeapon(pistolModel); // Empieza con pistola
         ActualizarSeñueloUI();
         isMobile = Application.isMobilePlatform;
 

@@ -69,7 +69,8 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (target == null) return;
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (target == null) target = playerObj.transform;
 
         // Actualiza el destino del NavMesh (jugador o señuelo)
         agent.SetDestination(target.position);
