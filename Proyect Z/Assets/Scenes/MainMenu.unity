@@ -11987,38 +11987,38 @@ MonoBehaviour:
     pageDescription: "Empezando por la pistola, esta se trata de tu arma inicial,
       y el arma que mantendras durante toda tu partida. \n\nTiene poco impacto y
       alcance medio, es ideal para empezar a cargarte a la horda."
-    videoFileName: Pistola.mp4
+    videoFileName: pistolaTUT.mp4
   - pageTitle: Escopeta
     pageDescription: "Siguiendo con la escopeta, esta se trata de un arma que dispara
       en un cono. \n\nTiene un impacto brutal en corta distancia, ideal para enemigos
       con mucha vida y que sean pesados."
-    videoFileName: Escopeta.mp4
+    videoFileName: escopetaTUT.mp4
   - pageTitle: Fusil de Asalto
     pageDescription: "Continuando con el fusil, este se trata de un arma con la que
       puedes disparar automaticamente. \n\nTiene impacto medio y un gran alcance,
       ideal para enfrentar a los zombies a una distancia segura."
-    videoFileName: Fusil.mp4
+    videoFileName: rifleTUT.mp4
   - pageTitle: Francotirador
     pageDescription: "Y acabando con el francotirador, este se trata de un arma que
       puede llegar a penetrar a los zombies. \n\nTiene un impacto descomunal y alcance
       extremo, pero con recarga lenta."
-    videoFileName: Francotirador.mp4
+    videoFileName: sniperTUT.mp4
   - pageTitle: Distractor
     pageDescription: "Pero esto no acaba aqui, tambien tendras herramientas como
       el distractor. \n\nSe trata de un dispositivo con el que puedes hacer que la
       horda se desoriente y pierda el control. \n\nLanzarlo atraera a los zombies
       y desviara su atencion del jugador.\n\nLanzalo con la tecla 'E' en Ordenador
       y con el boton en el movil."
-    videoFileName: Botiquin.mp4
+    videoFileName: "se\xF1ueloTUT.mp4"
   - pageTitle: Botiquin
     pageDescription: "Tambien hay ayudas como el botiquin, este se trata de unas
       vendas que pueden servir para cubrir tus heridas. \n\nSimplemente camina sobre
       el y te curara instantaneamente. No hace falta activarlo."
-    videoFileName: Botiquin.mp4
+    videoFileName: botiquinTUT.mp4
   - pageTitle: Pinchos
     pageDescription: "Pero cuidado, no todos los objetos del escenario son seguros.
       \n\nDebes evitar estos pinchos a toda costa si no quieres recibir un golpe."
-    videoFileName: Botiquin.mp4
+    videoFileName: pinchosTUT.mp4
   - pageTitle: Empuje
     pageDescription: 'Si te cansas de que te rodeen los zombies puedes probar a darles
       un empujon, aunque te puedes llevar un bocado.
@@ -12026,7 +12026,7 @@ MonoBehaviour:
 
       Usa el click derecho
       en ordenador y el boton de empuje en movil.'
-    videoFileName: Botiquin.mp4
+    videoFileName: patadaTUT.mp4
   - pageTitle: Esquiva
     pageDescription: 'Por ultimo, para poder evitar a todos todos estos peligros,
       puedes realizar una esquiva en cualquier direccion.
@@ -12034,7 +12034,7 @@ MonoBehaviour:
 
       Usa la tecla ''Espacio''
       en ordenador y el boton de esquiva en movil.'
-    videoFileName: Botiquin.mp4
+    videoFileName: esquiveTUT.mp4
   - pageTitle: Listo?
     pageDescription: "Asi como resumen rapido: \n\nCombina las armas segun la situacion,
       usa el distractor para escapar de una emboscada letal y no olvides recoger
