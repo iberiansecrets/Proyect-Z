@@ -101,7 +101,7 @@ MonoBehaviour:
   target: {fileID: 0}
   speed: 1.5
   damage: 5
-  ratioAtaque: 2
+  ratioAtaque: 3
   velocidad: 0
   zombiAnim: {fileID: 2584372986202342040}
 --- !u!114 &7025004980194262388
@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e3628d3a20adbb4dbbffed630255839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vidaMaxima: 30
+  vidaMaxima: 20
 --- !u!1001 &3439627303846748755
 PrefabInstance:
   m_ObjectHideFlags: 0
