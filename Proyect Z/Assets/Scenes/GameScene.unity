@@ -13563,7 +13563,7 @@ MonoBehaviour:
   rondaActual: 1
   enemigosPorRonda: 7
   dificultad: 1.3
-  maxRondas: 1
+  maxRondas: 10
   juegoTerminado: 0
   tiempoTotal: 600
   mejorasUI: {fileID: 1253263579}
