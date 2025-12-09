@@ -22,7 +22,7 @@ public class TutorialManager : MonoBehaviour
         public string pageTitle;
         [TextArea]
         public string pageDescription;
-        public VideoClip pageVideoClip;
+        public string videoFileName;
     }
 
     public List<TutorialPage> tutorialPages;
@@ -34,6 +34,9 @@ public class TutorialManager : MonoBehaviour
         if (videoPlayer != null)
         {
             videoPlayer.isLooping = true;
+            videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
+
+            videoPlayer.renderMode = VideoRenderMode.RenderTexture;
         }
 
         rightArrowButton.onClick.AddListener(NextPage);
@@ -59,6 +62,12 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    private void OnVideoPrepared(VideoPlayer vp)
+    {
+        vp.prepareCompleted -= OnVideoPrepared;
+        vp.Play();
+    }
+
     private void UpdatePage(int newIndex)
     {
         if (newIndex < 0 || newIndex >= tutorialPages.Count)
@@ -82,19 +91,21 @@ public class TutorialManager : MonoBehaviour
         // 2. Actualizar GIF
         if (videoPlayer != null)
         {
-            videoPlayer.clip = current.pageVideoClip;
+            videoPlayer.Stop();
+            videoPlayer.prepareCompleted -= OnVideoPrepared;
 
-            if (current.pageVideoClip != null)
+            if (!string.IsNullOrEmpty(current.videoFileName))
             {
-                // Si hay un clip, lo cargamos y reproducimos
+                string path = System.IO.Path.Combine(Application.streamingAssetsPath, current.videoFileName);
+                videoPlayer.url = path;
+
+                videoPlayer.prepareCompleted += OnVideoPrepared;
                 videoPlayer.Prepare();
-                videoPlayer.Play();
+
                 gifDisplay.gameObject.SetActive(true);
             }
             else
             {
-                // Si no hay clip (Pág 0 o Pág 7), paramos y ocultamos
-                videoPlayer.Stop();
                 gifDisplay.gameObject.SetActive(false);
             }
         }

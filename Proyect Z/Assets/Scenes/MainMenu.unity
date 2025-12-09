@@ -9735,48 +9735,48 @@ MonoBehaviour:
       acabar con las oleadas de zombies que se encuentran en tu camino. \n\nNo derrotarlos
       a tiempo o que ellos acaben contigo\u2026 Bueno, creo que te imaginas que es
       lo que ocurriria."
-    pageVideoClip: {fileID: 0}
+    videoFileName: 
   - pageTitle: Equipamiento
     pageDescription: "Sin embargo, recuerda que debes dar espectaculo a los fanaticos
       que se encuentran en El Coliseo, y para ello, vamos a hacer que tu estancia
       sea mas amigable\u2026"
-    pageVideoClip: {fileID: 0}
+    videoFileName: 
   - pageTitle: Pistola
     pageDescription: "Empezando por la pistola, esta se trata de tu arma inicial,
       y el arma que mantendras durante toda tu partida. \n\nTiene poco impacto y
       alcance medio, es ideal para empezar a cargarte a la horda."
-    pageVideoClip: {fileID: 32900000, guid: f1e78ce682549ff4486f0d66502dfffc, type: 3}
+    videoFileName: Pistola.mp4
   - pageTitle: Escopeta
     pageDescription: "Siguiendo con la escopeta, esta se trata de un arma que dispara
       en un cono. \n\nTiene un impacto brutal en corta distancia, ideal para enemigos
       con mucha vida y que sean pesados."
-    pageVideoClip: {fileID: 32900000, guid: c551fc099f582d44994e46810e820704, type: 3}
+    videoFileName: Escopeta.mp4
   - pageTitle: Fusil de Asalto
     pageDescription: "Continuando con el fusil, este se trata de un arma con la que
       puedes disparar automaticamente. \n\nTiene impacto medio y un gran alcance,
       ideal para enfrentar a los zombies a una distancia segura."
-    pageVideoClip: {fileID: 32900000, guid: c4cfe070b29b4e94d95eec0d4ef185b0, type: 3}
+    videoFileName: Fusil.mp4
   - pageTitle: Francotirador
     pageDescription: "Y acabando con el francotirador, este se trata de un arma que
       puede llegar a penetrar a los zombies. \n\nTiene un impacto descomunal y alcance
       extremo, pero con recarga lenta."
-    pageVideoClip: {fileID: 32900000, guid: 0815472fad597664ab1bc1a1d6010634, type: 3}
+    videoFileName: Francotirador.mp4
   - pageTitle: Distractor
     pageDescription: "Pero esto no acaba aqui, tambien tendras herramientas como
       el distractor. \n\nSe trata de un dispositivo con el que puedes hacer que la
       horda se desoriente y pierda el control. \n\nLanzarlo atraera a los zombies
       y desviara su atencion del jugador.\n\nLanzalo con la tecla 'E' en Ordenador
       y con el boton en el movil."
-    pageVideoClip: {fileID: 32900000, guid: 020d8d5da8d74ed4f9b38ac625ae4dc0, type: 3}
+    videoFileName: Botiquin.mp4
   - pageTitle: Botiquin
     pageDescription: "Tambien hay ayudas como el botiquin, este se trata de unas
       vendas que pueden servir para cubrir tus heridas. \n\nSimplemente camina sobre
       el y te curara instantaneamente. No hace falta activarlo."
-    pageVideoClip: {fileID: 32900000, guid: 020d8d5da8d74ed4f9b38ac625ae4dc0, type: 3}
+    videoFileName: Botiquin.mp4
   - pageTitle: Pinchos
     pageDescription: "Pero cuidado, no todos los objetos del escenario son seguros.
       \n\nDebes evitar estos pinchos a toda costa si no quieres recibir un golpe."
-    pageVideoClip: {fileID: 32900000, guid: 020d8d5da8d74ed4f9b38ac625ae4dc0, type: 3}
+    videoFileName: Botiquin.mp4
   - pageTitle: Empuje
     pageDescription: 'Si te cansas de que te rodeen los zombies puedes probar a darles
       un empujon, aunque te puedes llevar un bocado.
@@ -9784,7 +9784,7 @@ MonoBehaviour:
 
       Usa el click derecho
       en ordenador y el boton de empuje en movil.'
-    pageVideoClip: {fileID: 32900000, guid: 020d8d5da8d74ed4f9b38ac625ae4dc0, type: 3}
+    videoFileName: Botiquin.mp4
   - pageTitle: Esquiva
     pageDescription: 'Por ultimo, para poder evitar a todos todos estos peligros,
       puedes realizar una esquiva en cualquier direccion.
@@ -9792,13 +9792,13 @@ MonoBehaviour:
 
       Usa la tecla ''Espacio''
       en ordenador y el boton de esquiva en movil.'
-    pageVideoClip: {fileID: 32900000, guid: 020d8d5da8d74ed4f9b38ac625ae4dc0, type: 3}
+    videoFileName: Botiquin.mp4
   - pageTitle: Listo?
     pageDescription: "Asi como resumen rapido: \n\nCombina las armas segun la situacion,
       usa el distractor para escapar de una emboscada letal y no olvides recoger
       los botiquines para sobrevivir m\xE1s tiempo.\r\n\r\nEstas preparado? La horda
       ya viene!"
-    pageVideoClip: {fileID: 0}
+    videoFileName: 
 --- !u!4 &1187882090
 Transform:
   m_ObjectHideFlags: 0
