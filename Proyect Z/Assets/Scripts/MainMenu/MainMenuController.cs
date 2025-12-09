@@ -13,6 +13,14 @@ public class MainMenuController : MonoBehaviour
     public GameObject shop;
     public GameObject customization;
 
+    public void Awake()
+    {
+        mainMenuObject.SetActive(true);
+        settings.SetActive(false);
+        shop.SetActive(false);
+        customization.SetActive(false);
+    }
+
     public void Play()
     {
         SceneManager.LoadScene("GameScene");
