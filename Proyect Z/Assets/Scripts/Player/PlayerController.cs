@@ -84,9 +84,9 @@ public class PlayerController : MonoBehaviour
     public GameObject uiRifle;
     public GameObject uiSniper;
 
-    public TMPro.TMP_Text timerShotgunText;
-    public TMPro.TMP_Text timerRifleText;
-    public TMPro.TMP_Text timerSniperText;
+    public TMP_Text timerShotgunText;
+    public TMP_Text timerRifleText;
+    public TMP_Text timerSniperText;
     public TMP_Text decoyText;
 
     public bool isPaused = false;
@@ -517,7 +517,7 @@ public class PlayerController : MonoBehaviour
     {
         if(decoyText != null)
         {
-            decoyText.text = $"Señuelos: {numDecoy}";
+            decoyText.text = $"{numDecoy}";
         }
     }
     public void LanzarDecoy()

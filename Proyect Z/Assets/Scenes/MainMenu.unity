@@ -9765,7 +9765,7 @@ MonoBehaviour:
     pageDescription: "Pero esto no acaba aqui, tambien tendras herramientas como
       el distractor. \n\nSe trata de un dispositivo con el que puedes hacer que la
       horda se desoriente y pierda el control. \n\nLanzarlo atraera a los zombies
-      y desviara su atencion del jugador.\n\nLanzalo con la tecla G en Ordenador
+      y desviara su atencion del jugador.\n\nLanzalo con la tecla 'E' en Ordenador
       y con el boton en el movil."
     pageVideoClip: {fileID: 32900000, guid: 020d8d5da8d74ed4f9b38ac625ae4dc0, type: 3}
   - pageTitle: Botiquin
@@ -9777,12 +9777,20 @@ MonoBehaviour:
     pageDescription: "Pero cuidado, no todos los objetos del escenario son seguros.
       \n\nDebes evitar estos pinchos a toda costa si no quieres recibir un golpe."
     pageVideoClip: {fileID: 32900000, guid: 020d8d5da8d74ed4f9b38ac625ae4dc0, type: 3}
+  - pageTitle: Empuje
+    pageDescription: 'Si te cansas de que te rodeen los zombies puedes probar a darles
+      un empujon, aunque te puedes llevar un bocado.
+
+
+      Usa el click derecho
+      en ordenador y el boton de empuje en movil.'
+    pageVideoClip: {fileID: 32900000, guid: 020d8d5da8d74ed4f9b38ac625ae4dc0, type: 3}
   - pageTitle: Esquiva
     pageDescription: 'Por ultimo, para poder evitar a todos todos estos peligros,
       puedes realizar una esquiva en cualquier direccion.
 
 
-      Usa la tecla shift
+      Usa la tecla ''Espacio''
       en ordenador y el boton de esquiva en movil.'
     pageVideoClip: {fileID: 32900000, guid: 020d8d5da8d74ed4f9b38ac625ae4dc0, type: 3}
   - pageTitle: Listo?

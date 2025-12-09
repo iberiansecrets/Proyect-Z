@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour
         "Salud",
         "Velocidad",
         "Empuje",
-        "Daño",
-        "Daño de Empuje"
+        "Impacto",
+        "Impacto de Empuje"
     };
 
     void Awake()
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             {
                 tiempoTotal = 0;
                 temporizadorActivo = false;
-                FinalizarJuego("¡Se acabó el tiempo!");
+                FinalizarJuego("Se acabo el tiempo!");
             }
         }
 
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
         // Si se completan todas las rondas, el jugador gana
         if (rondaActual >= maxRondas)
         {
-            FinalizarJuego("¡Has ganado!");
+            FinalizarJuego("Has ganado!");
             return;
         }
 
@@ -186,10 +186,10 @@ public class GameManager : MonoBehaviour
             case "Empuje":
                 playerHealth.AumentarEmpuje(1.2f);
                 break;
-            case "Daño":
+            case "Impacto":
                 playerHealth.AumentarDaño(1.2f);
                 break;
-            case "Daño de Empuje":
+            case "Impacto de Empuje":
                 playerHealth.AumentarDañoEmpuje(5f);
                 break;
         }
