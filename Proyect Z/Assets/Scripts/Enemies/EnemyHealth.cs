@@ -7,6 +7,10 @@ public class EnemyHealth : MonoBehaviour
     private float vidaActual;
     private bool isDead = false;
 
+    [Header("Cooldown daño de alambre")]
+    public float cooldownDañoAlambre = 1f;
+    private float tiempoUltimoDañoAlambre = -999f;
+
     // Evento para notificar la muerte (utilizado por el EnemiesSpawner)
     public delegate void DeathEvent();
     public event DeathEvent onDeath;
@@ -24,6 +28,24 @@ public class EnemyHealth : MonoBehaviour
         Debug.Log($"{gameObject.name} recibió {cantidad} de daño. Vida restante: {vidaActual}");
 
         if (vidaActual <= 0f)
+        {
+            Morir();
+        }
+    }
+
+    public void RecibirDañoAlambre(int cantidad)
+    {
+        if (isDead) return;
+
+        if (Time.time - tiempoUltimoDañoAlambre < cooldownDañoAlambre)
+            return;
+
+        tiempoUltimoDañoAlambre = Time.time;
+
+        vidaActual -= cantidad;
+        Debug.Log($"{gameObject.name} recibió {cantidad} de daño por alambre. Vida restante: {vidaActual}");
+
+        if (vidaActual <= 0)
         {
             Morir();
         }

@@ -48,7 +48,7 @@ public class WireSlow : MonoBehaviour
         EnemyHealth eh = other.GetComponent<EnemyHealth>();
         if (eh != null)
         {
-            eh.RecibirDaño(Mathf.CeilToInt(damagePerSecond * Time.deltaTime));
+            eh.RecibirDañoAlambre(Mathf.CeilToInt(damagePerSecond * Time.deltaTime));
         }
     }
 
