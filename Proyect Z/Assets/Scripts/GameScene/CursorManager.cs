@@ -13,7 +13,7 @@ public class CursorManager : MonoBehaviour
 
     void Start()
     {
-        //isMobile = Application.isMobilePlatform;
+        isMobile = Application.isMobilePlatform;
 
         // En móvil nunca va a estar el crosshair personalizado
         if (isMobile) 
