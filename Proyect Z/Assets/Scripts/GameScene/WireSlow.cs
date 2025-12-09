@@ -41,7 +41,7 @@ public class WireSlow : MonoBehaviour
         PlayerHealth ph = other.GetComponent<PlayerHealth>();
         if (ph != null)
         {
-            ph.RecibirDaño(damagePerSecond * Time.deltaTime);
+            ph.RecibirDaño(damagePerSecond);
             return;
         }
 
