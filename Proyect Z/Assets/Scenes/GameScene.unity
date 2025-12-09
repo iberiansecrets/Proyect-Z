@@ -11191,6 +11191,7 @@ GameObject:
   - component: {fileID: 1132051716}
   - component: {fileID: 1132051718}
   - component: {fileID: 1132051717}
+  - component: {fileID: 1132051719}
   m_Layer: 5
   m_Name: Vial
   m_TagString: Untagged
@@ -11255,6 +11256,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132051715}
   m_CullTransparentMesh: 1
+--- !u!114 &1132051719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132051715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 060dde1b8a6ecc240b66b6af6db60d1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pantallaFin: {fileID: 1132051717}
+  victoriaSprite: {fileID: 21300000, guid: 8d83cda00e9d4024d9bf4b75893e71dd, type: 3}
+  derrotaSprite: {fileID: 21300000, guid: 05d9f5cb307082c45b27289c94e98878, type: 3}
 --- !u!1 &1144431546
 GameObject:
   m_ObjectHideFlags: 0
@@ -13547,7 +13563,7 @@ MonoBehaviour:
   rondaActual: 1
   enemigosPorRonda: 7
   dificultad: 1.3
-  maxRondas: 10
+  maxRondas: 1
   juegoTerminado: 0
   tiempoTotal: 600
   mejorasUI: {fileID: 1253263579}

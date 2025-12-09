@@ -8,16 +8,18 @@ public class StoreManager : MonoBehaviour
     public int monedasZ = 0;
 
     [Header("Precios de los trajes")]
-    public int personajeRojo = 1000;
-    public int personajeAzul = 2000;
-    public int personajeRosa = 5000;
+    public int pistolaPlata = 1000;
+    public int pistolaOro = 2000;
+    public int escopetaPlata = 5000;
+    public int escopetaOro = 8000;
 
-    public bool rojoComprado = false;
-    public bool azulComprado = false;
-    public bool rosaComprado = false;
+    public bool pistolaPlataComprada = false;
+    public bool pistolaOroComprada = false;
+    public bool escopetaPlataComprada = false;
+    public bool escopetaOroComprada = false;
 
     public int precioSeleccionado = 0;
-    private string trajeSeleccionado = "";
+    private string armaSeleccionada = "";
 
     [Header("Precios de las recargas")]
     public int monedas500 = 500;
@@ -46,62 +48,87 @@ public class StoreManager : MonoBehaviour
     public TMP_Text textoSinMonedas;
     public TMP_Text textoSaldo;
 
+    [Header("Imagen de preview")]
+    public Image imagenPreview;
+    public Sprite pistolaPlataSprite;
+    public Sprite pistolaOroSprite;
+    public Sprite escopetaPlataSprite;
+    public Sprite escopetaOroSprite;
+
     void Start()
     {
         monedasZ = PlayerPrefs.GetInt("MonedasZ", 0);
 
-        rojoComprado = PlayerPrefs.GetInt("Traje_Rojo", 0) == 1;
-        azulComprado = PlayerPrefs.GetInt("Traje_Azul", 0) == 1;
-        rosaComprado = PlayerPrefs.GetInt("Traje_Rosa", 0) == 1;
+        pistolaPlataComprada = PlayerPrefs.GetInt("Arma_PistolaPlata", 0) == 1;
+        pistolaOroComprada = PlayerPrefs.GetInt("Arma_PistolaOro", 0) == 1;
+        escopetaPlataComprada = PlayerPrefs.GetInt("Arma_EscopetaPlata", 0) == 1;
+        escopetaOroComprada = PlayerPrefs.GetInt("Arma_EscopetaOro", 0) == 1;
     }    
 
-    public void SeleccionarTraje(string nombreTraje)
+    public void SeleccionarArma(string nombreArma)
     {
-        trajeSeleccionado = nombreTraje;
+        armaSeleccionada = nombreArma;
 
-        switch (nombreTraje)
+        switch (nombreArma)
         {
-            case "Rojo":
-                if (rojoComprado)
+            case "PistolaPlata":
+                if (pistolaPlataComprada)
                 {
                     textoMonedas.text = "Comprado";
+                    imagenPreview.sprite = pistolaPlataSprite;
                     return;
                 }                
-                precioSeleccionado = personajeRojo; 
+                precioSeleccionado = pistolaPlata;
+                imagenPreview.sprite = pistolaPlataSprite;
                 break;
-            case "Azul":
-                if (azulComprado)
+            case "PistolaOro":
+                if (pistolaOroComprada)
                 {
                     textoMonedas.text = "Comprado";
+                    imagenPreview.sprite = pistolaOroSprite;
                     return;
                 }
-                precioSeleccionado = personajeAzul;
+                precioSeleccionado = pistolaOro;
+                imagenPreview.sprite = pistolaOroSprite;
                 break;
-            case "Rosa":
-                if (rosaComprado)
+            case "EscopetaPlata":
+                if (escopetaPlataComprada)
                 {
                     textoMonedas.text = "Comprado";
+                    imagenPreview.sprite = escopetaPlataSprite;
                     return;
                 }
-                precioSeleccionado = personajeRosa;
+                precioSeleccionado = escopetaPlata;
+                imagenPreview.sprite = escopetaPlataSprite;
+                break;
+            case "EscopetaOro":
+                if (escopetaOroComprada)
+                {
+                    textoMonedas.text = "Comprado";
+                    imagenPreview.sprite = escopetaOroSprite;
+                    return;
+                }
+                precioSeleccionado = escopetaOro;
+                imagenPreview.sprite = escopetaOroSprite;
                 break;
         }
-        textoMonedas.text = $"{precioSeleccionado} monedas";
+        textoMonedas.text = $"{precioSeleccionado} Monedas Z";
     }
 
-    public void ComprarTraje()
+    public void ComprarArma()
     {
         if (precioSeleccionado == 0)
         {
-            Debug.Log("No se ha seleccionado traje");
+            Debug.Log("No se ha seleccionado un arma");
             return;
         }
 
-        switch (trajeSeleccionado)
+        switch (armaSeleccionada)
         {
-            case "Rojo": if (rojoComprado) return; ; break;
-            case "Azul": if (azulComprado) return; ; break;
-            case "Rosa": if (rosaComprado) return; ; break;
+            case "PistolaPlata": if (pistolaPlataComprada) return; break;
+            case "PistolaOro": if (pistolaOroComprada) return; break;
+            case "EscopetaPlata": if (escopetaPlataComprada) return; break;
+            case "EscopetaOro": if (escopetaOroComprada) return; break;
         }
 
         if (monedasZ >= precioSeleccionado)
@@ -120,29 +147,30 @@ public class StoreManager : MonoBehaviour
     {
         monedasZ -= precioSeleccionado;
 
-        switch (trajeSeleccionado)
+        switch (armaSeleccionada)
         {
-            case "Rojo":
-                rojoComprado = true;
-                PlayerPrefs.SetInt("Traje_Rojo", 1);
+            case "PistolaPlata":
+                pistolaPlataComprada = true;
+                PlayerPrefs.SetInt("Arma_PistolaPlata", 1);
                 break;
-
-            case "Azul":
-                azulComprado = true;
-                PlayerPrefs.SetInt("Traje_Azul", 1);
+            case "PistolaOro":
+                pistolaOroComprada = true;
+                PlayerPrefs.SetInt("Arma_PistolaOro", 1);
                 break;
-
-            case "Rosa":
-                rosaComprado = true;
-                PlayerPrefs.SetInt("Traje_Rosa", 1);
+            case "EscopetaPlata":
+                escopetaPlataComprada = true;
+                PlayerPrefs.SetInt("Arma_EscopetaPlata", 1);
+                break;
+            case "EscopetaOro":
+                escopetaOroComprada = true;
+                PlayerPrefs.SetInt("Arma_EscopetaOro", 1);
                 break;
         }
 
         PlayerPrefs.SetInt("MonedasZ", monedasZ);
-        PlayerPrefs.SetInt("Traje_" + trajeSeleccionado, 1);
         PlayerPrefs.Save();
 
-        Debug.Log("Se ha comprado el traje " + trajeSeleccionado);
+        textoMonedas.text = "Comprado";
         CerrarConfirmar();
     }
 
@@ -164,7 +192,7 @@ public class StoreManager : MonoBehaviour
             case "2500": saldoSeleccionado = pack2500; break;
             case "5000": saldoSeleccionado = pack5000; break;
         }
-        textoSaldo.text = $"{saldoSeleccionado}€";
+        textoSaldo.text = $"Precio: {saldoSeleccionado}€";
     }   
 
     public void ComprarPackMonedas()

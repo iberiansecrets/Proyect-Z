@@ -255,6 +255,13 @@ public class GameManager : MonoBehaviour
             gameOverText.text = mensaje;
         }
 
+        var vialChanger = FindObjectOfType<VialChanger>();
+        if (vialChanger != null)
+        {
+            bool victoria = mensaje == "Has ganado!";
+            vialChanger.MostrarResultado(victoria);
+        }
+
         var cursorManager = FindObjectOfType<CursorManager>();
         if (cursorManager != null)
             cursorManager.DesactivarCrosshair();
