@@ -10,15 +10,13 @@ public class MainMenuController : MonoBehaviour
     public RectTransform tutorial;
     public GameObject mainMenuObject;
     public GameObject settings;
-    public GameObject shop;
-    public GameObject customization;
+    public GameObject shop;   
 
     public void Awake()
     {
         mainMenuObject.SetActive(true);
         settings.SetActive(false);
-        shop.SetActive(false);
-        customization.SetActive(false);
+        shop.SetActive(false);        
     }
 
     public void Play()
@@ -38,21 +36,7 @@ public class MainMenuController : MonoBehaviour
             mainMenuObject.SetActive(true);
             settings.SetActive(false);
         }
-    }
-
-    public void GoToCustomization()
-    {
-        if (shop.activeSelf)
-        {
-            shop.SetActive(false);
-            customization.SetActive(true);
-        }
-        else
-        {
-            shop.SetActive(true);
-            customization.SetActive(false);
-        }
-    }
+    }    
 
     public void GoToShop()
     {
