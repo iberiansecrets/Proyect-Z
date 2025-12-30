@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 537612682750426959}
   - component: {fileID: 4212909164696524172}
   - component: {fileID: 3770036970382884869}
+  - component: {fileID: 3242534980646770881}
+  - component: {fileID: 4455101989045696313}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -149,11 +151,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6194605335806130593}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roamSpeed: 2
+  roamMoveTime: 2
+  roamWaitTime: 5
   target: {fileID: 0}
   speed: 3
   damage: 10
@@ -186,7 +191,7 @@ MonoBehaviour:
   viewAngle: 90
   targetMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
@@ -302,3 +307,173 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &3242534980646770881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194605335806130593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  _eventHandler:
+    debugStatusChanges: 0
+    identifier: 
+  data:
+    graphs:
+    - name: zombieFSM
+      id: 0783d626-835e-43fd-857c-5bb9f9f7682f
+      graph:
+        rid: 5549429344726941755
+      nodes:
+      - name: Roaming
+        id: 1e4644b6-c901-4d8e-bd30-16d29c814995
+        position: {x: 244, y: 346}
+        node:
+          rid: 5549429344726941760
+        references:
+        - fieldName: Action
+          value:
+            rid: 5549429348290003007
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - a28293ef-e9e7-4126-a352-0e57a9370a23
+        childIds:
+        - 4d120fbb-7f97-4525-b697-5c467c27a62a
+      - name: Chasing
+        id: e8371bde-6271-496d-9436-d19128ec9ae5
+        position: {x: 579, y: 47}
+        node:
+          rid: 5549429344726941761
+        references:
+        - fieldName: Action
+          value:
+            rid: 5549429348290003008
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 4d120fbb-7f97-4525-b697-5c467c27a62a
+        childIds:
+        - a28293ef-e9e7-4126-a352-0e57a9370a23
+      - name: CanSeePlayer
+        id: 4d120fbb-7f97-4525-b697-5c467c27a62a
+        position: {x: 588, y: 341}
+        node:
+          rid: 5549429348290003009
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 1e4644b6-c901-4d8e-bd30-16d29c814995
+        childIds:
+        - e8371bde-6271-496d-9436-d19128ec9ae5
+      - name: CannotSeePlayer
+        id: a28293ef-e9e7-4126-a352-0e57a9370a23
+        position: {x: 252, y: 30}
+        node:
+          rid: 5549429348290003011
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - e8371bde-6271-496d-9436-d19128ec9ae5
+        childIds:
+        - 1e4644b6-c901-4d8e-bd30-16d29c814995
+    pushPerceptions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5549429344726941755
+      type: {class: FSM, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 5549429344726941760
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 5549429344726941761
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 5549429348290003007
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: EnemyActions
+          methodName: EnterRoaming
+        update:
+          componentName: EnemyActions
+          methodName: TickRoaming
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 5549429348290003008
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: EnemyActions
+          methodName: TickChasing
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 5549429348290003009
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 2
+    - rid: 5549429348290003011
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 4
+--- !u!114 &4455101989045696313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194605335806130593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 501a1fa32adad444083f61e3986b420c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  roamSpeed: 2
+  roamMoveTime: 2
+  roamWaitTime: 5
+  chaseSpeed: 3
