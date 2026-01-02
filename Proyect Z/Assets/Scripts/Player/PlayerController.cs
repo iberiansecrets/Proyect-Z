@@ -6,6 +6,13 @@ public class PlayerController : MonoBehaviour
     [Header("Movimiento")]
     public float moveSpeed = 9f;
 
+    [Header("Sonido")]
+    //private SoundEmitter soundEmitter;
+    private NoiseEmitter noiseEmitter;
+    public float footstepInterval = 0.45f;
+
+    private float footstepTimer;
+
     [Header("Prefabs")]
     public GameObject pistolBulletPrefab;      // Bala normal (click izquierdo)
     public GameObject shotgunBulletPrefab;     // Balas de escopeta
@@ -40,6 +47,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        noiseEmitter = GetComponent<NoiseEmitter>();
         currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
     }
 
@@ -66,6 +74,13 @@ public class PlayerController : MonoBehaviour
         {
             Vector3 movimiento = moveInput * moveSpeed * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + movimiento);
+
+            footstepTimer -= Time.fixedDeltaTime;
+            if (footstepTimer <= 0f)
+            {
+                noiseEmitter.EmitNoise(SoundType.Footstep);
+                footstepTimer = footstepInterval;
+            }
         }
     }
 
@@ -109,6 +124,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void EmitWeaponSound(GameObject prefab)
+    {
+        if (noiseEmitter == null) return;
+
+        if (prefab == pistolBulletPrefab)
+            noiseEmitter.EmitNoise(SoundType.Pistol);
+        else if (prefab == rifleBulletPrefab)
+            noiseEmitter.EmitNoise(SoundType.Rifle);
+        else if (prefab == shotgunBulletPrefab)
+            noiseEmitter.EmitNoise(SoundType.Shotgun);
+        else if (prefab == sniperBulletPrefab)
+            noiseEmitter.EmitNoise(SoundType.Sniper);
+    }
+
+
     void Shoot(GameObject prefab)
     {
         if (prefab == null || bulletShot == null)
@@ -128,6 +158,8 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogWarning("El prefab de bala no tiene Rigidbody.");
         }
+
+        EmitWeaponSound(prefab);
     }
 
     void ShootShotgun()
@@ -145,6 +177,7 @@ public class PlayerController : MonoBehaviour
                 rbBala.linearVelocity = bala.transform.forward * bulletSpeed;
             }
         }
+        EmitWeaponSound(shotgunBulletPrefab);
     }
 
 

@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         if (returnButton != null)
             returnButton.onClick.AddListener(VolverAlMenu);
 
-        IniciarRonda(); // Inicia la primera ronda
+        //IniciarRonda(); // Inicia la primera ronda
     }
 
     void Update()
@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
         timerText.text = $"{minutos:00}:{segundos:00}";
     }
 
-    void IniciarRonda()
+    /*void IniciarRonda()
     {
         Debug.Log($"Iniciando ronda {rondaActual}");
 
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         rondaActiva = true;
         juegoTerminado = false;
         temporizadorActivo = true;
-    }
+    }*/
 
     void AcabarRonda()
     {
@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         rondaActual++;
-        IniciarRonda();
+        //IniciarRonda();
     }
 
     // Llamado desde EnemyHealth al morir

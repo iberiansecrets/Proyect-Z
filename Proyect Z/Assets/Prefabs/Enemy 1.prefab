@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8630005366983479084}
   - component: {fileID: 5264683309477498494}
   - component: {fileID: 8881246742987631460}
+  - component: {fileID: 3957008782528990057}
   m_Layer: 7
   m_Name: Enemy 1
   m_TagString: Enemy
@@ -154,6 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roamSpeed: 2
+  roamMoveTime: 2
+  roamWaitTime: 5
   target: {fileID: 0}
   speed: 2
   damage: 15
@@ -302,3 +306,26 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &3957008782528990057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929835613075624577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6b232ed5d567eb4797087ed11e9ac65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  _eventHandler:
+    debugStatusChanges: 0
+    identifier: 
+  data:
+    graphs: []
+    pushPerceptions: []
+  references:
+    version: 2
+    RefIds: []
