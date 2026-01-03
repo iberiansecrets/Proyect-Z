@@ -626,6 +626,14 @@ PrefabInstance:
       propertyPath: managedReferences[2287897920143622225].check.componentName
       value: ZombieFSMEditorRunner
       objectReference: {fileID: 0}
+    - target: {fileID: 7528732246096522735, guid: 8afaeda663c1c87408eaa39a8db0a736, type: 3}
+      propertyPath: data.graphs.Array.data[0].nodes.Array.data[5].childIds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7528732246096522735, guid: 8afaeda663c1c87408eaa39a8db0a736, type: 3}
+      propertyPath: data.graphs.Array.data[0].nodes.Array.data[0].parentIds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

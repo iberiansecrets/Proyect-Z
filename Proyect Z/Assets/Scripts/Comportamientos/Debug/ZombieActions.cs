@@ -42,6 +42,7 @@ public class ZombieActions : MonoBehaviour
     // Investigate
     private Vector3 investigateTarget = Vector3.zero;      // posición original del sonido (centro de emisión)
     private Vector3 investigateNavTarget = Vector3.zero;   // punto sobre NavMesh alcanzable
+    private float currentInvestigateTimestamp = -Mathf.Infinity; // timestamp de la emisión que estamos investigando
 
     // Chasing
     private Vector3 lastKnownPlayerPos = Vector3.zero;
@@ -309,74 +310,76 @@ public class ZombieActions : MonoBehaviour
 
     // -------------------- INVESTIGATE (sound) --------------------
 
-    public void EnterInvestigateSound()
+    private void StartInvestigateForSound(Vector3 pos, float time)
     {
-        investigateNavTarget = Vector3.zero;
+        // si es la misma emision o mas antigua, ignorar
+        if (time <= currentInvestigateTimestamp) return;
+
+        currentInvestigateTimestamp = time;
+        investigateTarget = pos;
         investigateNavPath.Clear();
         investigatePathIndex = 0;
 
-        // Determinar el origen del sonido (centro) o la posición del jugador como fallback
-        if (hearing != null && hearing.TryGetLastHeardPosition(out Vector3 pos))
-            investigateTarget = pos;
-        else if (target != null)
-            investigateTarget = target.position;
-        else
-            investigateTarget = transform.position;
+        Debug.Log($"[ZombieActions] StartInvestigateForSound: new sound at {pos} (t={time})");
 
-        Debug.Log($"[EnterInvestigateSound] origin = {investigateTarget}");
-
-        // Si el objetivo final es el jugador y el jugador está sobre el NavMesh, preferir directamente su posición
-        if (target != null)
+        // Preferimos ruta directa al player si player fue emisor y accesible (opcional)
+        if (target != null && Vector3.Distance(target.position, pos) < 0.5f)
         {
-            // comprobamos si player está en NavMesh
-            if (NavMesh.SamplePosition(target.position, out NavMeshHit phit, 1.0f, NavMesh.AllAreas))
+            // si coincide con player, intentamos su posición en NavMesh
+            if (NavMesh.SamplePosition(target.position, out NavMeshHit phit, 1.0f, NavMesh.AllAreas)
+                && agent != null && agent.CalculatePath(phit.position, new NavMeshPath()))
             {
-                // si se puede calcular path completo al player, atacamos directamente
-                NavMeshPath p = new NavMeshPath();
-                if (agent != null && agent.CalculatePath(phit.position, p) && p.status == NavMeshPathStatus.PathComplete)
-                {
-                    investigateNavPath.Add(phit.position);
-                    investigatePathIndex = 0;
-                    investigateNavTarget = phit.position;
-                    StartInvestigateMovement();
-                    Debug.Log("[EnterInvestigateSound] Player on NavMesh reachable -> going to player position");
-                    return;
-                }
-            }
-        }
-
-        // Construimos una ruta de puntos navegables que progrida hacia el origen
-        if (BuildInvestigateNavPathTowardsOrigin(investigateTarget))
-        {
-            // Lista de puntos (investigateNavPath) lista para usar
-            investigatePathIndex = 0;
-            if (investigateNavPath.Count > 0)
-            {
-                investigateNavTarget = investigateNavPath[0];
+                investigateNavPath.Add(phit.position);
+                investigateNavTarget = phit.position;
                 StartInvestigateMovement();
-                Debug.Log($"[EnterInvestigateSound] Built path with {investigateNavPath.Count} nodes, first = {investigateNavTarget}");
                 return;
             }
         }
 
-        // Fallback: no path -> tratar de samplear directamente el origen y usar ese punto si está en NavMesh
+        // Construir la ruta progresiva
+        if (BuildInvestigateNavPathTowardsOrigin(investigateTarget))
+        {
+            investigatePathIndex = 0;
+            investigateNavTarget = investigateNavPath[0];
+            StartInvestigateMovement();
+            return;
+        }
+
+        // Fallback sample cercano al origen
         if (NavMesh.SamplePosition(investigateTarget, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
         {
             if (agent != null && IsPathCompleteTo(hit.position, out float _))
             {
                 investigateNavTarget = hit.position;
                 StartInvestigateMovement();
-                Debug.Log($"[EnterInvestigateSound] Fallback sample near origin succeeded -> {investigateNavTarget}");
                 return;
             }
         }
 
-        // Si llegamos aquí: no se encontró un punto navegable válido. Abortamos (TickInvestigate hará fallback RB)
+        // no encontrado -> abortar, dejar fallback rb movement
         investigateNavTarget = Vector3.zero;
-        rb.isKinematic = false;
         if (agent != null) { agent.isStopped = true; agent.ResetPath(); }
-        Debug.Log("[EnterInvestigateSound] No reachable nav nodes found toward origin (abort)");
+        rb.isKinematic = false;
     }
+
+    public void EnterInvestigateSound()
+    {
+        if (hearing == null)
+        {
+            Debug.Log("[EnterInvestigateSound] no hearing sensor");
+            return;
+        }
+
+        if (hearing.TryGetLastHeardInfo(out Vector3 pos, out float time))
+        {
+            StartInvestigateForSound(pos, time);
+        }
+        else
+        {
+            Debug.Log("[EnterInvestigateSound] no recent sound info");
+        }
+    }
+
 
     // Helper: enable agent and set destination to current investigateNavTarget
     private void StartInvestigateMovement()
@@ -401,6 +404,17 @@ public class ZombieActions : MonoBehaviour
             return Status.Failure; // let FSM transition to Chasing
         }
 
+        // Priorizar nuevos sonidos: si hay uno mas nuevo que currentInvestigateTimestamp, cambiar
+        if (hearing != null && hearing.TryGetLastHeardInfo(out Vector3 newPos, out float newTime))
+        {
+            if (newTime > currentInvestigateTimestamp)
+            {
+                Debug.Log($"[TickInvestigateSound] Detected NEWER sound (t={newTime}) replacing current (t={currentInvestigateTimestamp})");
+                StartInvestigateForSound(newPos, newTime);
+                // continuar; la StartInvestigateForSound ya ha llamado StartInvestigateMovement
+            }
+        }
+
         // Si tenemos una ruta de breadcrumbs
         if (investigateNavPath != null && investigateNavPath.Count > 0)
         {
@@ -417,7 +431,7 @@ public class ZombieActions : MonoBehaviour
                         float distToOrigin = Vector3.Distance(transform.position, investigateTarget);
                         if (distToOrigin <= finalProximityThreshold)
                         {
-                            // éxito: estamos cerca del origen
+                            // exito: estamos cerca del origen
                             agent.isStopped = true;
                             agent.ResetPath();
                             rb.isKinematic = false;
@@ -426,7 +440,7 @@ public class ZombieActions : MonoBehaviour
                         }
                         else
                         {
-                            // Intentamos un último muestreo directo en torno al origen (posiblemente dentro de la habitación)
+                            // Intentamos un ultimo muestreo directo en torno al origen (posiblemente dentro de la habitación)
                             if (NavMesh.SamplePosition(investigateTarget, out NavMeshHit finalHit, 1.5f, NavMesh.AllAreas)
                                 && IsPathCompleteTo(finalHit.position, out float _))
                             {
@@ -458,11 +472,11 @@ public class ZombieActions : MonoBehaviour
                 }
             }
 
-            // Si aún no ha llegado al nodo actual, esperar
+            // Si aun no ha llegado al nodo actual, esperar
             return Status.Running;
         }
 
-        // Si no hay ruta navegable creada: fallback RB move hacia el origin (esto se mantendrá si no hay NavMesh path)
+        // Si no hay ruta navegable creada: fallback RB move hacia el origin (esto se mantendra si no hay NavMesh path)
         Vector3 dir = investigateTarget - transform.position;
         dir.y = 0f;
         if (dir.magnitude < finalProximityThreshold) return Status.Success;

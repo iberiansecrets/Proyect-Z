@@ -50,6 +50,25 @@ public class HearingSensor : MonoBehaviour
         pos = lastHeardPosition; return true;
     }
 
+    public bool TryGetLastHeardInfo(out Vector3 position, out float time)
+    {
+        position = Vector3.zero;
+        time = -Mathf.Infinity;
+
+        if (!hasHeardSound) return false;
+
+        if (Time.time - lastHeardTime > soundMemoryTime)
+        {
+            // caduco
+            hasHeardSound = false;
+            return false;
+        }
+
+        position = lastHeardPosition;
+        time = lastHeardTime;
+        return true;
+    }
+
     public void ClearMemory()
     {
         hasHeardSound = false;
