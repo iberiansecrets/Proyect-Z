@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7743002869830751627}
   - component: {fileID: 711602901241712287}
   - component: {fileID: 537612682750426959}
+  - component: {fileID: 3214883029309999259}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -147,7 +148,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6194605335806130593}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
   m_Name: 
@@ -168,3 +169,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vidaMaxima: 30
+--- !u!114 &3214883029309999259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194605335806130593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37e3b3a48d15b5c45af163137f90b23a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangoPersecucion: 10
+  rangoAtaque: 2
+  rangoMovimiento: 10
+  anguloVision: 45
+  speed: 2
+  damage: 7
+  rb: {fileID: 0}
+  jugador: {fileID: 0}
+  fovColor: {r: 1, g: 1, b: 0, a: 0.3}
