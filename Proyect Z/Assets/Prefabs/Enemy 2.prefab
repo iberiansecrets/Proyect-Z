@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 6840536171286395074}
   m_Layer: 7
   m_Name: Enemy 2
-  m_TagString: Enemy
+  m_TagString: Corredor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

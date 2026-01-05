@@ -52,7 +52,15 @@ public class ObjectSpawner : MonoBehaviour
         EnemiesSpawner es = FindFirstObjectByType<EnemiesSpawner>();
         Debug.Log($"{es.zombiesSpawned.Count >= umbralZombies}");
         return es.zombiesSpawned.Count >= umbralZombies;
-    }    
+    }
+    
+    public bool PocosZombies()
+    {
+        if (gameManager == null) return false;
+        EnemiesSpawner es = FindFirstObjectByType<EnemiesSpawner>();
+        Debug.Log($"{es.zombiesSpawned.Count >= umbralZombies}");
+        return es.zombiesSpawned.Count <= umbralZombies;
+    }
 
     public void SpawnBotiquin()
     {

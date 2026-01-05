@@ -30,8 +30,7 @@ public class BTSpawnerObjetos : BehaviourRunner
         // Nodos Hoja
         LeafNode GenerarBotiquin = BT_ObjectSpawner.CreateLeafNode(GenerarBotiquin_action);
         LeafNode GenerarArma = BT_ObjectSpawner.CreateLeafNode(GenerarArma_action);
-        LeafNode pulsoChequeo = BT_ObjectSpawner.CreateLeafNode(pulsoChequeo_action);
-
+        LeafNode pulsoChequeo = BT_ObjectSpawner.CreateLeafNode(pulsoChequeo_action);        
 
         // Condiciones
         ConditionNode Vida_Generada = BT_ObjectSpawner.CreateDecorator<ConditionNode>(GenerarBotiquin);
@@ -43,9 +42,12 @@ public class BTSpawnerObjetos : BehaviourRunner
         ConditionNode Muchos_Zombies = BT_ObjectSpawner.CreateDecorator<ConditionNode>(Arma_Generada);
         Muchos_Zombies.Perception = new ConditionPerception(null, m_ObjectSpawner.MuchosZombies, null);
 
+        // Succeders
+        SuccederNode SuccederVida = BT_ObjectSpawner.CreateDecorator<SuccederNode>(Vida_baja);
+        SuccederNode SuccederArma = BT_ObjectSpawner.CreateDecorator<SuccederNode>(Muchos_Zombies);
 
-        // Selector Principal
-        SelectorNode Seleccion_principal = BT_ObjectSpawner.CreateComposite<SelectorNode>(false, Vida_baja, Muchos_Zombies, pulsoChequeo);
+        // Secuencia Principal
+        SequencerNode Seleccion_principal = BT_ObjectSpawner.CreateComposite<SequencerNode>(false, SuccederVida, SuccederArma, pulsoChequeo);
         Seleccion_principal.IsRandomized = false;
 
 

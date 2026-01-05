@@ -3623,7 +3623,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1542920625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3720,39 +3720,9 @@ MonoBehaviour:
         parentIds: []
         childIds:
         - 9737336d-dc9d-4ee2-a010-c88a62bf54ac
-      - name: Vida_baja
-        id: 8520cefc-9f05-4134-a32a-562fda0f3832
-        position: {x: -300, y: 600}
-        node:
-          rid: 3139739210661757005
-        references:
-        - fieldName: Perception
-          value:
-            rid: 3139739211349622784
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 866a7e11-90b4-4b80-ab80-220dbd5b85f8
-        childIds:
-        - 307b129d-33ee-4b79-b89e-ddfa2a2969eb
-      - name: Vida_Generada
-        id: 307b129d-33ee-4b79-b89e-ddfa2a2969eb
-        position: {x: -300, y: 800}
-        node:
-          rid: 3139739210661757009
-        references:
-        - fieldName: Perception
-          value:
-            rid: 3139739211349622844
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 8520cefc-9f05-4134-a32a-562fda0f3832
-        childIds:
-        - da200f61-700a-4c0a-8418-4745b94bf3fe
       - name: Pulso_Chequeo
         id: 56031f80-9d39-477d-89c3-5fca7dd54a09
-        position: {x: 300, y: 400}
+        position: {x: -300, y: 400}
         node:
           rid: 3139739487365234690
         references:
@@ -3766,7 +3736,7 @@ MonoBehaviour:
         childIds: []
       - name: GenerarBotiquin
         id: da200f61-700a-4c0a-8418-4745b94bf3fe
-        position: {x: -300, y: 1000}
+        position: {x: 0, y: 1000}
         node:
           rid: 3139739487365234692
         references:
@@ -3776,41 +3746,11 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - 307b129d-33ee-4b79-b89e-ddfa2a2969eb
+        - 01a9d2cf-2006-4341-b666-ecd85d129051
         childIds: []
-      - name: Muchos_Zombies
-        id: 5e8f78d2-c94e-496a-aad7-b2a4b7472c9c
-        position: {x: 0, y: 600}
-        node:
-          rid: 1836830304554188800
-        references:
-        - fieldName: Perception
-          value:
-            rid: 1836830304554188803
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 3c4cf170-67cd-41c6-9215-3b59a30ab5c8
-        childIds:
-        - da2ec66c-eea8-4221-952c-b701421c98e3
-      - name: Arma_Generada
-        id: da2ec66c-eea8-4221-952c-b701421c98e3
-        position: {x: 0, y: 800}
-        node:
-          rid: 1836830304554188801
-        references:
-        - fieldName: Perception
-          value:
-            rid: 1836830304554188804
-          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
-            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 5e8f78d2-c94e-496a-aad7-b2a4b7472c9c
-        childIds:
-        - 7f7f35c5-ebc6-4d3d-899a-944fe1f8d675
       - name: GenerarArma
         id: 7f7f35c5-ebc6-4d3d-899a-944fe1f8d675
-        position: {x: 0, y: 1000}
+        position: {x: 300, y: 1000}
         node:
           rid: 1836830304554188802
         references:
@@ -3820,7 +3760,7 @@ MonoBehaviour:
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - da2ec66c-eea8-4221-952c-b701421c98e3
+        - 54e81379-7cb3-4f66-9043-e75027b651ae
         childIds: []
       - name: Secuencia Principal
         id: 9737336d-dc9d-4ee2-a010-c88a62bf54ac
@@ -3831,29 +3771,89 @@ MonoBehaviour:
         parentIds:
         - 073c03d3-dbdc-4128-a257-942512447a56
         childIds:
-        - 866a7e11-90b4-4b80-ab80-220dbd5b85f8
-        - 3c4cf170-67cd-41c6-9215-3b59a30ab5c8
         - 56031f80-9d39-477d-89c3-5fca7dd54a09
-      - name: Succeder
-        id: 866a7e11-90b4-4b80-ab80-220dbd5b85f8
-        position: {x: -300, y: 400}
+        - bd88c18d-08ab-444c-9704-98512ee5a173
+        - b410d3ad-7cee-441c-820f-44dea06aff8b
+      - name: vidaGenerada
+        id: 01a9d2cf-2006-4341-b666-ecd85d129051
+        position: {x: 0, y: 800}
         node:
-          rid: 992813428296384572
-        references: []
+          rid: 7805704749744128000
+        references:
+        - fieldName: Perception
+          value:
+            rid: 7805704749744128002
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
         parentIds:
-        - 9737336d-dc9d-4ee2-a010-c88a62bf54ac
+        - 7afd8ba5-adc5-42b3-8412-9af57e01fc80
         childIds:
-        - 8520cefc-9f05-4134-a32a-562fda0f3832
-      - name: Succeder
-        id: 3c4cf170-67cd-41c6-9215-3b59a30ab5c8
+        - da200f61-700a-4c0a-8418-4745b94bf3fe
+      - name: armaGenerada
+        id: 54e81379-7cb3-4f66-9043-e75027b651ae
+        position: {x: 300, y: 800}
+        node:
+          rid: 7805704749744128001
+        references:
+        - fieldName: Perception
+          value:
+            rid: 7805704749744128003
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - daeee424-a20a-423d-8b71-b0e27045d6de
+        childIds:
+        - 7f7f35c5-ebc6-4d3d-899a-944fe1f8d675
+      - name: vidaBaja
+        id: 7afd8ba5-adc5-42b3-8412-9af57e01fc80
+        position: {x: 0, y: 600}
+        node:
+          rid: 7805704749744128004
+        references:
+        - fieldName: Perception
+          value:
+            rid: 7805704749744128005
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - bd88c18d-08ab-444c-9704-98512ee5a173
+        childIds:
+        - 01a9d2cf-2006-4341-b666-ecd85d129051
+      - name: muchosZombies
+        id: daeee424-a20a-423d-8b71-b0e27045d6de
+        position: {x: 300, y: 600}
+        node:
+          rid: 7805704749744128007
+        references:
+        - fieldName: Perception
+          value:
+            rid: 7805704749744128008
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - b410d3ad-7cee-441c-820f-44dea06aff8b
+        childIds:
+        - 54e81379-7cb3-4f66-9043-e75027b651ae
+      - name: vidaSucceder
+        id: bd88c18d-08ab-444c-9704-98512ee5a173
         position: {x: 0, y: 400}
         node:
-          rid: 992813428296384573
+          rid: 7805704749744128068
         references: []
         parentIds:
         - 9737336d-dc9d-4ee2-a010-c88a62bf54ac
         childIds:
-        - 5e8f78d2-c94e-496a-aad7-b2a4b7472c9c
+        - 7afd8ba5-adc5-42b3-8412-9af57e01fc80
+      - name: armaSucceder
+        id: b410d3ad-7cee-441c-820f-44dea06aff8b
+        position: {x: 300, y: 400}
+        node:
+          rid: 7805704749744128069
+        references: []
+        parentIds:
+        - 9737336d-dc9d-4ee2-a010-c88a62bf54ac
+        childIds:
+        - daeee424-a20a-423d-8b71-b0e27045d6de
     - name: US_Armas
       id: 7856d914-449d-4882-a2ce-8111e567fd02
       graph:
@@ -3984,57 +3984,9 @@ MonoBehaviour:
       type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data:
         IsRandomized: 0
-    - rid: 992813428296384572
-      type: {class: SuccederNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 992813428296384573
-      type: {class: SuccederNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 1836830304554188800
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 1836830304554188801
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
     - rid: 1836830304554188802
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 1836830304554188803
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        init:
-          componentName: 
-          methodName: 
-        check:
-          componentName: ObjectSpawner
-          methodName: MuchosZombies
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 1836830304554188804
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        init:
-          componentName: 
-          methodName: 
-        check:
-          componentName: ObjectSpawner
-          methodName: GetArmaGenerada
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
     - rid: 1836830304554188805
       type: {class: UtilitySystem, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
       data:
@@ -4201,31 +4153,35 @@ MonoBehaviour:
       type: {class: LoopNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data:
         Iterations: -1
-    - rid: 3139739210661757005
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+    - rid: 3139739487365234690
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 3139739210661757009
-      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 3139739211349622784
-      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+    - rid: 3139739487365234691
+      type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
       data:
-        init:
-          componentName: 
-          methodName: 
-        check:
+        delayTime: 3
+    - rid: 3139739487365234692
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 3139739487365234693
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
           componentName: ObjectSpawner
-          methodName: VidaJugadorBaja
-        reset:
-          componentName: 
-          methodName: 
-        pause:
-          componentName: 
-          methodName: 
-        unpause:
-          componentName: 
-          methodName: 
-    - rid: 3139739211349622844
+          methodName: SpawnBotiquin
+    - rid: 3139739501129367611
+      type: {class: LinearCurveFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        Slope: -1
+        YIntercept: 1
+    - rid: 7805704749744128000
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 7805704749744128001
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 7805704749744128002
       type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         init:
@@ -4243,28 +4199,72 @@ MonoBehaviour:
         unpause:
           componentName: 
           methodName: 
-    - rid: 3139739487365234690
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 3139739487365234691
-      type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
+    - rid: 7805704749744128003
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
-        delayTime: 10
-    - rid: 3139739487365234692
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 3139739487365234693
-      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        method:
+        init:
+          componentName: 
+          methodName: 
+        check:
           componentName: ObjectSpawner
-          methodName: SpawnBotiquin
-    - rid: 3139739501129367611
-      type: {class: LinearCurveFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+          methodName: GetArmaGenerada
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 7805704749744128004
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 7805704749744128005
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
-        PullingEnabled: 1
-        Slope: -1
-        YIntercept: 1
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ObjectSpawner
+          methodName: VidaJugadorBaja
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 7805704749744128007
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 7805704749744128008
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ObjectSpawner
+          methodName: MuchosZombies
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 7805704749744128068
+      type: {class: SuccederNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 7805704749744128069
+      type: {class: SuccederNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
 --- !u!4 &1542920629
 Transform:
   m_ObjectHideFlags: 0
@@ -5361,7 +5361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2066055978
 MonoBehaviour:
   m_ObjectHideFlags: 0

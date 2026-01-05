@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - Bullet
+  - Normal
+  - Colosal
+  - Corredor
   layers:
   - Default
   - TransparentFX
