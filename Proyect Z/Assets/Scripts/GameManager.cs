@@ -23,9 +23,12 @@ public class GameManager : MonoBehaviour
     public float dificultad = 1.3f; // Aumenta el número de enemigos por ronda
     public int maxRondas = 10; // Máximo de rondas del juego
 
-    private int enemigosRestantes;
-    private bool rondaActiva = false;
+    public int enemigosRestantes;
+    [SerializeField] private bool rondaActiva = false;
     private bool juegoTerminado = false;
+
+    [Header("Control de Zombies")]
+    public float lastZombieKilledTime = 600f;
 
     [Header ("Temporizador")]
     public float tiempoTotal = 600f; // 10 minutos
@@ -60,7 +63,7 @@ public class GameManager : MonoBehaviour
         if (returnButton != null)
             returnButton.onClick.AddListener(VolverAlMenu);
 
-        //IniciarRonda(); // Inicia la primera ronda
+        IniciarRonda(); // Inicia la primera ronda
     }
 
     void Update()
@@ -89,7 +92,7 @@ public class GameManager : MonoBehaviour
         timerText.text = $"{minutos:00}:{segundos:00}";
     }
 
-    /*void IniciarRonda()
+    void IniciarRonda()
     {
         Debug.Log($"Iniciando ronda {rondaActual}");
 
@@ -107,7 +110,7 @@ public class GameManager : MonoBehaviour
         rondaActiva = true;
         juegoTerminado = false;
         temporizadorActivo = true;
-    }*/
+    }
 
     void AcabarRonda()
     {
@@ -181,7 +184,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
         rondaActual++;
-        //IniciarRonda();
+        IniciarRonda();
     }
 
     // Llamado desde EnemyHealth al morir
@@ -190,10 +193,16 @@ public class GameManager : MonoBehaviour
         if (juegoTerminado || !rondaActiva) return;
 
         enemigosRestantes--;
+        lastZombieKilledTime = tiempoTotal;
         if (enemigosRestantes <= 0)
         {
             AcabarRonda();
         }
+    }
+
+    public bool MuchoSinMatar()
+    {
+        return lastZombieKilledTime - tiempoTotal > 15f;
     }
 
     public void RegistrarEnemigo(GameObject enemigo)

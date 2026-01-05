@@ -35,6 +35,7 @@ public class ObjectSpawner : MonoBehaviour
 
     [HideInInspector] public bool vidaGenerada = false;
     [HideInInspector] public bool armaGenerada = false;
+    [HideInInspector] public bool penalizando = false;
 
     private readonly List<GameObject> objetosActivos = new();
 
@@ -50,7 +51,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         if (gameManager == null) return false;
         EnemiesSpawner es = FindFirstObjectByType<EnemiesSpawner>();
-        Debug.Log($"{es.zombiesSpawned.Count >= umbralZombies}");
+        Debug.Log($"Muchos zombies: {es.zombiesSpawned.Count >= umbralZombies}");
         return es.zombiesSpawned.Count >= umbralZombies;
     }
     
@@ -58,7 +59,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         if (gameManager == null) return false;
         EnemiesSpawner es = FindFirstObjectByType<EnemiesSpawner>();
-        Debug.Log($"{es.zombiesSpawned.Count >= umbralZombies}");
+        Debug.Log($"Pocos zombies: {es.zombiesSpawned.Count <= umbralZombies}");
         return es.zombiesSpawned.Count <= umbralZombies;
     }
 
@@ -154,6 +155,29 @@ public class ObjectSpawner : MonoBehaviour
     {
         Gizmos.color = new Color(0, 1, 0, 0.25f);
         Gizmos.DrawCube(areaCenter, areaSize);
+    }
+
+    public bool MuchoTiempoSinMatar()
+    {
+        if (gameManager == null) return false;
+        Debug.Log($"Mucho sin matar: {gameManager.MuchoSinMatar()}");
+        return gameManager.MuchoSinMatar();
+    }
+
+    public void PenalizacionTiempo()
+    {
+        if (penalizando) return;
+        penalizando = true;
+        EnemiesSpawner es = FindAnyObjectByType<EnemiesSpawner>();        
+        es.SpawnBalanceado(6);
+
+        StartCoroutine(ResetPenalizacion());
+    }
+
+    private IEnumerator ResetPenalizacion()
+    {
+        yield return new WaitForSeconds(5f);
+        penalizando = false;
     }
 
     public bool GetVidaGenerada()

@@ -22,9 +22,10 @@ GameObject:
   - component: {fileID: 1052013135092172827}
   - component: {fileID: 6078137049586796499}
   - component: {fileID: 6840536171286395074}
+  - component: {fileID: -587203973294798199}
   m_Layer: 7
   m_Name: Enemy 2
-  m_TagString: Corredor
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -704,3 +705,16 @@ MonoBehaviour:
   minDistanceToTarget: 0.3
   drawGizmos: 0
   targetColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &-587203973294798199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3883655744420111400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a0f2583e0705b4d9ade1476b990f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipo: 1

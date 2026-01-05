@@ -2770,6 +2770,9 @@ MonoBehaviour:
   enemigosPorRonda: 7
   dificultad: 1.3
   maxRondas: 10
+  enemigosRestantes: 0
+  rondaActiva: 0
+  lastZombieKilledTime: 600
   tiempoTotal: 600
   mejorasUI: {fileID: 1096689039}
   botonesMejoras:
@@ -3646,7 +3649,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542920624}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e5f6381a4a673a4db905bc6d1e8d8c1, type: 3}
   m_Name: 
@@ -3662,7 +3665,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542920624}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b49e6bafb90ef074ea22cc5b7f129160, type: 3}
   m_Name: 
@@ -3687,6 +3690,7 @@ MonoBehaviour:
   maxFranco: 10
   vidaGenerada: 0
   armaGenerada: 0
+  penalizando: 0
 --- !u!114 &1542920628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3694,7 +3698,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542920624}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
   m_Name: 
@@ -3722,7 +3726,7 @@ MonoBehaviour:
         - 9737336d-dc9d-4ee2-a010-c88a62bf54ac
       - name: Pulso_Chequeo
         id: 56031f80-9d39-477d-89c3-5fca7dd54a09
-        position: {x: -300, y: 400}
+        position: {x: 450, y: 400}
         node:
           rid: 3139739487365234690
         references:
@@ -3736,7 +3740,7 @@ MonoBehaviour:
         childIds: []
       - name: GenerarBotiquin
         id: da200f61-700a-4c0a-8418-4745b94bf3fe
-        position: {x: 0, y: 1000}
+        position: {x: -450, y: 1000}
         node:
           rid: 3139739487365234692
         references:
@@ -3750,7 +3754,7 @@ MonoBehaviour:
         childIds: []
       - name: GenerarArma
         id: 7f7f35c5-ebc6-4d3d-899a-944fe1f8d675
-        position: {x: 300, y: 1000}
+        position: {x: -150, y: 1000}
         node:
           rid: 1836830304554188802
         references:
@@ -3771,12 +3775,13 @@ MonoBehaviour:
         parentIds:
         - 073c03d3-dbdc-4128-a257-942512447a56
         childIds:
-        - 56031f80-9d39-477d-89c3-5fca7dd54a09
         - bd88c18d-08ab-444c-9704-98512ee5a173
         - b410d3ad-7cee-441c-820f-44dea06aff8b
+        - b7109bfa-50f2-46ad-8535-d40bc9b6ceb4
+        - 56031f80-9d39-477d-89c3-5fca7dd54a09
       - name: vidaGenerada
         id: 01a9d2cf-2006-4341-b666-ecd85d129051
-        position: {x: 0, y: 800}
+        position: {x: -450, y: 800}
         node:
           rid: 7805704749744128000
         references:
@@ -3791,7 +3796,7 @@ MonoBehaviour:
         - da200f61-700a-4c0a-8418-4745b94bf3fe
       - name: armaGenerada
         id: 54e81379-7cb3-4f66-9043-e75027b651ae
-        position: {x: 300, y: 800}
+        position: {x: -150, y: 800}
         node:
           rid: 7805704749744128001
         references:
@@ -3806,7 +3811,7 @@ MonoBehaviour:
         - 7f7f35c5-ebc6-4d3d-899a-944fe1f8d675
       - name: vidaBaja
         id: 7afd8ba5-adc5-42b3-8412-9af57e01fc80
-        position: {x: 0, y: 600}
+        position: {x: -450, y: 600}
         node:
           rid: 7805704749744128004
         references:
@@ -3821,7 +3826,7 @@ MonoBehaviour:
         - 01a9d2cf-2006-4341-b666-ecd85d129051
       - name: muchosZombies
         id: daeee424-a20a-423d-8b71-b0e27045d6de
-        position: {x: 300, y: 600}
+        position: {x: -150, y: 600}
         node:
           rid: 7805704749744128007
         references:
@@ -3836,7 +3841,7 @@ MonoBehaviour:
         - 54e81379-7cb3-4f66-9043-e75027b651ae
       - name: vidaSucceder
         id: bd88c18d-08ab-444c-9704-98512ee5a173
-        position: {x: 0, y: 400}
+        position: {x: -450, y: 400}
         node:
           rid: 7805704749744128068
         references: []
@@ -3846,7 +3851,7 @@ MonoBehaviour:
         - 7afd8ba5-adc5-42b3-8412-9af57e01fc80
       - name: armaSucceder
         id: b410d3ad-7cee-441c-820f-44dea06aff8b
-        position: {x: 300, y: 400}
+        position: {x: -150, y: 400}
         node:
           rid: 7805704749744128069
         references: []
@@ -3854,6 +3859,60 @@ MonoBehaviour:
         - 9737336d-dc9d-4ee2-a010-c88a62bf54ac
         childIds:
         - daeee424-a20a-423d-8b71-b0e27045d6de
+      - name: zombiesSucceder
+        id: b7109bfa-50f2-46ad-8535-d40bc9b6ceb4
+        position: {x: 150, y: 400}
+        node:
+          rid: 7805704749744128070
+        references: []
+        parentIds:
+        - 9737336d-dc9d-4ee2-a010-c88a62bf54ac
+        childIds:
+        - c2d83bda-c2ec-4117-a689-a6be8e8a72b6
+      - name: pocosZombies
+        id: 8358fb6a-f71e-4c48-8820-55c48a334a7e
+        position: {x: 150, y: 800}
+        node:
+          rid: 7805704749744128071
+        references:
+        - fieldName: Perception
+          value:
+            rid: 7805704749744128072
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - c2d83bda-c2ec-4117-a689-a6be8e8a72b6
+        childIds:
+        - 21d75379-a51e-442f-8837-c3a9134f2e9e
+      - name: muchoSinMatar
+        id: c2d83bda-c2ec-4117-a689-a6be8e8a72b6
+        position: {x: 150, y: 600}
+        node:
+          rid: 7805704749744128073
+        references:
+        - fieldName: Perception
+          value:
+            rid: 7805704749744128075
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - b7109bfa-50f2-46ad-8535-d40bc9b6ceb4
+        childIds:
+        - 8358fb6a-f71e-4c48-8820-55c48a334a7e
+      - name: GenerarZombies
+        id: 21d75379-a51e-442f-8837-c3a9134f2e9e
+        position: {x: 150, y: 1000}
+        node:
+          rid: 7805704749744128074
+        references:
+        - fieldName: Action
+          value:
+            rid: 7805704749744128078
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 8358fb6a-f71e-4c48-8820-55c48a334a7e
+        childIds: []
     - name: US_Armas
       id: 7856d914-449d-4882-a2ce-8111e567fd02
       graph:
@@ -4159,7 +4218,7 @@ MonoBehaviour:
     - rid: 3139739487365234691
       type: {class: DelayAction, ns: BehaviourAPI.UnityToolkit, asm: BehaviourAPI.UnityToolkit}
       data:
-        delayTime: 3
+        delayTime: 5
     - rid: 3139739487365234692
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
@@ -4265,6 +4324,60 @@ MonoBehaviour:
     - rid: 7805704749744128069
       type: {class: SuccederNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
+    - rid: 7805704749744128070
+      type: {class: SuccederNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 7805704749744128071
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 7805704749744128072
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ObjectSpawner
+          methodName: PocosZombies
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 7805704749744128073
+      type: {class: ConditionNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 7805704749744128074
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 7805704749744128075
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ObjectSpawner
+          methodName: MuchoTiempoSinMatar
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 7805704749744128078
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: ObjectSpawner
+          methodName: PenalizacionTiempo
 --- !u!4 &1542920629
 Transform:
   m_ObjectHideFlags: 0

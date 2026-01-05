@@ -17,9 +17,10 @@ GameObject:
   - component: {fileID: 8630005366983479084}
   - component: {fileID: 5264683309477498494}
   - component: {fileID: 8881246742987631460}
+  - component: {fileID: 4524679354372256911}
   m_Layer: 7
   m_Name: Enemy 1
-  m_TagString: Colosal
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -305,3 +306,16 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &4524679354372256911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929835613075624577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a0f2583e0705b4d9ade1476b990f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipo: 2
