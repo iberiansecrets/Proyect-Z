@@ -37,13 +37,13 @@ MonoBehaviour:
         - 357c66fb-ba93-43bc-abdc-ffd2ea362b87
       - name: RunnerPersiguiendo
         id: 12df1c40-93ed-4c4c-9883-c48e5b442dd3
-        position: {x: 631, y: 725}
+        position: {x: 649, y: 754}
         node:
           rid: 6054709313060995153
         references:
         - fieldName: Action
           value:
-            rid: 6054709336370315329
+            rid: 6054709313060995158
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
@@ -60,7 +60,7 @@ MonoBehaviour:
         references:
         - fieldName: Action
           value:
-            rid: 6054709313060995158
+            rid: -2
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
@@ -219,9 +219,3 @@ MonoBehaviour:
       type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
       data:
         StatusFlags: 4
-    - rid: 6054709336370315329
-      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
-      data:
-        method:
-          componentName: RunnerPersiguiendo
-          methodName: 

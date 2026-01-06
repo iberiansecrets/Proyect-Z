@@ -14,79 +14,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     graphs:
-    - name: Runner
+    - name: ZNormalBuscar
       id: 20bc8426-95e4-4bcc-be4f-df90f8b01b28
       graph:
         rid: 4735436756915847232
       nodes:
-      - name: Loop_busqueda
-        id: 44301c3c-de2f-490b-95a4-03ef4ea53a39
-        position: {x: 797, y: 134}
+      - name: LoopPatrullar
+        id: ef71f33a-9145-441c-b92a-2b31ae2f7be6
+        position: {x: 817, y: 144}
         node:
-          rid: 4735436756915847234
+          rid: 6054709403349418125
         references: []
         parentIds: []
         childIds:
-        - f69e16b7-e58c-4e0e-b275-0dd744d226f5
-      - name: Buscando
-        id: 0caedc88-6a34-409f-b8da-e5c743cfb78d
-        position: {x: 649, y: 794}
-        node:
-          rid: 4735436756915847233
-        references:
-        - fieldName: Action
-          value:
-            rid: 4735436756915847247
-          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
-        parentIds:
-        - 73cbeddc-f862-4fcc-aa54-3803ddac1f62
-        childIds: []
-      - name: Movimiento_aleatorio
+        - 8ee150f1-eb2f-4461-82d9-3c8b682d28ee
+      - name: Movimiento
         id: 3c0cd0b4-931f-41cc-accb-85a5fc0f7384
-        position: {x: 937, y: 469}
+        position: {x: 978, y: 435}
         node:
           rid: 4735436756915847235
         references:
         - fieldName: Action
           value:
-            rid: 4735436756915847244
+            rid: 6054709381886378063
           fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         parentIds:
-        - f69e16b7-e58c-4e0e-b275-0dd744d226f5
+        - 8ee150f1-eb2f-4461-82d9-3c8b682d28ee
         childIds: []
-      - name: Repeticion_busqueda
-        id: 4702847a-8e8f-4fd9-b358-8045b54ed7c5
-        position: {x: 642, y: 472}
+      - name: Patrullando
+        id: 8ee150f1-eb2f-4461-82d9-3c8b682d28ee
+        position: {x: 806, y: 262}
         node:
-          rid: 4735436756915847236
+          rid: 6054709381886378057
         references: []
         parentIds:
-        - f69e16b7-e58c-4e0e-b275-0dd744d226f5
+        - ef71f33a-9145-441c-b92a-2b31ae2f7be6
         childIds:
-        - 73cbeddc-f862-4fcc-aa54-3803ddac1f62
-      - name: Espera_entre_busquedas
-        id: 73cbeddc-f862-4fcc-aa54-3803ddac1f62
-        position: {x: 642, y: 625}
-        node:
-          rid: 4735436756915847237
-        references: []
-        parentIds:
-        - 4702847a-8e8f-4fd9-b358-8045b54ed7c5
-        childIds:
-        - 0caedc88-6a34-409f-b8da-e5c743cfb78d
-      - name: Buscar_Movimiento
-        id: f69e16b7-e58c-4e0e-b275-0dd744d226f5
-        position: {x: 796, y: 273}
-        node:
-          rid: 4735436756915847238
-        references: []
-        parentIds:
-        - 44301c3c-de2f-490b-95a4-03ef4ea53a39
-        childIds:
-        - 4702847a-8e8f-4fd9-b358-8045b54ed7c5
+        - ab6b9d91-78f5-4ba0-aa46-9fde67f4181f
         - 3c0cd0b4-931f-41cc-accb-85a5fc0f7384
+      - name: Elegir Destino
+        id: ab6b9d91-78f5-4ba0-aa46-9fde67f4181f
+        position: {x: 643, y: 423}
+        node:
+          rid: 6054709381886378058
+        references:
+        - fieldName: Action
+          value:
+            rid: 6054709403349418124
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 8ee150f1-eb2f-4461-82d9-3c8b682d28ee
+        childIds: []
     pushPerceptions: []
   references:
     version: 2
@@ -94,32 +74,41 @@ MonoBehaviour:
     - rid: 4735436756915847232
       type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 4735436756915847233
-      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data: 
-    - rid: 4735436756915847234
-      type: {class: LoopUntilNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        TargetStatus: 2
-        MaxIterations: -1
     - rid: 4735436756915847235
       type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data: 
-    - rid: 4735436756915847236
+    - rid: 6054709381886378057
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6054709381886378058
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6054709381886378063
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: zombi
+          methodName: MoverHaciaDestino
+    - rid: 6054709403349418124
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: 
+          methodName: 
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6054709403349418125
       type: {class: LoopNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
       data:
         Iterations: -1
-    - rid: 4735436756915847237
-      type: {class: TimerDecoratorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        Time: 0
-    - rid: 4735436756915847238
-      type: {class: SelectorNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
-      data:
-        IsRandomized: 0
-    - rid: 4735436756915847244
-      type: {class: MovimientoAleatorio, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 4735436756915847247
-      type: {class: BuscarPJ, ns: , asm: Assembly-CSharp}
-      data: 

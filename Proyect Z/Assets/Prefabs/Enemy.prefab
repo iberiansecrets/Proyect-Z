@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 711602901241712287}
   - component: {fileID: 537612682750426959}
   - component: {fileID: 3214883029309999259}
+  - component: {fileID: -3472297858962956991}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -190,3 +191,25 @@ MonoBehaviour:
   rb: {fileID: 0}
   jugador: {fileID: 0}
   fovColor: {r: 1, g: 1, b: 0, a: 0.3}
+--- !u!114 &-3472297858962956991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194605335806130593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc517b151b34256449e50b3833e0dda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  rangoPersecucion: 10
+  rangoAtaque: 2
+  rangoMovimiento: 10
+  anguloVision: 45
+  speed: 3
+  rb: {fileID: 0}
+  zombi: {fileID: 0}
+  jugador: {fileID: 0}
