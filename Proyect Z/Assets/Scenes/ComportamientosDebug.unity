@@ -3619,6 +3619,7 @@ GameObject:
   - component: {fileID: 1542920628}
   - component: {fileID: 1542920627}
   - component: {fileID: 1542920626}
+  - component: {fileID: 1542920630}
   - component: {fileID: 1542920625}
   m_Layer: 0
   m_Name: ObjectSpawner (comportamientos)
@@ -3698,7 +3699,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542920624}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
   m_Name: 
@@ -4393,6 +4394,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1542920630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542920624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b24d58d8c42f7a49b8cd2cc0f3c3d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  m_ObjectSpawner: {fileID: 1542920627}
+  _debugger: {fileID: 1542920625}
 --- !u!1001 &1612025711
 PrefabInstance:
   m_ObjectHideFlags: 0
