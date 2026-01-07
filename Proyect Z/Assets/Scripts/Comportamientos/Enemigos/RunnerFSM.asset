@@ -1,0 +1,221 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db249917b7c50574eaa600c74aff1437, type: 3}
+  m_Name: RunnerFSM
+  m_EditorClassIdentifier: 
+  data:
+    graphs:
+    - name: RunnerFSM
+      id: d607d95e-e1e4-478c-b9c7-983fb017b716
+      graph:
+        rid: 6054709313060995150
+      nodes:
+      - name: RunnerBuscando
+        id: 5ecc4a43-07fa-451c-ac4d-2e4e761c19b0
+        position: {x: 625, y: 253}
+        node:
+          rid: 6054709313060995152
+        references:
+        - fieldName: Action
+          value:
+            rid: 6054709313060995157
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 5a25e5d0-48c1-40c9-bc3a-d53d02268ec6
+        - c9baf135-4c06-4841-aa63-57802ff27f3c
+        childIds:
+        - 357c66fb-ba93-43bc-abdc-ffd2ea362b87
+      - name: RunnerPersiguiendo
+        id: 12df1c40-93ed-4c4c-9883-c48e5b442dd3
+        position: {x: 649, y: 754}
+        node:
+          rid: 6054709313060995153
+        references:
+        - fieldName: Action
+          value:
+            rid: 6054709313060995158
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 357c66fb-ba93-43bc-abdc-ffd2ea362b87
+        - 399dcbea-1597-4c49-8e77-c0c6c240f050
+        childIds:
+        - 5a25e5d0-48c1-40c9-bc3a-d53d02268ec6
+        - 500b8def-73a4-464a-ba5e-91f2890f054d
+      - name: RunnerAtacando
+        id: c533bf9e-27f3-4f87-922d-27cec24dcfb6
+        position: {x: 1068, y: 386}
+        node:
+          rid: 6054709313060995154
+        references:
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 500b8def-73a4-464a-ba5e-91f2890f054d
+        childIds:
+        - c9baf135-4c06-4841-aa63-57802ff27f3c
+        - 399dcbea-1597-4c49-8e77-c0c6c240f050
+      - name: PJEncontrado
+        id: 357c66fb-ba93-43bc-abdc-ffd2ea362b87
+        position: {x: 755, y: 478}
+        node:
+          rid: 6054709313060995161
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 5ecc4a43-07fa-451c-ac4d-2e4e761c19b0
+        childIds:
+        - 12df1c40-93ed-4c4c-9883-c48e5b442dd3
+      - name: PJEncontradoPerdido
+        id: 5a25e5d0-48c1-40c9-bc3a-d53d02268ec6
+        position: {x: 493, y: 481}
+        node:
+          rid: 6054709313060995163
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 12df1c40-93ed-4c4c-9883-c48e5b442dd3
+        childIds:
+        - 5ecc4a43-07fa-451c-ac4d-2e4e761c19b0
+      - name: PJMuerto
+        id: c9baf135-4c06-4841-aa63-57802ff27f3c
+        position: {x: 1125, y: 100}
+        node:
+          rid: 6054709313060995165
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - c533bf9e-27f3-4f87-922d-27cec24dcfb6
+        childIds:
+        - 5ecc4a43-07fa-451c-ac4d-2e4e761c19b0
+      - name: DistanciaCorta
+        id: 500b8def-73a4-464a-ba5e-91f2890f054d
+        position: {x: 986, y: 610}
+        node:
+          rid: 6054709313060995166
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 12df1c40-93ed-4c4c-9883-c48e5b442dd3
+        childIds:
+        - c533bf9e-27f3-4f87-922d-27cec24dcfb6
+      - name: DistanciaLarga
+        id: 399dcbea-1597-4c49-8e77-c0c6c240f050
+        position: {x: 1266, y: 716}
+        node:
+          rid: 6054709313060995167
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - c533bf9e-27f3-4f87-922d-27cec24dcfb6
+        childIds:
+        - 12df1c40-93ed-4c4c-9883-c48e5b442dd3
+    pushPerceptions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 6054709313060995150
+      type: {class: FSM, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6054709313060995152
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6054709313060995153
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6054709313060995154
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 6054709313060995157
+      type: {class: AssetSubgraphAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        ExecuteOnLoop: 0
+        InterruptOptions: 2
+        subgraph: {fileID: 11400000, guid: 18b7db8063e54bd4ead8be7f82893779, type: 2}
+        name: 
+    - rid: 6054709313060995158
+      type: {class: RunnerAtacando, ns: , asm: Assembly-CSharp}
+      data:
+        target: {fileID: 0}
+        attackRange: 1.5
+        damage: 10
+    - rid: 6054709313060995161
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 2
+    - rid: 6054709313060995163
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 4
+    - rid: 6054709313060995165
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 2
+    - rid: 6054709313060995166
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 2
+    - rid: 6054709313060995167
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 4
