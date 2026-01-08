@@ -14,7 +14,6 @@ public class ZNormalBehaviour : BehaviourRunner
     private float tiempo = 0f;
     private float tiempoMax = 5f;
     private float distanciaAlJugador;
-    private Vector3 destinoPatrulla;
     public float rangoPersecucion = 10f;
     public float rangoAtaque = 2f;
     public float rangoMovimiento = 10f;
@@ -23,7 +22,7 @@ public class ZNormalBehaviour : BehaviourRunner
     public float speed;
     public float speedRotation;
 
-    //DEstino de movimiento aleatorio
+    //Destino de movimiento aleatorio
     private Vector3 destino;
 
 
@@ -65,7 +64,6 @@ public class ZNormalBehaviour : BehaviourRunner
         var jugadorEnRangoAtaque = new DistancePerception(jugador, rangoAtaque);
 
         var jugadorEnVision = new AnglePerceptionCustom(rb.transform,jugador, 45f);
-        //var lineaDeVision = new RayPerception(rb.transform, jugador, rangoPersecucion);
 
         var verJugador = new AndPerception(jugadorEnVision, jugadorCerca);
 
@@ -87,15 +85,11 @@ public class ZNormalBehaviour : BehaviourRunner
         BehaviourTree bt = new BehaviourTree();
 
         Debug.Log("BUSCANDO");
-
-        // Elegir destino aleatorio
-        //destino = transform.position + new Vector3(Random.Range(-rangoMovimiento, rangoMovimiento), 0, Random.Range(-rangoMovimiento, rangoMovimiento) );
-
+                
         var moverAction = CrearAccionMover();
         var esperarAction = new FunctionalAction(Esperar);
         var elegirDestinoAction = new FunctionalAction(ElegirDestino);
 
-        //SimpleAction Elegir_Destino_action = new SimpleAction();
         LeafNode nodoEsperar = bt.CreateLeafNode("Esperar", esperarAction);
 
         LeafNode nodoElegirDestino = bt.CreateLeafNode("Elegir Destino", elegirDestinoAction);
@@ -131,9 +125,6 @@ public class ZNormalBehaviour : BehaviourRunner
         Debug.Log("Moviendose a: " + destino);
         Vector3 dir = (destino - rb.position).normalized; // Dirección del movimiento
 
-        // Si no hay dirección válida, continuar
-        //if (dir == Vector3.zero) 
-          //  return Status.Running;
 
         // Rotación suave hacia el destino
         Quaternion targetRot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
@@ -173,10 +164,6 @@ public class ZNormalBehaviour : BehaviourRunner
         Debug.Log("NUEVO DESTINO ELEGIDO: " + destino);
         return Status.Success; 
     }
-
-    /*private FunctionalAction CrearAccionElegirDestino() {
-        return new FunctionalAction(ElegirDestino);
-    }*/
 
     private Status PerseguirPj()
     {
@@ -219,8 +206,8 @@ public class ZNormalBehaviour : BehaviourRunner
     }
 }
 
-// Clases custom de ejecución del BT y percepciones
 
+// Clases custom de ejecución del BT y percepciones
 public class BehaviourTreeAction : Action {
     public BehaviourTree _bt;
     public BehaviourTreeAction(BehaviourTree bt) { 
