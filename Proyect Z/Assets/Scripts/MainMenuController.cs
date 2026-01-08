@@ -11,7 +11,7 @@ public class MainMenuController : MonoBehaviour
     
     public void Play()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("Comportamientos");
     }
 
     public void ToggleSettings()

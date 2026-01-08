@@ -11,6 +11,7 @@ public class ZNormal : MonoBehaviour
     public float anguloVision = 45f;
 
     public float speed = 3f;
+    public float speedRotation = 36f; //Grados por segundo
 
     public float damage = 10f;
 

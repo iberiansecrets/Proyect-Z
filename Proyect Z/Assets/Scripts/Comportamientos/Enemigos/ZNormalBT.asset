@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db249917b7c50574eaa600c74aff1437, type: 3}
+  m_Name: ZNormalBT
+  m_EditorClassIdentifier: 
+  data:
+    graphs:
+    - name: ZNormalBuscar
+      id: 20bc8426-95e4-4bcc-be4f-df90f8b01b28
+      graph:
+        rid: 4735436756915847232
+      nodes:
+      - name: LoopPatrullar
+        id: ef71f33a-9145-441c-b92a-2b31ae2f7be6
+        position: {x: 817, y: 144}
+        node:
+          rid: 6054709403349418125
+        references: []
+        parentIds: []
+        childIds:
+        - 8ee150f1-eb2f-4461-82d9-3c8b682d28ee
+      - name: Mover a destino
+        id: 3c0cd0b4-931f-41cc-accb-85a5fc0f7384
+        position: {x: 815, y: 449}
+        node:
+          rid: 4735436756915847235
+        references:
+        - fieldName: Action
+          value:
+            rid: 6054709381886378063
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 8ee150f1-eb2f-4461-82d9-3c8b682d28ee
+        childIds: []
+      - name: Patrullando
+        id: 8ee150f1-eb2f-4461-82d9-3c8b682d28ee
+        position: {x: 806, y: 262}
+        node:
+          rid: 6054709381886378057
+        references: []
+        parentIds:
+        - ef71f33a-9145-441c-b92a-2b31ae2f7be6
+        childIds:
+        - ab6b9d91-78f5-4ba0-aa46-9fde67f4181f
+        - 3c0cd0b4-931f-41cc-accb-85a5fc0f7384
+        - 6ec7859f-6e73-4433-b34e-628a6ff4600c
+      - name: Elegir Destino
+        id: ab6b9d91-78f5-4ba0-aa46-9fde67f4181f
+        position: {x: 479, y: 448}
+        node:
+          rid: 6054709381886378058
+        references:
+        - fieldName: Action
+          value:
+            rid: 6054709426670797059
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 8ee150f1-eb2f-4461-82d9-3c8b682d28ee
+        childIds: []
+      - name: Esperar
+        id: 6ec7859f-6e73-4433-b34e-628a6ff4600c
+        position: {x: 1142, y: 458}
+        node:
+          rid: 6054709426670797060
+        references:
+        - fieldName: Action
+          value:
+            rid: 6054709426670797062
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 8ee150f1-eb2f-4461-82d9-3c8b682d28ee
+        childIds: []
+    pushPerceptions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4735436756915847232
+      type: {class: BehaviourTree, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 4735436756915847235
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6054709381886378057
+      type: {class: SequencerNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        IsRandomized: 0
+    - rid: 6054709381886378058
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6054709381886378063
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: ZNormalBehaviour
+          methodName: moverAction
+    - rid: 6054709403349418125
+      type: {class: LoopNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data:
+        Iterations: -1
+    - rid: 6054709426670797059
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: ZnormalBehaviour
+          methodName: elegirDestinoAction
+    - rid: 6054709426670797060
+      type: {class: LeafNode, ns: BehaviourAPI.BehaviourTrees, asm: BehaviourAPI.BehaviourTrees}
+      data: 
+    - rid: 6054709426670797062
+      type: {class: SimpleAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        method:
+          componentName: ZNormalBehaviour
+          methodName: esperarAction

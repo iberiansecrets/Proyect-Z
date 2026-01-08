@@ -23,9 +23,12 @@ public class GameManager : MonoBehaviour
     public float dificultad = 1.3f; // Aumenta el número de enemigos por ronda
     public int maxRondas = 10; // Máximo de rondas del juego
 
-    private int enemigosRestantes;
-    private bool rondaActiva = false;
+    public int enemigosRestantes;
+    [SerializeField] private bool rondaActiva = false;
     private bool juegoTerminado = false;
+
+    [Header("Control de Zombies")]
+    public float lastZombieKilledTime = 600f;
 
     [Header ("Temporizador")]
     public float tiempoTotal = 600f; // 10 minutos
@@ -190,10 +193,16 @@ public class GameManager : MonoBehaviour
         if (juegoTerminado || !rondaActiva) return;
 
         enemigosRestantes--;
+        lastZombieKilledTime = tiempoTotal;
         if (enemigosRestantes <= 0)
         {
             AcabarRonda();
         }
+    }
+
+    public bool MuchoSinMatar()
+    {
+        return lastZombieKilledTime - tiempoTotal > 15f;
     }
 
     public void RegistrarEnemigo(GameObject enemigo)

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 537612682750426959}
   - component: {fileID: 3214883029309999259}
   - component: {fileID: -3472297858962956991}
+  - component: {fileID: 8207246864813347335}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -154,6 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roamSpeed: 2
+  roamMoveTime: 2
+  roamWaitTime: 5
   target: {fileID: 0}
   speed: 3
   damage: 10
@@ -182,11 +186,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e3b3a48d15b5c45af163137f90b23a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rangoPersecucion: 10
+  rangoPersecucion: 15
   rangoAtaque: 2
   rangoMovimiento: 10
   anguloVision: 45
   speed: 2
+  speedRotation: 36
   damage: 7
   rb: {fileID: 0}
   jugador: {fileID: 0}
@@ -210,6 +215,20 @@ MonoBehaviour:
   rangoMovimiento: 10
   anguloVision: 45
   speed: 3
+  speedRotation: 0
   rb: {fileID: 0}
   zombi: {fileID: 0}
   jugador: {fileID: 0}
+--- !u!114 &8207246864813347335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6194605335806130593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a0f2583e0705b4d9ade1476b990f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipo: 0
