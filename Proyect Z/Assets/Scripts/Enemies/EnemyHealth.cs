@@ -4,7 +4,7 @@ public class EnemyHealth : MonoBehaviour
 {
     [Header("Atributos de salud")]
     public float vidaMaxima = 30f;
-    private float vidaActual;
+    public float vidaActual;
     private bool isDead = false;
 
     // Evento para notificar la muerte (utilizado por el EnemiesSpawner)

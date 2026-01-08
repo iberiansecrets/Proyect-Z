@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     [Header("Control de Zombies")]
     public float lastZombieKilledTime = 600f;
 
-    [Header ("Temporizador")]
+    [Header("Temporizador")]
     public float tiempoTotal = 600f; // 10 minutos
     private bool temporizadorActivo = true;
 

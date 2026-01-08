@@ -36,6 +36,8 @@ public class EnemiesSpawner : MonoBehaviour
         spawningActive = true;
         zombiesSpawned.Clear();
 
+        SpawnComander();
+
         for (int i = 0; i < cantidad; i++)
         {
             // Esperar un momento antes de cada spawn
@@ -57,6 +59,23 @@ public class EnemiesSpawner : MonoBehaviour
         spawningActive = false;
     }
 
+    private void SpawnComander()
+    {
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+
+        GameObject newZombie = Instantiate(zombiesPrefab[3], spawnPoint.position, spawnPoint.rotation);
+        zombiesSpawned.Add(newZombie);
+
+        // Notificar al GameManager que hay un nuevo enemigo
+        if (GameManager.Instance != null)
+            GameManager.Instance.RegistrarEnemigo(newZombie);
+
+        // Suscribirse al evento de muerte del zombie (si existe el componente EnemyHealth)
+        EnemyHealth health = newZombie.GetComponent<EnemyHealth>();
+        if (health != null)
+            health.onDeath += () => OnZombieDeath(newZombie);
+    }
+
     private void SpawnZombie()
     {
         if (spawnPoints.Length == 0 || zombiesPrefab.Count == 0)
@@ -69,7 +88,7 @@ public class EnemiesSpawner : MonoBehaviour
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
         // Instancia un tipo aleatorio de zombie
-        GameObject zombiePrefab = zombiesPrefab[Random.Range(0, zombiesPrefab.Count)];
+        GameObject zombiePrefab = zombiesPrefab[Random.Range(0, zombiesPrefab.Count - 1)];
         GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
         zombiesSpawned.Add(newZombie);
