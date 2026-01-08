@@ -6,7 +6,8 @@ public class ZombieType : MonoBehaviour
     {
         Normal,
         Corredor,
-        Colosal
+        Colosal,
+        Comandante
     }
 
     public Tipo tipo;
