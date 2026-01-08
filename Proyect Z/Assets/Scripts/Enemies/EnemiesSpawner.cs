@@ -85,6 +85,57 @@ public class EnemiesSpawner : MonoBehaviour
             health.onDeath += () => OnZombieDeath(newZombie);
     }
 
+    void SpawnZombieTipo(ZombieType.Tipo tipoBuscado)
+    {
+        GameObject prefab = zombiesPrefab.Find(z =>
+        {
+            var t = z.GetComponent<ZombieType>();
+            return t != null && t.tipo == tipoBuscado;
+        });
+
+        if (prefab == null)
+        {
+            Debug.LogWarning($"No se encontró prefab del tipo {tipoBuscado}");
+            return;
+        }
+
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        GameObject newZombie = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+
+        zombiesSpawned.Add(newZombie);
+
+        // Notificar al GameManager que hay un nuevo enemigo
+        if (GameManager.Instance != null)
+            GameManager.Instance.RegistrarEnemigo(newZombie);
+
+        EnemyHealth health = newZombie.GetComponent<EnemyHealth>();
+        if (health != null)
+            health.onDeath += () => OnZombieDeath(newZombie);
+    }
+
+    public void SpawnBalanceado(int cantidad)
+    {
+        Debug.Log("SPAWN BALANCEADO DETECTADO");
+        int normales = GetNumNormales();
+        Debug.Log(normales);
+        int corredores = GetNumCorredores();
+        Debug.Log(corredores);
+        int colosales = GetNumColosales();
+        Debug.Log(colosales);
+        int total = Mathf.Max(1, normales + corredores + colosales);
+        Debug.Log(total);
+
+        int spawnNormales = Mathf.RoundToInt(cantidad * (normales / (float)total));
+        int spawnCorredores = Mathf.RoundToInt(cantidad * (corredores / (float)total));
+        int spawnColosales = Mathf.RoundToInt(cantidad * (colosales / (float)total));
+
+        for (int i = 0; i < spawnNormales; i++) SpawnZombieTipo(ZombieType.Tipo.Normal);
+        for (int i = 0; i < spawnCorredores; i++) SpawnZombieTipo(ZombieType.Tipo.Corredor);
+        for (int i = 0; i < spawnColosales; i++) SpawnZombieTipo(ZombieType.Tipo.Colosal);
+
+        Debug.Log($"Se han generado: {spawnNormales} normales, {spawnCorredores} corredores y {spawnColosales} colosales");        
+    }
+
     private void OnZombieDeath(GameObject zombie)
     {
         // Eliminarlo de la lista local
@@ -106,5 +157,32 @@ public class EnemiesSpawner : MonoBehaviour
                 Destroy(zombie);
         }
         zombiesSpawned.Clear();
+    }
+
+    public int GetNumNormales()
+    {
+        return zombiesSpawned.FindAll(z =>
+        {
+            var t = z.GetComponent<ZombieType>();
+            return t != null && t.tipo == ZombieType.Tipo.Normal;
+        }).Count;
+    }
+
+    public int GetNumColosales()
+    {
+        return zombiesSpawned.FindAll(z =>
+        {
+            var t = z.GetComponent<ZombieType>();
+            return t != null && t.tipo == ZombieType.Tipo.Colosal;
+        }).Count;
+    }
+
+    public int GetNumCorredores()
+    {
+        return zombiesSpawned.FindAll(z =>
+        {
+            var t = z.GetComponent<ZombieType>();
+            return t != null && t.tipo == ZombieType.Tipo.Corredor;
+        }).Count;
     }
 }

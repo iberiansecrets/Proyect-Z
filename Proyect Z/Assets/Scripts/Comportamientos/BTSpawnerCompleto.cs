@@ -11,60 +11,71 @@ using BehaviourAPI.UtilitySystems;
 using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
 
 
-public class BTSpawnerObjetos : BehaviourRunner
+public class BTSpawnerCompleto : BehaviourRunner
 {
-	[SerializeField] private ObjectSpawner m_ObjectSpawner;
+    [SerializeField] private ObjectSpawner m_ObjectSpawner;
     [SerializeField] BSRuntimeDebugger _debugger;
 	
 	protected override BehaviourGraph CreateGraph()
 	{
-		BehaviourTree BT_ObjectSpawner = new BehaviourTree();
+		BehaviourTree BT_CompleteSpawner = new BehaviourTree();
 		UtilitySystem US_Armas = CrearSubUS();
+
 
         // Acciones
         SimpleAction GenerarBotiquin_action = new SimpleAction(m_ObjectSpawner.SpawnBotiquin);
-        DelayAction pulsoChequeo_action = new DelayAction(10f);
+        SimpleAction GenerarZombies_action = new SimpleAction(m_ObjectSpawner.PenalizacionTiempo);
+        DelayAction Pulso_Chequeo_action = new DelayAction(5);
         SubsystemAction GenerarArma_action = new SubsystemAction(US_Armas);
 
 
         // Nodos Hoja
-        LeafNode GenerarBotiquin = BT_ObjectSpawner.CreateLeafNode(GenerarBotiquin_action);
-        LeafNode GenerarArma = BT_ObjectSpawner.CreateLeafNode(GenerarArma_action);
-        LeafNode pulsoChequeo = BT_ObjectSpawner.CreateLeafNode(pulsoChequeo_action);        
+        LeafNode GenerarBotiquin = BT_CompleteSpawner.CreateLeafNode(GenerarBotiquin_action);
+        LeafNode GenerarArma = BT_CompleteSpawner.CreateLeafNode(GenerarArma_action);
+        LeafNode GenerarZombies = BT_CompleteSpawner.CreateLeafNode(GenerarZombies_action);
+        LeafNode Pulso_Chequeo = BT_CompleteSpawner.CreateLeafNode(Pulso_Chequeo_action);
+
 
         // Condiciones
-        ConditionNode Vida_Generada = BT_ObjectSpawner.CreateDecorator<ConditionNode>(GenerarBotiquin);
-        Vida_Generada.Perception = new ConditionPerception(null, m_ObjectSpawner.GetVidaGenerada, null);
-        ConditionNode Vida_baja = BT_ObjectSpawner.CreateDecorator<ConditionNode>(Vida_Generada);
-        Vida_baja.Perception = new ConditionPerception(null, m_ObjectSpawner.VidaJugadorBaja, null);
-        ConditionNode Arma_Generada = BT_ObjectSpawner.CreateDecorator<ConditionNode>(GenerarArma);
-        Arma_Generada.Perception = new ConditionPerception(null, m_ObjectSpawner.GetArmaGenerada, null);
-        ConditionNode Muchos_Zombies = BT_ObjectSpawner.CreateDecorator<ConditionNode>(Arma_Generada);
-        Muchos_Zombies.Perception = new ConditionPerception(null, m_ObjectSpawner.MuchosZombies, null);
+        ConditionNode vidaGenerada = BT_CompleteSpawner.CreateDecorator<ConditionNode>(GenerarBotiquin);
+        vidaGenerada.Perception = new ConditionPerception(null, m_ObjectSpawner.GetVidaGenerada, null);
+        ConditionNode vidaBaja = BT_CompleteSpawner.CreateDecorator<ConditionNode>(vidaGenerada);
+        vidaBaja.Perception = new ConditionPerception(null, m_ObjectSpawner.VidaJugadorBaja, null);
+        ConditionNode armaGenerada = BT_CompleteSpawner.CreateDecorator<ConditionNode>(GenerarArma);
+        armaGenerada.Perception = new ConditionPerception(null, m_ObjectSpawner.GetArmaGenerada, null);
+        ConditionNode muchosZombies = BT_CompleteSpawner.CreateDecorator<ConditionNode>(armaGenerada);
+        muchosZombies.Perception = new ConditionPerception(null, m_ObjectSpawner.MuchosZombies, null);
+        ConditionNode pocosZombies = BT_CompleteSpawner.CreateDecorator<ConditionNode>(GenerarZombies);
+        pocosZombies.Perception = new ConditionPerception(null, m_ObjectSpawner.PocosZombies, null);
+        ConditionNode muchoSinMatar = BT_CompleteSpawner.CreateDecorator<ConditionNode>(pocosZombies);
+        muchoSinMatar.Perception = new ConditionPerception(null, m_ObjectSpawner.MuchoTiempoSinMatar, null);
+
 
         // Succeders
-        SuccederNode SuccederVida = BT_ObjectSpawner.CreateDecorator<SuccederNode>(Vida_baja);
-        SuccederNode SuccederArma = BT_ObjectSpawner.CreateDecorator<SuccederNode>(Muchos_Zombies);
+        SuccederNode vidaSucceder = BT_CompleteSpawner.CreateDecorator<SuccederNode>(vidaBaja);
+        SuccederNode armaSucceder = BT_CompleteSpawner.CreateDecorator<SuccederNode>(muchosZombies);
+        SuccederNode zombiesSucceder = BT_CompleteSpawner.CreateDecorator<SuccederNode>(muchoSinMatar);
+
 
         // Secuencia Principal
-        SequencerNode Seleccion_principal = BT_ObjectSpawner.CreateComposite<SequencerNode>(false, SuccederVida, SuccederArma, pulsoChequeo);
-        Seleccion_principal.IsRandomized = false;
+        SequencerNode Secuencia_Principal = BT_CompleteSpawner.CreateComposite<SequencerNode>(false, vidaSucceder, armaSucceder, zombiesSucceder, Pulso_Chequeo);
+        Secuencia_Principal.IsRandomized = false;
 
 
         // Loop Principal
-        LoopNode Loop_Principal = BT_ObjectSpawner.CreateDecorator<LoopNode>(Seleccion_principal);
+        LoopNode Loop_Principal = BT_CompleteSpawner.CreateDecorator<LoopNode>(Secuencia_Principal);
         Loop_Principal.Iterations = -1;
 
-        BT_ObjectSpawner.SetRootNode(Loop_Principal);
+        BT_CompleteSpawner.SetRootNode(Loop_Principal);
 
-        _debugger.RegisterGraph(BT_ObjectSpawner, "Main BT");
+        _debugger.RegisterGraph(BT_CompleteSpawner, "Main BT");
         _debugger.RegisterGraph(US_Armas, "Sub US");
 
-        return BT_ObjectSpawner;
+        return BT_CompleteSpawner;
 	}
 
-	UtilitySystem CrearSubUS()
-	{
+    UtilitySystem CrearSubUS()
+    {
         UtilitySystem us = new UtilitySystem();
 
         // Factores
