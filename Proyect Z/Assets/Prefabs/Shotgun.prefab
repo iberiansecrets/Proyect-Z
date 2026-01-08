@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8405781552185305217}
   - component: {fileID: 4834986144223936355}
   - component: {fileID: 5341316691346558878}
-  - component: {fileID: -6937043458400624921}
+  - component: {fileID: -318209919972780287}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Untagged
@@ -109,7 +109,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-6937043458400624921
+--- !u!114 &-318209919972780287
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

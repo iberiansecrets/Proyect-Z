@@ -129,9 +129,21 @@ public class EnemiesSpawner : MonoBehaviour
         int spawnCorredores = Mathf.RoundToInt(cantidad * (corredores / (float)total));
         int spawnColosales = Mathf.RoundToInt(cantidad * (colosales / (float)total));
 
-        for (int i = 0; i < spawnNormales; i++) SpawnZombieTipo(ZombieType.Tipo.Normal);
-        for (int i = 0; i < spawnCorredores; i++) SpawnZombieTipo(ZombieType.Tipo.Corredor);
-        for (int i = 0; i < spawnColosales; i++) SpawnZombieTipo(ZombieType.Tipo.Colosal);
+        for (int i = 0; i < spawnNormales; i++)
+        {
+            SpawnZombieTipo(ZombieType.Tipo.Normal);
+            GameManager.Instance.RegistrarEnemigo(null);
+        }
+        for (int i = 0; i < spawnCorredores; i++)
+        {
+            SpawnZombieTipo(ZombieType.Tipo.Corredor);
+            GameManager.Instance.RegistrarEnemigo(null);
+        }
+        for (int i = 0; i < spawnColosales; i++)
+        {
+            SpawnZombieTipo(ZombieType.Tipo.Colosal);
+            GameManager.Instance.RegistrarEnemigo(null);
+        }
 
         Debug.Log($"Se han generado: {spawnNormales} normales, {spawnCorredores} corredores y {spawnColosales} colosales");        
     }
