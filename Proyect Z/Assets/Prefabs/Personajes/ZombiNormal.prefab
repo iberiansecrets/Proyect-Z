@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 7025004980194262388}
   - component: {fileID: 7744588358624354253}
   - component: {fileID: 2671841629188854278}
+  - component: {fileID: 1486178830157935092}
+  - component: {fileID: 923112964927424731}
   m_Layer: 0
   m_Name: ZombiNormal
   m_TagString: Enemy
@@ -95,7 +97,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682183930884348105}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
   m_Name: 
@@ -119,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vidaMaxima: 20
+  "cooldownDa\xF1oAlambre": 1
 --- !u!198 &7744588358624354253
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4977,6 +4980,51 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &1486178830157935092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682183930884348105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66bc7957df7e8f149bb5e11a2dbcadc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangoPersecucion: 10
+  rangoAtaque: 3
+  rangoMovimiento: 10
+  anguloVision: 45
+  speed: 1.5
+  speedRotation: 18
+  damage: 5
+  rb: {fileID: 0}
+  jugador: {fileID: 0}
+  fovColor: {r: 1, g: 1, b: 0, a: 0.3}
+--- !u!114 &923112964927424731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682183930884348105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56976ed5bc950194b93bf8e4f4671761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  rangoPersecucion: 10
+  rangoAtaque: 2
+  rangoMovimiento: 10
+  anguloVision: 45
+  speed: 0
+  speedRotation: 0
+  rb: {fileID: 0}
+  zombi: {fileID: 0}
+  jugador: {fileID: 0}
 --- !u!1001 &3439627303846748755
 PrefabInstance:
   m_ObjectHideFlags: 0
