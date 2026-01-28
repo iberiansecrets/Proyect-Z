@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("UI")]
     public Slider barraDeVida;
+    public TMP_Text vidaRestante;
 
     void Awake()
     {
@@ -31,13 +33,26 @@ public class PlayerHealth : MonoBehaviour
     {
         if (barraDeVida != null)
             barraDeVida.value = vidaActual;
+
+        if (vidaRestante != null)
+            vidaRestante.text = vidaActual.ToString("0");
     }
 
     public void RecibirDaño(float cantidad)
     {
-        if (Time.time - tiempoUltimoDaño < cooldownDaño)
-            return; // Cooldown
 
+        //GetComponent<ParticleSystem>().Play();
+
+        PlayerController player = GetComponent<PlayerController>();
+        if (player != null && player.isInvulnerable)
+            return;
+
+        if (Time.time - tiempoUltimoDaño < cooldownDaño)
+        {            
+            return; // Cooldown
+        }
+
+        GetComponent<ParticleSystem>().Play();
         tiempoUltimoDaño = Time.time;
         vidaActual -= cantidad;
         vidaActual = Mathf.Clamp(vidaActual, 0, vidaMaxima);

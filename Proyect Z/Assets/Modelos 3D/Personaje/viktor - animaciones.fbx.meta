@@ -1,0 +1,1078 @@
+fileFormatVersion: 2
+guid: 90f14dfe9062dbf43917981abfe5f75f
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'Base HumanLCalf005' has scale animation
+      that will be discarded.\n\t'Base HumanLFoot005' has scale animation that will
+      be discarded.\n\t'Base HumanRCalf005' has scale animation that will be discarded.\n\t'Base
+      HumanRFoot005' has scale animation that will be discarded.\n\t'Base HumanSpine024'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Base
+      HumanRibcage005' is inbetween humanoid transforms and has rotation animation
+      that will be discarded.\n\t'Base HumanLForearm005' has scale animation that
+      will be discarded.\n\t'Base HumanLPalm005' has scale animation that will be
+      discarded.\n\t'Base HumanNeck012' is inbetween humanoid transforms and has
+      rotation animation that will be discarded.\n"
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle Pistola
+      takeName: Take 001
+      internalID: 1827226128182048838
+      firstFrame: 0
+      lastFrame: 100
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Idle Arma
+      takeName: Take 001
+      internalID: -998496362607748373
+      firstFrame: 101
+      lastFrame: 171
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Patada Pistola
+      takeName: Take 001
+      internalID: -3291206362154003629
+      firstFrame: 172
+      lastFrame: 227
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Patada Arma
+      takeName: Take 001
+      internalID: -1493303027246044120
+      firstFrame: 228
+      lastFrame: 283
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Correr Pistola
+      takeName: Take 001
+      internalID: -5665051857912407913
+      firstFrame: 284
+      lastFrame: 319
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Diagonal Dcha Pistola
+      takeName: Take 001
+      internalID: -4912743690084142542
+      firstFrame: 320
+      lastFrame: 355
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Diagonal Izda Pistola
+      takeName: Take 001
+      internalID: 5781074022923015010
+      firstFrame: 356
+      lastFrame: 391
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Correr Arma
+      takeName: Take 001
+      internalID: -4762819918396753626
+      firstFrame: 392
+      lastFrame: 427
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Diagonal Dcha Arma
+      takeName: Take 001
+      internalID: -3467987342902004284
+      firstFrame: 428
+      lastFrame: 451
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Diagonal Izda Arma
+      takeName: Take 001
+      internalID: 8923159427631261082
+      firstFrame: 452
+      lastFrame: 473
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Atras pistola
+      takeName: Take 001
+      internalID: -8388156730706731625
+      firstFrame: 474
+      lastFrame: 498
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Diagonal Dcha Atras Pistola
+      takeName: Take 001
+      internalID: -6577145938085917429
+      firstFrame: 499
+      lastFrame: 524
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Diagonal Izda Atras Pistola
+      takeName: Take 001
+      internalID: 1053076475599293515
+      firstFrame: 525
+      lastFrame: 550
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Atras Arma
+      takeName: Take 001
+      internalID: -4388152902290902942
+      firstFrame: 551
+      lastFrame: 586
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Diagonal Dcha Atras Arma
+      takeName: Take 001
+      internalID: -4958900731480619067
+      firstFrame: 587
+      lastFrame: 604
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Diagonal Izda Atras Arma
+      takeName: Take 001
+      internalID: -498529015131651651
+      firstFrame: 605
+      lastFrame: 640
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Derecha Pistola
+      takeName: Take 001
+      internalID: -7477998168496135891
+      firstFrame: 641
+      lastFrame: 671
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Izda Pistola
+      takeName: Take 001
+      internalID: -693603631063879289
+      firstFrame: 672
+      lastFrame: 711
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Dcha Arma
+      takeName: Take 001
+      internalID: 67149503008365270
+      firstFrame: 712
+      lastFrame: 742
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Izda Arma
+      takeName: Take 001
+      internalID: 4495542927842965080
+      firstFrame: 743
+      lastFrame: 773
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human:
+    - boneName: Base HumanPelvis005
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanLThigh005
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanRThigh005
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanLCalf005
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanRCalf005
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanLFoot005
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanRFoot005
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanSpine021
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanSpine022
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanNeck011
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanHead005
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanLCollarbone005
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanRCollarbone005
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanLUpperarm005
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanRUpperarm005
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanLForearm005
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanRForearm005
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanLPalm005
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanRPalm005
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Base HumanSpine023
+      humanName: UpperChest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: viktor - animaciones(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Container001
+      parentName: viktor - animaciones(Clone)
+      position: {x: -926.3975, y: 111.48996, z: 39.00553}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Box003
+      parentName: Container001
+      position: {x: 25.249372, y: 2.2781448, z: -49.568333}
+      rotation: {x: 0, y: -0.059995994, z: -0, w: 0.9981986}
+      scale: {x: 1, y: 1, z: 1.8551662}
+    - name: Sphere004
+      parentName: Container001
+      position: {x: 7.0559845, y: -4.6080856, z: 65.57222}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 1.6791984, y: 1.6791984, z: 1.6791984}
+    - name: Sphere005
+      parentName: Container001
+      position: {x: -10.515932, y: -4.6080856, z: 65.57222}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 1.6791984, y: 1.6791984, z: 1.6791984}
+    - name: cabello001
+      parentName: Container001
+      position: {x: -1.640316, y: 10.955868, z: 74.95625}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 0.62130135, y: 0.62130135, z: 0.62130135}
+    - name: camiseta001
+      parentName: Container001
+      position: {x: -1.702466, y: -0.27391815, z: 12.971817}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.029025, y: 1.029025, z: 1.029025}
+    - name: cejas003
+      parentName: Container001
+      position: {x: -5.539155, y: -7.6376114, z: 82.11153}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: cejas004
+      parentName: Container001
+      position: {x: 0.7849169, y: -8.213982, z: 58.865494}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: chaqueta001
+      parentName: Container001
+      position: {x: -1.702466, y: -1.876854, z: 10.5585785}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.1808896, y: 1.1808896, z: 1.1808896}
+    - name: medias002
+      parentName: Container001
+      position: {x: 15.339693, y: 3.7366257, z: -73.47209}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.13921, y: 1.1515704, z: 1}
+    - name: medias003
+      parentName: Container001
+      position: {x: -19.105806, y: 3.7366257, z: -73.61922}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.13921, y: 1.1515704, z: 1}
+    - name: pantalon001
+      parentName: Container001
+      position: {x: -1.2570658, y: -3.069107, z: -37.52162}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.0588924, y: 1.0588924, z: 1.0588924}
+    - name: personaje001
+      parentName: Container001
+      position: {x: -1.702467, y: -1.24366, z: 15.089279}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: zapatos002
+      parentName: Container001
+      position: {x: 15.87022, y: -0.30646515, z: -80.12352}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.13921, y: 1.1511008, z: 1}
+    - name: zapatos003
+      parentName: Container001
+      position: {x: -19.819866, y: -0.30646515, z: -80.12352}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.13921, y: 1.1511008, z: 1}
+    - name: Sphere006
+      parentName: Container001
+      position: {x: -10.953857, y: -9.272049, z: 65.612686}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 1.75465, y: 2.4908016, z: 1.75465}
+    - name: Sphere007
+      parentName: Container001
+      position: {x: 7.573242, y: -9.272057, z: 65.61267}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 1.75465, y: 2.4908016, z: 1.75465}
+    - name: Base Human005
+      parentName: viktor - animaciones(Clone)
+      position: {x: -928.7094, y: 25.627815, z: 37.83265}
+      rotation: {x: 0.5000001, y: -0.50000006, z: -0.4999999, w: 0.49999997}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Base HumanLPlatform005
+      parentName: viktor - animaciones(Clone)
+      position: {x: -946.04254, y: 28.639755, z: 39.426506}
+      rotation: {x: 0.50000006, y: -0.49999994, z: -0.49999994, w: 0.50000006}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Base HumanRPlatform005
+      parentName: viktor - animaciones(Clone)
+      position: {x: -911.2984, y: 28.639755, z: 39.426506}
+      rotation: {x: 0.50000006, y: -0.49999994, z: -0.49999994, w: 0.50000006}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Base HumanPelvis005
+      parentName: viktor - animaciones(Clone)
+      position: {x: 0.000061035156, y: 67.74131, z: -3.7899933}
+      rotation: {x: 0.49912703, y: -0.5008716, z: -0.4991269, w: 0.5008715}
+      scale: {x: 1.0000006, y: 1.0000006, z: 1.0000005}
+    - name: Base HumanRThigh005
+      parentName: Base HumanPelvis005
+      position: {x: -1.3917999, y: 3.7948685, z: -7.1106567}
+      rotation: {x: -0.040468365, y: 0.99345183, z: 0.02542141, w: -0.10377699}
+      scale: {x: 1.0000017, y: 1.0000002, z: 0.9999997}
+    - name: Base HumanRCalf005
+      parentName: Base HumanRThigh005
+      position: {x: -35.31572, y: 0.000038146973, z: 0.00030517578}
+      rotation: {x: 0.02121153, y: -0.059725165, z: 0.15563725, w: 0.98577887}
+      scale: {x: 1.0000082, y: 1.0000011, z: 0.9999908}
+    - name: Base HumanRFoot005
+      parentName: Base HumanRCalf005
+      position: {x: -27.57486, y: 0.00000047683716, z: 0}
+      rotation: {x: 0.021086281, y: -0.042080842, z: -0.70706, w: 0.7055855}
+      scale: {x: 1.0000094, y: 0.9999929, z: 1.0000008}
+    - name: Base HumanSpine021
+      parentName: Base HumanPelvis005
+      position: {x: -3.6946335, y: -0.2826786, z: 0}
+      rotation: {x: -0, y: -0.000000014901161, z: -0.14867517, w: 0.9888862}
+      scale: {x: 1.0000012, y: 1.0000019, z: 1.0000008}
+    - name: Base HumanSpine022
+      parentName: Base HumanSpine021
+      position: {x: -13.593033, y: 0, z: 0}
+      rotation: {x: 0.0000025481304, y: 0.0000003075387, z: 0.17009965, w: 0.9854269}
+      scale: {x: 1.0000011, y: 1.0000004, z: 1.0000007}
+    - name: Base HumanSpine023
+      parentName: Base HumanSpine022
+      position: {x: -11.5794525, y: 0, z: 0}
+      rotation: {x: -0.0000026283644, y: 0.0000003632547, z: 0.08468441, w: 0.99640787}
+      scale: {x: 1.0000006, y: 1.000001, z: 1.0000005}
+    - name: Base HumanSpine024
+      parentName: Base HumanSpine023
+      position: {x: -12.443581, y: -0.0000076293945, z: 0}
+      rotation: {x: 0.0000000036573051, y: 0.000000037393217, z: -0.086880796, w: 0.99621874}
+      scale: {x: 1.000001, y: 1.0000008, z: 1.0000007}
+    - name: Base HumanRibcage005
+      parentName: Base HumanSpine024
+      position: {x: -16.768127, y: 0, z: 0}
+      rotation: {x: 0.00000009003991, y: 1.5034372e-10, z: -0.021240806, w: 0.9997744}
+      scale: {x: 0.99999887, y: 0.9999986, z: 0.99999934}
+    - name: Base HumanRCollarbone005
+      parentName: Base HumanRibcage005
+      position: {x: 1.403183, y: 8.205193, z: -2.4342651}
+      rotation: {x: 0.040594295, y: 0.7634746, z: -0.14102888, w: -0.6289432}
+      scale: {x: 1.0000013, y: 1.0000006, z: 1.0000001}
+    - name: Base HumanRUpperarm005
+      parentName: Base HumanRCollarbone005
+      position: {x: -19.750488, y: 0, z: 0}
+      rotation: {x: -0.11404274, y: 0.077135295, z: -0.12824237, w: 0.9821397}
+      scale: {x: 1.0000008, y: 1.0000008, z: 1.0000002}
+    - name: Base HumanRForearm005
+      parentName: Base HumanRUpperarm005
+      position: {x: -26.577026, y: 0, z: 0.000061035156}
+      rotation: {x: -0.064132266, y: -0.010428473, z: 0.033060744, w: 0.99733907}
+      scale: {x: 1.0000013, y: 0.9999996, z: 1.0000006}
+    - name: Base HumanRPalm005
+      parentName: Base HumanRForearm005
+      position: {x: -26.732533, y: -0.000030517578, z: 0}
+      rotation: {x: 0.3598707, y: -0.028664103, z: 0.0047762934, w: 0.9325496}
+      scale: {x: 1.0000006, y: 0.9999992, z: 1.0000007}
+    - name: Base HumanNeck011
+      parentName: Base HumanRibcage005
+      position: {x: -0.064193726, y: -0.2826786, z: 0}
+      rotation: {x: -0, y: -0, z: 0.0000000018626449, w: 1}
+      scale: {x: 0.99999946, y: 0.99999946, z: 0.9999997}
+    - name: Base HumanNeck012
+      parentName: Base HumanNeck011
+      position: {x: -10.088074, y: -0.0000019073486, z: 0}
+      rotation: {x: -4.5732125e-14, y: -7.105428e-15, z: -2.8421713e-14, w: 1}
+      scale: {x: 0.9999999, y: 1, z: 0.99999994}
+    - name: Base HumanHead005
+      parentName: Base HumanNeck012
+      position: {x: -10.088074, y: 0, z: 0}
+      rotation: {x: -0.00000002990621, y: 0.000000059552605, z: -0.000000029802298, w: 1}
+      scale: {x: 1.000002, y: 1.0000021, z: 1.0000013}
+    - name: Base HumanLCollarbone005
+      parentName: Base HumanRibcage005
+      position: {x: 1.403183, y: 8.205193, z: 2.4343262}
+      rotation: {x: 0.04059435, y: 0.7634742, z: 0.14102903, w: 0.6289437}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1}
+    - name: Base HumanLUpperarm005
+      parentName: Base HumanLCollarbone005
+      position: {x: -19.75055, y: 0, z: 0.000061035156}
+      rotation: {x: 0.12222069, y: -0.076009646, z: -0.12663797, w: 0.98145175}
+      scale: {x: 0.9999967, y: 1.0000037, z: 1.0000011}
+    - name: Base HumanLForearm005
+      parentName: Base HumanLUpperarm005
+      position: {x: -25.744171, y: 0.0000038146973, z: 0}
+      rotation: {x: 0.06412031, y: 0.0120373145, z: -0.009503067, w: 0.9978244}
+      scale: {x: 1.0000111, y: 0.9999902, z: 1.0000006}
+    - name: Base HumanLPalm005
+      parentName: Base HumanLForearm005
+      position: {x: -28.866402, y: 0, z: 0}
+      rotation: {x: -0.36101586, y: 0.03335814, z: 0.033744577, w: 0.9313518}
+      scale: {x: 1.0000327, y: 0.9999978, z: 0.9999705}
+    - name: Base HumanLThigh005
+      parentName: Base HumanPelvis005
+      position: {x: -1.3917923, y: 3.7948685, z: 7.110718}
+      rotation: {x: -0.0322064, y: 0.9930905, z: -0.025508076, w: 0.10992466}
+      scale: {x: 1.0000012, y: 1.0000011, z: 1.0000006}
+    - name: Base HumanLCalf005
+      parentName: Base HumanLThigh005
+      position: {x: -35.315674, y: 0.000029563904, z: -0.00024414062}
+      rotation: {x: -0.02130984, y: 0.052779607, z: 0.13728277, w: 0.9888952}
+      scale: {x: 1.000009, y: 1.0000015, z: 0.9999914}
+    - name: Base HumanLFoot005
+      parentName: Base HumanLCalf005
+      position: {x: -27.574852, y: 0, z: 0}
+      rotation: {x: -0.029708656, y: 0.05183993, z: -0.6989852, w: 0.71263576}
+      scale: {x: 1.0000082, y: 0.9999923, z: 0.99999994}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 3
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

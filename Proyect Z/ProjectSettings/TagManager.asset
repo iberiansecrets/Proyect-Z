@@ -6,9 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Bullet
-  - Normal
-  - Colosal
-  - Corredor
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -19,8 +17,8 @@ TagManager:
   - Player
   - Enemy
   - Bullet
-  - obstacleMask
-  - 
+  - Obstacle
+  - Wire
   - 
   - 
   - 

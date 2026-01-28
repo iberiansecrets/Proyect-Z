@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4240234641933072034
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 41.11726
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 16.627666
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 28.15128
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_Name
+      value: Metal Wires
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4533542660386444376}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4692519716495872112}
+  m_SourcePrefab: {fileID: 100100000, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+--- !u!1 &3898216363578412019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bd6aecd9282f9f64a9d11f4c5e732db0, type: 3}
+  m_PrefabInstance: {fileID: 4240234641933072034}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4533542660386444376
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3898216363578412019}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 34.139164, y: 42.250694, z: 33.73561}
+  m_Center: {x: 0.0752697, y: 20.18045, z: 0.24014002}
+--- !u!114 &4692519716495872112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3898216363578412019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92318c50fe698204dad51c8249a15bc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowMultiplier: 0.45
+  damagePerSecond: 5
