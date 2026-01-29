@@ -9,12 +9,12 @@ public class HealthPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            ObjectSpawner ob = FindObjectOfType<ObjectSpawner>();
+            ObjectSpawner ob = FindFirstObjectByType<ObjectSpawner>();
             if (playerHealth != null)
             {
                 playerHealth.Heal(healAmount);
                 Destroy(gameObject); // desaparece al ser recogido
-                ob.vidaGenerada = false;
+                ob.vidaGenerada = false; // Permitir que se genere otra vida
             }
         }
     }

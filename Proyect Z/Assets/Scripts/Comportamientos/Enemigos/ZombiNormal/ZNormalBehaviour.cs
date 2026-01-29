@@ -217,7 +217,7 @@ public class BehaviourTreeAction : Action {
         _bt.Start();
     } 
     public override Status Update() {
-        _bt.Update();
+        
         return Status.Running;
     }
     public override void Stop() {

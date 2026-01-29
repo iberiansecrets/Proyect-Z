@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour
     public float tiempoTotal = 600f; // 10 minutos
     private bool temporizadorActivo = true;
 
+    [Header("Inactividad")]
+    public float maxTiempoSinMatar = 30f; // Tiempo límite
+    private float timerSinMatar = 0f;      // Contador interno
+
     [Header("Mejoras")]
     public GameObject mejorasUI; // Panel con los botones de mejoras
     public Button[] botonesMejoras; // Array de 3 botones para las mejoras
@@ -81,6 +85,17 @@ public class GameManager : MonoBehaviour
         }
 
         ActualizarEnemigosUI();
+
+        // Lógica de inactividad
+        if (rondaActiva && !juegoTerminado)
+        {
+            timerSinMatar += Time.deltaTime;
+        }
+    }
+
+    public bool MuchoSinMatar()
+    {
+        return timerSinMatar > maxTiempoSinMatar;
     }
 
     private void ActualizarTimerUI()
@@ -206,6 +221,8 @@ public class GameManager : MonoBehaviour
     public void EnemigoDerrotado()
     {
         if (juegoTerminado || !rondaActiva) return;
+
+        timerSinMatar = 0f; // Resetea el temporizador de inactividad
 
         enemigosRestantes--;
         ActualizarEnemigosUI();

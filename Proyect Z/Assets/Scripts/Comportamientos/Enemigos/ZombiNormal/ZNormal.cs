@@ -41,7 +41,7 @@ public class ZNormal : MonoBehaviour
             }
         }        
     }
-    
+
     void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))

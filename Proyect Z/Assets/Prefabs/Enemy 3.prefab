@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vidaMaxima: 100
   vidaActual: 50
+  "cooldownDa\xF1oAlambre": 1
 --- !u!120 &3330874397582077000
 LineRenderer:
   serializedVersion: 2
