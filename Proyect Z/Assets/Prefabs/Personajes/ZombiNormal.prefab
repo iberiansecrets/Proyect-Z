@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2854829167065544727}
   - component: {fileID: 3677277797449891789}
   - component: {fileID: 7744588358624354253}
+  - component: {fileID: -6099425470809973572}
   m_Layer: 0
   m_Name: ZombiNormal
   m_TagString: Enemy
@@ -60,9 +61,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.57283354
-  m_Height: 3.3142457
+  m_Height: 3.407269
   m_Direction: 1
-  m_Center: {x: 0.07125139, y: -0.33410358, z: 0.16991127}
+  m_Center: {x: 0.07125139, y: -0.39690423, z: 0.16991127}
 --- !u!54 &7133652414396983324
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -86,7 +87,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
   m_Constraints: 84
   m_CollisionDetection: 0
@@ -234,17 +235,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc517b151b34256449e50b3833e0dda0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  executeOnLoop: 0
+  executeOnLoop: 1
   interruptOptions: 0
+  rb: {fileID: 7133652414396983324}
+  zombi: {fileID: 2854829167065544727}
+  jugador: {fileID: 0}
+  zombiAnim: {fileID: 0}
   rangoPersecucion: 10
   rangoAtaque: 2
   rangoMovimiento: 10
   anguloVision: 45
   speed: 0
   speedRotation: 0
-  rb: {fileID: 0}
-  zombi: {fileID: 0}
-  jugador: {fileID: 0}
 --- !u!198 &7744588358624354253
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -5026,6 +5028,28 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!95 &-6099425470809973572
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682183930884348105}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 40bee620424c75642a6d672f9c328d3b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &3439627303846748755
 PrefabInstance:
   m_ObjectHideFlags: 0

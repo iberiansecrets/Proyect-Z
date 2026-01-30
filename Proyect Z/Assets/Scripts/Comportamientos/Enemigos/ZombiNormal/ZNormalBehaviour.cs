@@ -2,14 +2,23 @@ using BehaviourAPI.BehaviourTrees;
 using BehaviourAPI.Core;
 using BehaviourAPI.Core.Actions;
 using BehaviourAPI.Core.Perceptions;
-using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
-using UnityEngine;
 using BehaviourAPI.StateMachines;
 using BehaviourAPI.UnityToolkit;
+using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
 using System.Runtime.CompilerServices;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class ZNormalBehaviour : BehaviourRunner
 {
+    private NavMeshAgent agent;
+    [Header("Referencia al Zombi y al jugador")]
+    public Rigidbody rb;
+    public ZNormal zombi;
+    public Transform jugador;
+    [SerializeField] private Animator zombiAnim;
+
+
     [Header("Datos del Zombi")]
     private float tiempo = 0f;
     private float tiempoMax = 5f;
@@ -26,11 +35,6 @@ public class ZNormalBehaviour : BehaviourRunner
     private Vector3 destino;
 
 
-    [Header("Referencia al Zombi y al jugador")]
-    public Rigidbody rb;
-    public ZNormal zombi;
-    public Transform jugador;
-
     protected override void Init()
     {
         jugador = GameObject.FindGameObjectWithTag("Player").transform;
@@ -43,6 +47,17 @@ public class ZNormalBehaviour : BehaviourRunner
         speed = zombi.speed;
         speedRotation = zombi.speedRotation; //Grados por segundo
         destino = transform.position; // Inicializar destino en la posición actual
+        zombiAnim = GetComponentInChildren<Animator>();
+
+        agent = GetComponent<NavMeshAgent>();
+        if (agent == null)
+        {
+            agent = gameObject.AddComponent<NavMeshAgent>();
+        }
+
+        // Configuración para que no tome el control del movimiento físico
+        agent.updatePosition = false;
+        agent.updateRotation = false;
 
         base.Init();
     }
@@ -72,7 +87,7 @@ public class ZNormalBehaviour : BehaviourRunner
         fsm.CreateTransition("Jugador cerca", perseguir, atacar, jugadorEnRangoAtaque);
         fsm.CreateTransition("Jugador lejos", atacar, perseguir, jugadorCerca);
         fsm.CreateTransition("Jugador perdido", perseguir, buscarPJ, statusFlags: StatusFlags.Failure);
-        fsm.CreateTransition("Jugador muerto", atacar, buscarPJ, statusFlags: StatusFlags.Failure);
+        fsm.CreateTransition("Jugador muerto", atacar, buscarPJ, statusFlags: StatusFlags.Success);
 
         return fsm;
     }
@@ -122,7 +137,7 @@ public class ZNormalBehaviour : BehaviourRunner
 
     private Status MoverA()
     {
-        Debug.Log("Moviendose a: " + destino);
+        //Debug.Log("Moviendose a: " + destino);
         Vector3 dir = (destino - rb.position).normalized; // Dirección del movimiento
 
 
@@ -161,19 +176,31 @@ public class ZNormalBehaviour : BehaviourRunner
             Random.Range(-rangoMovimiento, rangoMovimiento)
         );                  
 
-        Debug.Log("NUEVO DESTINO ELEGIDO: " + destino);
+        //Debug.Log("NUEVO DESTINO ELEGIDO: " + destino);
         return Status.Success; 
     }
 
     private Status PerseguirPj()
     {
-        Debug.Log("PERSECUCION");
+        if (zombiAnim != null && !zombiAnim.GetCurrentAnimatorStateInfo(0).IsName("Caminar"))
+        {
+            zombiAnim.CrossFade("Caminar", 0.2f); // Transición suave de 0.2 segundos
+        }
+
+        //Debug.Log("PERSECUCION");
         if (jugador == null)
         {
             return Status.Failure;
         }
-        // Dirección hacia el jugador
-        Vector3 direction = (jugador.position - rb.position).normalized;
+
+        // 1. Sincroniza la posición del agente con el Rigidbody para que el NavMesh no se desfase
+        agent.nextPosition = rb.position;
+
+        // 2. Cálculo de dirección usando el NavMesh (evita que atraviese paredes)
+        agent.SetDestination(jugador.position);
+        Vector3 direction = (agent.steeringTarget - rb.position).normalized;
+        direction.y = 0; // Evita que el zombi se incline hacia arriba/abajo
+
         // Movimiento del zombi hacia el jugador
         Vector3 newPosition = rb.position + direction * speed * Time.deltaTime;
         rb.MovePosition(newPosition);
@@ -185,22 +212,58 @@ public class ZNormalBehaviour : BehaviourRunner
         }
         //Calcular Distancia al jugador
         distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
-        if (distanciaAlJugador <= rangoAtaque)
-        {
+        if (distanciaAlJugador <= (rangoAtaque + 0.2f)) {
+            zombiAnim.Play("Mordisco");
+            Debug.Log("ATACANDO");
+            zombiAnim.SetBool("Ataque", true); // Iniciar animación
+            zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
             return Status.Success; // Cambiar al estado de atacar
-        } else if (distanciaAlJugador > rangoPersecucion)
+            
+        }
+        if (distanciaAlJugador > rangoPersecucion)
         {
+            Debug.Log("BUSCANDO");
+            zombiAnim.Play("Idle");
+            zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
+            zombiAnim.SetBool("Ataque", false); // Parar animación de ataque
             return Status.Failure; // Perder al jugador
         }
+        
         return Status.Running; // Continuar persiguiendo
     }
 
     private Status AtacarPj() {
-        Debug.Log("ATAQUE");
+        //Debug.Log("ATAQUE");
         if (jugador == null)
         {
+            Debug.Log("BUSCANDO");
+            zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
+            zombiAnim.SetBool("Ataque", false); // Parar animación de ataque
+            return Status.Success;
+        }
+
+        distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
+
+        // Si el jugador se escapa del rango de ataque, fallamos para volver a perseguir
+        if (distanciaAlJugador > rangoAtaque)
+        {
+            zombiAnim.SetBool("Ataque", false); // Parar animación
+            zombiAnim.SetBool("Movimiento", true); // Iniciar animación de caminar
             return Status.Failure;
         }
+
+        // Mirar al jugador mientras ataca
+        Vector3 dir = (jugador.position - rb.position).normalized;
+        dir.y = 0;
+        rb.MoveRotation(Quaternion.LookRotation(dir));
+        
+        // Iniciar animación de ataque
+        if (zombiAnim != null)
+        {
+            zombiAnim.SetBool("Ataque", true);
+            zombiAnim.SetBool("Movimiento", false); // Detener movimiento en el animator
+        }
+
 
         return Status.Running;
     }
@@ -217,10 +280,12 @@ public class BehaviourTreeAction : Action {
         _bt.Start();
     } 
     public override Status Update() {
-        
+
+        _bt.Update();
         return Status.Running;
     }
     public override void Stop() {
+        Debug.Log("PERSIGUIENDO");
         _bt.Stop(); 
     } 
 }

@@ -984,11 +984,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1774997484198488184, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.6596117
+      value: -4.92
       objectReference: {fileID: 0}
     - target: {fileID: 1774997484198488184, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.89
+      value: 1.995
       objectReference: {fileID: 0}
     - target: {fileID: 1774997484198488184, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1022,9 +1022,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 7133652414396983324, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+    - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: jugador
+      value: 
+      objectReference: {fileID: 432614876}
+    - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: rangoAtaque
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3677277797449891789, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 7133652414396983324, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+    - target: {fileID: 3677277797449891789, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: speed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3677277797449891789, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: zombi
+      value: 
+      objectReference: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+    - target: {fileID: 3677277797449891789, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: jugador
+      value: 
+      objectReference: {fileID: 432614876}
     - target: {fileID: 7133652414396983324, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
       propertyPath: m_Constraints
       value: 84
+      objectReference: {fileID: 0}
+    - target: {fileID: 8024153213234279655, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1622,7 +1654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &330585544
 AudioListener:
   m_ObjectHideFlags: 0
@@ -15202,7 +15234,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1746642280
 MonoBehaviour:
   m_ObjectHideFlags: 0

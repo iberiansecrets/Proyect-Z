@@ -46,7 +46,7 @@ public class ZNormal : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Enemigo colision con el jugador");
+            //Debug.Log("Enemigo colision con el jugador");
             PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
             if (saludJugador != null)
             {
