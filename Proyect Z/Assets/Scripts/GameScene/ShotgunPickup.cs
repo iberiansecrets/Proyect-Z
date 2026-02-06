@@ -7,7 +7,7 @@ public class ShotgunPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController pc = other.GetComponent<PlayerController>();
-            ObjectSpawner ob = FindObjectOfType<ObjectSpawner>();
+            ObjectSpawner ob = FindFirstObjectByType<ObjectSpawner>();
             if (pc != null)
             {
                 pc.EquipShotgun();

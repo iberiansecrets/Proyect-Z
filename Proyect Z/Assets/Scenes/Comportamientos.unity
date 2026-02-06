@@ -1654,7 +1654,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &330585544
 AudioListener:
   m_ObjectHideFlags: 0
@@ -15227,14 +15227,14 @@ GameObject:
   - component: {fileID: 1746642282}
   - component: {fileID: 1746642281}
   - component: {fileID: 1746642280}
-  - component: {fileID: 1746642284}
+  - component: {fileID: 1746642285}
   m_Layer: 0
   m_Name: Main Camera (1)
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1746642280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15346,14 +15346,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1746642278}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.32167637, y: -0, z: -0, w: 0.9468497}
-  m_LocalPosition: {x: -4.6, y: 7.46, z: -6.7}
+  m_LocalRotation: {x: 0.4269857, y: -0, z: -0, w: 0.9042584}
+  m_LocalPosition: {x: -4.6, y: 15.2, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 37.529, y: 0, z: 0}
---- !u!114 &1746642284
+  m_LocalEulerAnglesHint: {x: 50.553, y: 0, z: 0}
+--- !u!114 &1746642285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15366,9 +15366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetA: {fileID: 432614876}
-  targetB: {fileID: 0}
-  offset: {x: 0, y: 5, z: -7}
-  suavizado: 5
+  offset: {x: 0, y: 14, z: -10}
 --- !u!1001 &1755841553
 PrefabInstance:
   m_ObjectHideFlags: 0

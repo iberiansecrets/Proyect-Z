@@ -16,6 +16,7 @@ public class ZNormalBehaviour : BehaviourRunner
     public Rigidbody rb;
     public ZNormal zombi;
     public Transform jugador;
+    private PlayerHealth jugadorVida;
     [SerializeField] private Animator zombiAnim;
 
 
@@ -48,6 +49,8 @@ public class ZNormalBehaviour : BehaviourRunner
         speedRotation = zombi.speedRotation; //Grados por segundo
         destino = transform.position; // Inicializar destino en la posición actual
         zombiAnim = GetComponentInChildren<Animator>();
+
+        jugadorVida = jugador.GetComponent<PlayerHealth>();
 
         agent = GetComponent<NavMeshAgent>();
         if (agent == null)
@@ -85,7 +88,7 @@ public class ZNormalBehaviour : BehaviourRunner
         // Transiciones
         fsm.CreateTransition("Jugador detectado", buscarPJ, perseguir, verJugador);
         fsm.CreateTransition("Jugador cerca", perseguir, atacar, jugadorEnRangoAtaque);
-        fsm.CreateTransition("Jugador lejos", atacar, perseguir, jugadorCerca);
+        fsm.CreateTransition("Jugador lejos", atacar, perseguir, statusFlags: StatusFlags.Failure);
         fsm.CreateTransition("Jugador perdido", perseguir, buscarPJ, statusFlags: StatusFlags.Failure);
         fsm.CreateTransition("Jugador muerto", atacar, buscarPJ, statusFlags: StatusFlags.Success);
 
@@ -213,10 +216,11 @@ public class ZNormalBehaviour : BehaviourRunner
         //Calcular Distancia al jugador
         distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
         if (distanciaAlJugador <= (rangoAtaque + 0.2f)) {
-            zombiAnim.Play("Mordisco");
-            Debug.Log("ATACANDO");
-            zombiAnim.SetBool("Ataque", true); // Iniciar animación
             zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
+            //zombiAnim.SetBool("Ataque", true); // Iniciar animación
+            //zombiAnim.Play("Mordisco");
+            Debug.Log("ATACANDO");
+            
             return Status.Success; // Cambiar al estado de atacar
             
         }
@@ -225,7 +229,7 @@ public class ZNormalBehaviour : BehaviourRunner
             Debug.Log("BUSCANDO");
             zombiAnim.Play("Idle");
             zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
-            zombiAnim.SetBool("Ataque", false); // Parar animación de ataque
+            //zombiAnim.SetBool("Ataque", false); // Parar animación de ataque
             return Status.Failure; // Perder al jugador
         }
         
@@ -234,7 +238,7 @@ public class ZNormalBehaviour : BehaviourRunner
 
     private Status AtacarPj() {
         //Debug.Log("ATAQUE");
-        if (jugador == null)
+        if (jugador == null || (jugadorVida !=null && jugadorVida.GetVidaActual() <= 0))
         {
             Debug.Log("BUSCANDO");
             zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
@@ -245,10 +249,10 @@ public class ZNormalBehaviour : BehaviourRunner
         distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
 
         // Si el jugador se escapa del rango de ataque, fallamos para volver a perseguir
-        if (distanciaAlJugador > rangoAtaque)
+        if (distanciaAlJugador > rangoAtaque + 0.2f)
         {
             zombiAnim.SetBool("Ataque", false); // Parar animación
-            zombiAnim.SetBool("Movimiento", true); // Iniciar animación de caminar
+            //zombiAnim.SetBool("Movimiento", true); // Iniciar animación de caminar
             return Status.Failure;
         }
 
@@ -256,12 +260,13 @@ public class ZNormalBehaviour : BehaviourRunner
         Vector3 dir = (jugador.position - rb.position).normalized;
         dir.y = 0;
         rb.MoveRotation(Quaternion.LookRotation(dir));
-        
-        // Iniciar animación de ataque
-        if (zombiAnim != null)
+
+        // Ejecutamos animación de ataque
+        AnimatorStateInfo stateInfo = zombiAnim.GetCurrentAnimatorStateInfo(0);
+
+        if (!stateInfo.IsName("Mordisco") && !zombiAnim.IsInTransition(0))
         {
             zombiAnim.SetBool("Ataque", true);
-            zombiAnim.SetBool("Movimiento", false); // Detener movimiento en el animator
         }
 
 
