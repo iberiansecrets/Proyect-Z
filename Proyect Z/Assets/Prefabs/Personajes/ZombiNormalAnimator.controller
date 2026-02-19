@@ -11,16 +11,13 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Movimiento
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: Ataque
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7341709352961440478}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.052381277
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0.96726173
   m_HasExitTime: 0
@@ -95,18 +92,15 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Movimiento
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: Ataque
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7341709352961440478}
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.031954944
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9583196
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0.00017923488
+  m_ExitTime: 0.99999994
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -182,9 +176,6 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Movimiento
-    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Ataque
     m_EventTreshold: 0
@@ -213,9 +204,6 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Movimiento
     m_EventTreshold: 0
-  - m_ConditionMode: 2
-    m_ConditionEvent: Ataque
-    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8681954721271288361}
   m_Solo: 0
@@ -238,9 +226,6 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Movimiento
-    m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Ataque
     m_EventTreshold: 0
@@ -250,9 +235,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 0.84375
+  m_ExitTime: 0.9994677
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -267,9 +252,6 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: Movimiento
-    m_EventTreshold: 0
-  - m_ConditionMode: 2
     m_ConditionEvent: Ataque
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -278,9 +260,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.0469926
-  m_TransitionOffset: 0
-  m_ExitTime: 0.93870527
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0.0027372325
+  m_ExitTime: 1.0015423
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

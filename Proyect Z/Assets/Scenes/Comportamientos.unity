@@ -978,6 +978,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6099425470809973572, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1682183930884348105, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
       propertyPath: m_Name
       value: ZombiNormal
@@ -1027,12 +1031,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7133652414396983324, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
     - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: speed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: damage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
       propertyPath: jugador
       value: 
       objectReference: {fileID: 432614876}
     - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
       propertyPath: rangoAtaque
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: anguloVision
+      value: 67
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: speedRotation
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2854829167065544727, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: rangoPersecucion
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3677277797449891789, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
       propertyPath: rb
@@ -1050,6 +1074,22 @@ PrefabInstance:
       propertyPath: jugador
       value: 
       objectReference: {fileID: 432614876}
+    - target: {fileID: 3677277797449891789, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: rangoAtaque
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3677277797449891789, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: anguloVision
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3677277797449891789, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: rangoMovimiento
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3677277797449891789, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
+      propertyPath: rangoPersecucion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7133652414396983324, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
       propertyPath: m_Constraints
       value: 84
@@ -1058,7 +1098,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6099425470809973572, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -7975,7 +8016,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &498354695
 Transform:
   m_ObjectHideFlags: 0
@@ -15863,7 +15904,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1842206134
 MonoBehaviour:
   m_ObjectHideFlags: 0
