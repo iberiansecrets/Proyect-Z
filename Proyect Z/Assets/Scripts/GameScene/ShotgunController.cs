@@ -16,6 +16,12 @@ public class ShotgunController : MonoBehaviour
     public LayerMask hitMask; // capa de enemigos
 
     private bool canFire = true;
+    private SoundEmitter soundEmitter;
+
+    private void Start()
+    {
+        soundEmitter = GetComponentInParent<SoundEmitter>();
+    }
 
     void Update()
     {
@@ -28,6 +34,9 @@ public class ShotgunController : MonoBehaviour
     IEnumerator FireShotgun()
     {
         canFire = false;
+
+        // Sonido de escopeta
+        if(soundEmitter != null) { soundEmitter.EmitSound(SoundType.Shotgun); }
 
         for (int i = 0; i < pellets; i++)
         {

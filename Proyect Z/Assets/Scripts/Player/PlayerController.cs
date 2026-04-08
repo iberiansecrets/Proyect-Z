@@ -109,6 +109,9 @@ public class PlayerController : MonoBehaviour
 
     public bool isInvulnerable = false;
 
+    // Sonidos de armas
+    private SoundEmitter soundEmitter;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -117,6 +120,7 @@ public class PlayerController : MonoBehaviour
         currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
         SetActiveWeapon(pistolModel); // Empieza con pistola
         ActualizarSeñueloUI();
+        soundEmitter = GetComponent<SoundEmitter>();        
         isMobile = Application.isMobilePlatform;
 
         if (isMobile)
@@ -251,9 +255,18 @@ public class PlayerController : MonoBehaviour
         {
             Shoot(currentGunPrefab);
 
+            // Sonidos de pistola
             if (currentGunPrefab == pistolBulletPrefab) PlayWeaponSound(pistolSFX);
+            if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Pistol);
+            
+            // Sonidos de rifle
             if (currentGunPrefab == rifleBulletPrefab) PlayWeaponSound(rifleSFX);
+            if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Rifle);
+
+            // Sonidos de sniper
             if (currentGunPrefab == sniperBulletPrefab) PlayWeaponSound(sniperSFX);
+            if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Sniper);
+
         }
     }
 
@@ -294,9 +307,11 @@ public class PlayerController : MonoBehaviour
                 nextFireTime = Time.time + rifleFireDelay;
                 Shoot(currentGunPrefab);
                 PlayWeaponSound(rifleSFX);
+                
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Rifle);
             }
         }
-        // Escopeta con retardo
+        // Escopeta
         else if (currentGunPrefab == shotgunBulletPrefab)
         {
             if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
@@ -304,9 +319,11 @@ public class PlayerController : MonoBehaviour
                 nextFireTime = Time.time + shotgunFireDelay;
                 ShootShotgun();
                 PlayWeaponSound(shotgunSFX);
+                
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Shotgun);
             }
         }
-        // Francotirador con retardo
+        // Francotirador
         else if (currentGunPrefab == sniperBulletPrefab)
         {
             if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
@@ -314,9 +331,11 @@ public class PlayerController : MonoBehaviour
                 nextFireTime = Time.time + sniperFireDelay;
                 Shoot(currentGunPrefab);
                 PlayWeaponSound(sniperSFX);
+                
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Sniper);
             }
         }
-        // Pistola semiautomática con retardo
+        // Pistola
         else if (currentGunPrefab == pistolBulletPrefab)
         {
             if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
@@ -324,6 +343,8 @@ public class PlayerController : MonoBehaviour
                 nextFireTime = Time.time + pistolFireDelay;
                 Shoot(currentGunPrefab);
                 PlayWeaponSound(pistolSFX);
+                
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Pistol);
             }
         }
     }

@@ -316,11 +316,10 @@ public class ZNormalBehaviour : BehaviourRunner
         dir.y = 0;
         rb.MoveRotation(Quaternion.LookRotation(dir));
 
-        //Debug.Log("Enemigo colision con el jugador");
-        PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
-        if (saludJugador != null)
+        //Debug.Log("Enemigo colision con el jugador");        
+        if (jugadorVida != null)
         {
-            saludJugador.RecibirDaño(damage);
+            jugadorVida.RecibirDaño(zombi.damage);
         }
 
         //Debug.Log("Movimiento: " + zombiAnim.GetBool("Movimiento"));

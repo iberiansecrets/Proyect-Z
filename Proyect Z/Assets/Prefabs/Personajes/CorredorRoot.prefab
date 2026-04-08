@@ -95,7 +95,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4011342380962231938}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
   m_Name: 
@@ -119,6 +119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vidaMaxima: 30
+  vidaActual: 0
+  "cooldownDa\xF1oAlambre": 1
 --- !u!198 &5925649510760645907
 ParticleSystem:
   m_ObjectHideFlags: 0
