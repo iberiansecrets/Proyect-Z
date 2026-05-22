@@ -42,7 +42,13 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         lastFixedPosition = transform.position;
-        
+
+        // Desacopla el movimiento del NavMesh
+        if (agent != null)
+        {
+            agent.updatePosition = false;
+            agent.updateRotation = false;
+        }
 
         if (target == null)
         {
@@ -159,6 +165,12 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
     {       
         currentRealSpeed = (transform.position - lastFixedPosition).magnitude / Time.fixedDeltaTime;
         lastFixedPosition = transform.position;
+
+        // Arrastra el cerebro del NavMesh junto al cuerpo físico
+        if (agent != null && !agent.updatePosition)
+        {
+            agent.nextPosition = rb.position;
+        }
     }
 
     private void LateUpdate()

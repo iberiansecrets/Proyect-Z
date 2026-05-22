@@ -112,6 +112,10 @@ public class PlayerController : MonoBehaviour
     // Sonidos de armas
     private SoundEmitter soundEmitter;
 
+    // Sonido de pasos
+    public float timeBetweenSteps = 0.5f; 
+    private float stepTimer = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -175,6 +179,21 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("MoveX", moveLocal.x);
         anim.SetFloat("MoveZ", moveLocal.z);
         anim.SetBool("IsMoving", moveLocal.magnitude > 0.1f);
+
+        if (moveInput.magnitude > 0.1f && !isDashing) // Si se mueve y no está haciendo el dash
+        {
+            stepTimer -= Time.deltaTime;
+            if (stepTimer <= 0f)
+            {
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Footstep);
+                stepTimer = timeBetweenSteps; // Reinicia el temporizador
+            }
+        }
+        else
+        {
+            // Si se para, ponemos el timer a 0 para que al arrancar suene el primer paso de inmediato
+            stepTimer = 0f;
+        }
 
         // Cambiar tipo de arma según el prefab actual
         if (currentGunPrefab == pistolBulletPrefab)
