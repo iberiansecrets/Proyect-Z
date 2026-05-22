@@ -25,18 +25,18 @@ public class PlayerController : MonoBehaviour
     public GameObject decoyPrefab;             // Señuelo
 
     [Header("Controles de móvil")]
-    public GameObject moveJoystick; // Joystick de movimiento
-    public GameObject shootJoystick; // Joystick de disparo
-    public bool isMobile; // Comprobar si está en modo "Móvil"
-    private Vector3 aimInput; // Dirección del joystick de disparo
-    private float aimThreshold = 0.3f; // Sensibilidad para apuntar/disparar
-    public GameObject dashButton; //Botón para dashear
-    public GameObject shoveButton; // Botón para empujar
-    public GameObject decoyButton; // Botón para señuelo
+    public GameObject moveJoystick;            // Joystick de movimiento
+    public GameObject shootJoystick;           // Joystick de disparo
+    public bool isMobile;                      // Comprobar si está en modo "Móvil"
+    private Vector3 aimInput;                  // Dirección del joystick de disparo
+    private float aimThreshold = 0.3f;         // Sensibilidad para apuntar/disparar
+    public GameObject dashButton;              //Botón para dashear
+    public GameObject shoveButton;             // Botón para empujar
+    public GameObject decoyButton;             // Botón para señuelo
 
     public Transform bulletShot;               // Punto desde donde se dispara
 
-    public GameObject tracerPrefab; // Prefab tracer escopeta
+    public GameObject tracerPrefab;            // Prefab tracer escopeta
     private int pellets = 8;
     private float spreadAngle = 15f;
     private float range = 10f;
@@ -54,12 +54,12 @@ public class PlayerController : MonoBehaviour
     public float shotgunFireDelay = 0.6f;      // Tiempo entre disparos de escopeta
     public float pistolFireDelay = 0.2f;       // Tiempo entre disparos de pistola
     public float pushFireDelay = 0.8f;         // Tiempo entre empujes
-    public float rifleFireDelay = 0.15f;        // Tiempo entre disparos de balas de fusil
-    public float sniperFireDelay = 1.2f;        // Tiempo entre disparos de francotirador
+    public float rifleFireDelay = 0.15f;       // Tiempo entre disparos de balas de fusil
+    public float sniperFireDelay = 1.2f;       // Tiempo entre disparos de francotirador
 
     private float nextFireTime = 0f;           // Control de cadencia de disparo del fusil
 
-    private int numDecoy = 0; // Número de señuelos que tiene el jugador
+    private int numDecoy = 0;                  // Número de señuelos que tiene el jugador
 
     [Header("Temporizadores de armas")]
     private float shotgunTimer = 10f;
@@ -101,8 +101,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Esquive / Dash")]
     public float dashDistance = 6f;      // Distancia
-    public float dashDuration = 0.15f;  // Duracion
-    public float dashCooldown = 0.8f;   // Cooldown
+    public float dashDuration = 0.15f;   // Duracion
+    public float dashCooldown = 0.8f;    // Cooldown
 
     private bool isDashing = false;
     private float lastDashTime = -999f;
@@ -117,8 +117,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         anim = GetComponentInChildren<Animator>();
-        currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
-        SetActiveWeapon(pistolModel); // Empieza con pistola
+        currentGunPrefab = pistolBulletPrefab;      // Empieza con pistola
+        SetActiveWeapon(pistolModel);               // Empieza con pistola
         ActualizarSeñueloUI();
         soundEmitter = GetComponent<SoundEmitter>();        
         isMobile = Application.isMobilePlatform;
@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 moveWorld = new Vector3(moveX, 0f, moveZ).normalized;
-        moveInput = moveWorld; // para usarlo en FixedUpdate para mover al personaje
+        moveInput = moveWorld;
 
         // Transformar al espacio local del personaje para las animaciones
         Vector3 moveLocal = transform.InverseTransformDirection(moveWorld);
@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour
             ComprobarArma();
         }
 
-        // Click derecho: Empuje de zombies
+        // Empuje de zombies
         if (Input.GetButtonDown("Fire2")) {
             TryShove();
         }
@@ -266,7 +266,6 @@ public class PlayerController : MonoBehaviour
             // Sonidos de sniper
             if (currentGunPrefab == sniperBulletPrefab) PlayWeaponSound(sniperSFX);
             if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Sniper);
-
         }
     }
 
@@ -349,27 +348,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*void Shoot(GameObject prefab)
-    {
-        if (prefab == null || bulletShot == null)
-        {
-            Debug.LogWarning("Prefab o bulletShot no asignado en PlayerController.");
-            return;
-        }
-
-        GameObject bala = Instantiate(prefab, bulletShot.position, bulletShot.rotation);
-
-        Rigidbody rbBala = bala.GetComponent<Rigidbody>();
-        if (rbBala != null)
-        {
-            rbBala.linearVelocity = bulletShot.forward * bulletSpeed;
-        }
-        else
-        {
-            Debug.LogWarning("El prefab de bala no tiene Rigidbody.");
-        }
-    }*/
-
     void Shoot(GameObject prefab)
     {
         if (prefab == null || bulletShot == null)
@@ -402,23 +380,6 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("El prefab de bala no tiene Rigidbody.");
         }
     }
-
-    /*void ShootShotgun()
-    {
-        float[] angulos = { -shotgunAngle, 0, shotgunAngle };
-
-        foreach (float angulo in angulos)
-        {
-            Quaternion rotacion = bulletShot.rotation * Quaternion.Euler(0, angulo, 0);
-            GameObject bala = Instantiate(shotgunBulletPrefab, bulletShot.position, rotacion);
-
-            Rigidbody rbBala = bala.GetComponent<Rigidbody>();
-            if (rbBala != null)
-            {
-                rbBala.linearVelocity = bala.transform.forward * bulletSpeed;
-            }
-        }
-    }*/
 
     void ShootShotgun()
     {
@@ -750,5 +711,4 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
         }
     }
-
 }
