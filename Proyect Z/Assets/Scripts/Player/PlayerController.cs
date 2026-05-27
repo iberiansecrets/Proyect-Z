@@ -25,18 +25,18 @@ public class PlayerController : MonoBehaviour
     public GameObject decoyPrefab;             // Señuelo
 
     [Header("Controles de móvil")]
-    public GameObject moveJoystick; // Joystick de movimiento
-    public GameObject shootJoystick; // Joystick de disparo
-    public bool isMobile; // Comprobar si está en modo "Móvil"
-    private Vector3 aimInput; // Dirección del joystick de disparo
-    private float aimThreshold = 0.3f; // Sensibilidad para apuntar/disparar
-    public GameObject dashButton; //Botón para dashear
-    public GameObject shoveButton; // Botón para empujar
-    public GameObject decoyButton; // Botón para señuelo
+    public GameObject moveJoystick;            // Joystick de movimiento
+    public GameObject shootJoystick;           // Joystick de disparo
+    public bool isMobile;                      // Comprobar si está en modo "Móvil"
+    private Vector3 aimInput;                  // Dirección del joystick de disparo
+    private float aimThreshold = 0.3f;         // Sensibilidad para apuntar/disparar
+    public GameObject dashButton;              //Botón para dashear
+    public GameObject shoveButton;             // Botón para empujar
+    public GameObject decoyButton;             // Botón para señuelo
 
     public Transform bulletShot;               // Punto desde donde se dispara
 
-    public GameObject tracerPrefab; // Prefab tracer escopeta
+    public GameObject tracerPrefab;            // Prefab tracer escopeta
     private int pellets = 8;
     private float spreadAngle = 15f;
     private float range = 10f;
@@ -54,12 +54,12 @@ public class PlayerController : MonoBehaviour
     public float shotgunFireDelay = 0.6f;      // Tiempo entre disparos de escopeta
     public float pistolFireDelay = 0.2f;       // Tiempo entre disparos de pistola
     public float pushFireDelay = 0.8f;         // Tiempo entre empujes
-    public float rifleFireDelay = 0.15f;        // Tiempo entre disparos de balas de fusil
-    public float sniperFireDelay = 1.2f;        // Tiempo entre disparos de francotirador
+    public float rifleFireDelay = 0.15f;       // Tiempo entre disparos de balas de fusil
+    public float sniperFireDelay = 1.2f;       // Tiempo entre disparos de francotirador
 
     private float nextFireTime = 0f;           // Control de cadencia de disparo del fusil
 
-    private int numDecoy = 0; // Número de señuelos que tiene el jugador
+    private int numDecoy = 0;                  // Número de señuelos que tiene el jugador
 
     [Header("Temporizadores de armas")]
     private float shotgunTimer = 10f;
@@ -101,22 +101,30 @@ public class PlayerController : MonoBehaviour
 
     [Header("Esquive / Dash")]
     public float dashDistance = 6f;      // Distancia
-    public float dashDuration = 0.15f;  // Duracion
-    public float dashCooldown = 0.8f;   // Cooldown
+    public float dashDuration = 0.15f;   // Duracion
+    public float dashCooldown = 0.8f;    // Cooldown
 
     private bool isDashing = false;
     private float lastDashTime = -999f;
 
     public bool isInvulnerable = false;
 
+    // Sonidos de armas
+    private SoundEmitter soundEmitter;
+
+    // Sonido de pasos
+    public float timeBetweenSteps = 0.5f; 
+    private float stepTimer = 0f;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
         anim = GetComponentInChildren<Animator>();
-        currentGunPrefab = pistolBulletPrefab; // Empieza con pistola
-        SetActiveWeapon(pistolModel); // Empieza con pistola
+        currentGunPrefab = pistolBulletPrefab;      // Empieza con pistola
+        SetActiveWeapon(pistolModel);               // Empieza con pistola
         ActualizarSeñueloUI();
+        soundEmitter = GetComponent<SoundEmitter>();        
         isMobile = Application.isMobilePlatform;
 
         if (isMobile)
@@ -163,7 +171,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 moveWorld = new Vector3(moveX, 0f, moveZ).normalized;
-        moveInput = moveWorld; // para usarlo en FixedUpdate para mover al personaje
+        moveInput = moveWorld;
 
         // Transformar al espacio local del personaje para las animaciones
         Vector3 moveLocal = transform.InverseTransformDirection(moveWorld);
@@ -171,6 +179,21 @@ public class PlayerController : MonoBehaviour
         anim.SetFloat("MoveX", moveLocal.x);
         anim.SetFloat("MoveZ", moveLocal.z);
         anim.SetBool("IsMoving", moveLocal.magnitude > 0.1f);
+
+        if (moveInput.magnitude > 0.1f && !isDashing) // Si se mueve y no está haciendo el dash
+        {
+            stepTimer -= Time.deltaTime;
+            if (stepTimer <= 0f)
+            {
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Footstep);
+                stepTimer = timeBetweenSteps; // Reinicia el temporizador
+            }
+        }
+        else
+        {
+            // Si se para, ponemos el timer a 0 para que al arrancar suene el primer paso de inmediato
+            stepTimer = 0f;
+        }
 
         // Cambiar tipo de arma según el prefab actual
         if (currentGunPrefab == pistolBulletPrefab)
@@ -197,7 +220,7 @@ public class PlayerController : MonoBehaviour
             ComprobarArma();
         }
 
-        // Click derecho: Empuje de zombies
+        // Empuje de zombies
         if (Input.GetButtonDown("Fire2")) {
             TryShove();
         }
@@ -251,9 +274,17 @@ public class PlayerController : MonoBehaviour
         {
             Shoot(currentGunPrefab);
 
+            // Sonidos de pistola
             if (currentGunPrefab == pistolBulletPrefab) PlayWeaponSound(pistolSFX);
+            if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Pistol);
+            
+            // Sonidos de rifle
             if (currentGunPrefab == rifleBulletPrefab) PlayWeaponSound(rifleSFX);
+            if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Rifle);
+
+            // Sonidos de sniper
             if (currentGunPrefab == sniperBulletPrefab) PlayWeaponSound(sniperSFX);
+            if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Sniper);
         }
     }
 
@@ -294,9 +325,11 @@ public class PlayerController : MonoBehaviour
                 nextFireTime = Time.time + rifleFireDelay;
                 Shoot(currentGunPrefab);
                 PlayWeaponSound(rifleSFX);
+                
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Rifle);
             }
         }
-        // Escopeta con retardo
+        // Escopeta
         else if (currentGunPrefab == shotgunBulletPrefab)
         {
             if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
@@ -304,9 +337,11 @@ public class PlayerController : MonoBehaviour
                 nextFireTime = Time.time + shotgunFireDelay;
                 ShootShotgun();
                 PlayWeaponSound(shotgunSFX);
+                
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Shotgun);
             }
         }
-        // Francotirador con retardo
+        // Francotirador
         else if (currentGunPrefab == sniperBulletPrefab)
         {
             if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
@@ -314,9 +349,11 @@ public class PlayerController : MonoBehaviour
                 nextFireTime = Time.time + sniperFireDelay;
                 Shoot(currentGunPrefab);
                 PlayWeaponSound(sniperSFX);
+                
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Sniper);
             }
         }
-        // Pistola semiautomática con retardo
+        // Pistola
         else if (currentGunPrefab == pistolBulletPrefab)
         {
             if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
@@ -324,30 +361,11 @@ public class PlayerController : MonoBehaviour
                 nextFireTime = Time.time + pistolFireDelay;
                 Shoot(currentGunPrefab);
                 PlayWeaponSound(pistolSFX);
+                
+                if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Pistol);
             }
         }
     }
-
-    /*void Shoot(GameObject prefab)
-    {
-        if (prefab == null || bulletShot == null)
-        {
-            Debug.LogWarning("Prefab o bulletShot no asignado en PlayerController.");
-            return;
-        }
-
-        GameObject bala = Instantiate(prefab, bulletShot.position, bulletShot.rotation);
-
-        Rigidbody rbBala = bala.GetComponent<Rigidbody>();
-        if (rbBala != null)
-        {
-            rbBala.linearVelocity = bulletShot.forward * bulletSpeed;
-        }
-        else
-        {
-            Debug.LogWarning("El prefab de bala no tiene Rigidbody.");
-        }
-    }*/
 
     void Shoot(GameObject prefab)
     {
@@ -381,23 +399,6 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("El prefab de bala no tiene Rigidbody.");
         }
     }
-
-    /*void ShootShotgun()
-    {
-        float[] angulos = { -shotgunAngle, 0, shotgunAngle };
-
-        foreach (float angulo in angulos)
-        {
-            Quaternion rotacion = bulletShot.rotation * Quaternion.Euler(0, angulo, 0);
-            GameObject bala = Instantiate(shotgunBulletPrefab, bulletShot.position, rotacion);
-
-            Rigidbody rbBala = bala.GetComponent<Rigidbody>();
-            if (rbBala != null)
-            {
-                rbBala.linearVelocity = bala.transform.forward * bulletSpeed;
-            }
-        }
-    }*/
 
     void ShootShotgun()
     {
@@ -729,5 +730,4 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector3.zero;
         }
     }
-
 }

@@ -72,12 +72,16 @@ public class ZombieActions : MonoBehaviour
         // sensible defaults
         if (agent != null)
         {
-            agent.updatePosition = true;
-            agent.updateRotation = true;
+            // Desactivamos la actualización automática del NavMesh para que las físicas manden
+            agent.updatePosition = false;
+            agent.updateRotation = false;
             agent.isStopped = true; // parado hasta que se necesite
             agent.speed = Mathf.Max(0.1f, chaseSpeed);
             agent.stoppingDistance = Mathf.Max(0.4f, arriveThreshold);
         }
+
+        // Aseguramos que el zombi siga usando físicas para poder ser empujado
+        if (rb != null) rb.isKinematic = false;
 
         // default roamMoveDistance if zero
         if (roamMoveDistance <= 0f)
@@ -93,6 +97,22 @@ public class ZombieActions : MonoBehaviour
         }
     }
 
+    // Se encarga de mover el Rigidbody hacia el objetivo que marca el NavMesh
+    private void MoveTowardsNavTarget(float speed)
+    {
+        if (agent != null && agent.isOnNavMesh && !agent.pathPending)
+        {
+            Vector3 dir = (agent.steeringTarget - rb.position).normalized;
+            dir.y = 0; // Evita que el zombi se incline hacia arriba/abajo
+            if (dir != Vector3.zero)
+            {
+                rb.MovePosition(rb.position + dir * speed * Time.deltaTime);
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, Quaternion.LookRotation(dir), 10f * Time.deltaTime));
+            }
+        }
+    }
+    // ------------------------------------------------------------------
+
     // -------------------- ROAMING --------------------
 
     public void EnterRoaming()
@@ -102,10 +122,7 @@ public class ZombieActions : MonoBehaviour
         {
             agent.isStopped = true;     // start in waiting phase
             agent.ResetPath();
-            agent.updatePosition = true;
-            agent.updateRotation = true;
             agent.speed = roamSpeed;
-            rb.isKinematic = true;      // agent controls position
         }
 
         roamPhase = RoamPhase.Waiting;
@@ -170,6 +187,9 @@ public class ZombieActions : MonoBehaviour
                 // countdown movement time
                 roamTimer -= Time.deltaTime;
 
+                // Usamos la función física en lugar de dejar que el NavMesh mueva al zombi
+                MoveTowardsNavTarget(roamSpeed);
+
                 // If reached target earlier, we can stop early
                 if (agent != null && agent.isOnNavMesh && !agent.pathPending)
                 {
@@ -212,7 +232,8 @@ public class ZombieActions : MonoBehaviour
             Vector3 dir = new Vector3(rnd.x, 0f, rnd.y);
             Vector3 desired = transform.position + dir * roamMoveDistance;
 
-            if (NavMesh.SamplePosition(desired, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+            // Se cambió el '1.0f' original por 'roamMoveDistance' para evitar que la búsqueda falle cerca de paredes
+            if (NavMesh.SamplePosition(desired, out NavMeshHit hit, roamMoveDistance, NavMesh.AllAreas))
             {
                 // check reachability via path
                 if (IsPathCompleteTo(hit.position, out float pathLen))
@@ -243,9 +264,6 @@ public class ZombieActions : MonoBehaviour
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = false;
-            agent.updatePosition = true;
-            agent.updateRotation = true;
-            rb.isKinematic = true;
         }
         Debug.Log("[ZombieActions] EnterChasing lastKnown = " + lastKnownPlayerPos);
     }
@@ -268,6 +286,10 @@ public class ZombieActions : MonoBehaviour
                 Debug.Log("[TickChasing] SetDestination -> " + target.position);
             }
             agent.speed = chaseSpeed;
+
+            // Movemos físicamente
+            MoveTowardsNavTarget(chaseSpeed);
+
             return Status.Running;
         }
 
@@ -282,12 +304,14 @@ public class ZombieActions : MonoBehaviour
                 Debug.Log("[TickChasing] Lost sight -> moving to lastKnown " + lastKnownPlayerPos);
             }
 
+            // Movemos físicamente
+            MoveTowardsNavTarget(chaseSpeed);
+
             if (!agent.pathPending && agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, arriveThreshold))
             {
                 // arrived to last known and didn't see player -> stop chasing
                 agent.isStopped = true;
                 agent.ResetPath();
-                rb.isKinematic = false;
                 Debug.Log("[TickChasing] Arrived lastKnown and didn't see player -> Failure");
                 return Status.Failure;
             }
@@ -296,7 +320,6 @@ public class ZombieActions : MonoBehaviour
             {
                 agent.isStopped = true;
                 agent.ResetPath();
-                rb.isKinematic = false;
                 Debug.Log("[TickChasing] chase timeout expired -> Failure");
                 return Status.Failure;
             }
@@ -359,7 +382,7 @@ public class ZombieActions : MonoBehaviour
         // no encontrado -> abortar, dejar fallback rb movement
         investigateNavTarget = Vector3.zero;
         if (agent != null) { agent.isStopped = true; agent.ResetPath(); }
-        rb.isKinematic = false;
+        
     }
 
     public void EnterInvestigateSound()
@@ -386,9 +409,7 @@ public class ZombieActions : MonoBehaviour
     {
         if (agent != null && agent.isOnNavMesh)
         {
-            rb.isKinematic = true;
-            agent.updatePosition = true;
-            agent.updateRotation = true;
+            // Eliminado isKinematic y updatePosition de aquí
             agent.isStopped = false;
             agent.SetDestination(investigateNavTarget);
         }
@@ -400,7 +421,7 @@ public class ZombieActions : MonoBehaviour
         if (vision != null && target != null && vision.CanSeePlayerSimple(target))
         {
             Debug.Log("[TickInvestigateSound] saw player -> leave investigate");
-            if (agent != null && agent.isOnNavMesh) { agent.isStopped = true; agent.ResetPath(); rb.isKinematic = false; }
+            if (agent != null && agent.isOnNavMesh) { agent.isStopped = true; agent.ResetPath(); }
             return Status.Failure; // let FSM transition to Chasing
         }
 
@@ -418,6 +439,9 @@ public class ZombieActions : MonoBehaviour
         // Si tenemos una ruta de breadcrumbs
         if (investigateNavPath != null && investigateNavPath.Count > 0)
         {
+            // Movemos físicamente
+            MoveTowardsNavTarget(roamSpeed);
+
             // Si alcanzamos el nodo actual, avanzamos al siguiente
             if (agent != null && agent.isOnNavMesh && !agent.pathPending)
             {
@@ -434,7 +458,6 @@ public class ZombieActions : MonoBehaviour
                             // exito: estamos cerca del origen
                             agent.isStopped = true;
                             agent.ResetPath();
-                            rb.isKinematic = false;
                             Debug.Log("[TickInvestigateSound] reached final proximity to origin -> Success");
                             return Status.Success;
                         }
@@ -455,7 +478,6 @@ public class ZombieActions : MonoBehaviour
                                 // no hay forma de acercarse más al origen; abortamos investigation para no quedarse pegado
                                 agent.isStopped = true;
                                 agent.ResetPath();
-                                rb.isKinematic = false;
                                 Debug.Log("[TickInvestigateSound] cannot reach closer to origin -> Failure");
                                 return Status.Failure;
                             }

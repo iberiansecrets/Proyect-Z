@@ -155,12 +155,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roamSpeed: 2
-  roamMoveTime: 2
-  roamWaitTime: 5
   target: {fileID: 0}
   speed: 2
   damage: 15
+  ratioAtaque: 0
+  velocidad: 0
+  zombiAnim: {fileID: 0}
 --- !u!114 &8630005366983479084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vidaMaxima: 50
+  vidaActual: 0
+  "cooldownDa\xF1oAlambre": 1
 --- !u!114 &5264683309477498494
 MonoBehaviour:
   m_ObjectHideFlags: 0
