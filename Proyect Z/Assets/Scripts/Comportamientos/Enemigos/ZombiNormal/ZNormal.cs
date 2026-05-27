@@ -58,6 +58,9 @@ public class ZNormal : MonoBehaviour
     //Dibujo del cono de visión
     void OnDrawGizmos()
     {
+        // Si el juego no está en marcha y no hay jugador o rigidbody, salimos para no dar error
+        if (jugador == null || rb == null) return;
+
         Vector3 direction = (jugador.position - rb.position).normalized;
 
         float distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
