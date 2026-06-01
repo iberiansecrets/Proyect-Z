@@ -28,11 +28,17 @@ public class ZNormalBehaviour : BehaviourRunner
     public float rangoAtaque = 2f;
     public float rangoMovimiento = 10f;
     public float anguloVision = 45f;
+    public float rangoDespertar = 4f; // Distancia a la que el zombie se levanta del suelo
+    public bool empiezaTirado; // Decide si el zombie empieza en el estado Letargo o no
 
     public float speed;
     public float speedRotation;
 
-    //Destino de movimiento aleatorio
+    [Header("Ataque")]
+    public float cadenciaAtaque = 1.5f; // Segundos entre cada zarpazo
+    private float ultimoAtaqueTime = 0f;
+
+    // Destino de movimiento aleatorio
     private Vector3 destino;
 
 
@@ -48,7 +54,7 @@ public class ZNormalBehaviour : BehaviourRunner
         rangoMovimiento = zombi.rangoMovimiento;
         anguloVision = zombi.anguloVision;
         speed = zombi.speed;
-        speedRotation = zombi.speedRotation; //Grados por segundo
+        speedRotation = zombi.speedRotation; // Grados por segundo
         destino = transform.position; // Inicializar destino en la posición actual
         zombiAnim = GetComponentInChildren<Animator>();
 
@@ -67,6 +73,14 @@ public class ZNormalBehaviour : BehaviourRunner
         base.Init();
     }
 
+    private void FixedUpdate()
+    {
+        // El cerebro del NavMesh se arrastra en el ciclo físico exacto, evitando tirones visuales
+        if (agent != null && agent.enabled && !agent.updatePosition)
+        {
+            agent.nextPosition = rb.position;
+        }
+    }
 
     //FSM
     protected override BehaviourGraph CreateGraph()
@@ -75,17 +89,17 @@ public class ZNormalBehaviour : BehaviourRunner
 
         // Estados
         var buscarBT = CreateBuscarBT();
-        var buscarPJ = fsm.CreateState("Buscar", new BehaviourTreeAction(buscarBT,this));
+        var buscarPJ = fsm.CreateState("Buscar", new BehaviourTreeAction(buscarBT, this));
         var perseguir = fsm.CreateState("Perseguir", new FunctionalAction(PerseguirPj));
         var atacar = fsm.CreateState("Atacar", new FunctionalAction(AtacarPj));
+        var letargo = fsm.CreateState("Letargo", new FunctionalAction(EstarTirado));
 
         // Percepciones
         var jugadorCerca = new DistancePerception(jugador, rangoPersecucion);
         var jugadorEnRangoAtaque = new DistancePerception(jugador, rangoAtaque);
-
-        var jugadorEnVision = new AnglePerceptionCustom(rb.transform,jugador, 45f);
-
+        var jugadorEnVision = new AnglePerceptionCustom(rb.transform, jugador, 45f);
         var verJugador = new AndPerception(jugadorEnVision, jugadorCerca);
+        var jugadorMuyCerca = new DistancePerception(jugador, rangoDespertar);
 
         // Transiciones
         fsm.CreateTransition("Jugador detectado", buscarPJ, perseguir, statusFlags: StatusFlags.Failure);
@@ -93,11 +107,27 @@ public class ZNormalBehaviour : BehaviourRunner
         fsm.CreateTransition("Jugador lejos", atacar, perseguir, statusFlags: StatusFlags.Failure);
         fsm.CreateTransition("Jugador perdido", perseguir, buscarPJ, statusFlags: StatusFlags.Failure);
         fsm.CreateTransition("Jugador muerto", atacar, buscarPJ, statusFlags: StatusFlags.Success);
+        fsm.CreateTransition("Despertar", letargo, perseguir, jugadorMuyCerca);
+
+        // Si 'empiezaTirado' ya está activado en el Inspector, lo respetamos. Si no, lo calcula el azar.
+        if (!empiezaTirado)
+        {
+            float random = Random.value;
+            Debug.Log($"[ZOMBIE NORMAL] El valor del número aleatorio es de {random}");
+            empiezaTirado = random > 0.5f; // 50% de probabilidad de empezar en el suelo si estaba en false
+        }
+
+        if (empiezaTirado)
+        {
+            fsm.SetEntryState(letargo);
+        }
+        else
+        {
+            fsm.SetEntryState(buscarPJ);
+        }
 
         return fsm;
     }
-
-
 
     //BT
     private BehaviourTree CreateBuscarBT()
@@ -105,7 +135,7 @@ public class ZNormalBehaviour : BehaviourRunner
         BehaviourTree bt = new BehaviourTree();
 
         //Debug.Log("BUSCANDO");
-                
+
         var moverAction = CrearAccionMover();
         var esperarAction = new FunctionalAction(Esperar);
         var elegirDestinoAction = new FunctionalAction(ElegirDestino);
@@ -116,10 +146,8 @@ public class ZNormalBehaviour : BehaviourRunner
 
         LeafNode nodoMover = bt.CreateLeafNode("Mover a destino", moverAction);
 
-        SequencerNode Patrullando = bt.CreateComposite<SequencerNode>(false, nodoElegirDestino,nodoMover, nodoEsperar);
+        SequencerNode Patrullando = bt.CreateComposite<SequencerNode>(false, nodoElegirDestino, nodoMover, nodoEsperar);
         Patrullando.IsRandomized = false;
-
-
 
         var root = bt.CreateDecorator<LoopNode>(Patrullando);
 
@@ -137,8 +165,6 @@ public class ZNormalBehaviour : BehaviourRunner
         }
 
         //Debug.Log("ESPERANDO");
-        
-        
 
         tiempo += Time.deltaTime;
 
@@ -171,20 +197,17 @@ public class ZNormalBehaviour : BehaviourRunner
         //Debug.Log("Moviendose a: " + destino);
         Vector3 dir = (destino - rb.position).normalized; // Dirección del movimiento
 
-
         // Rotación suave hacia el destino
         Quaternion targetRot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
         Quaternion smoothRot = Quaternion.RotateTowards(
-            rb.rotation, 
-            targetRot, 
+            rb.rotation,
+            targetRot,
             speedRotation * Time.deltaTime
         );
         rb.MoveRotation(smoothRot); // Rotación suave
 
         // Ver si ha completado el giro
-        float angle = Quaternion.Angle(rb.rotation, targetRot);
-        if (angle > 2f) // Si todavía no está alineado, NO avanzar. Tolerancia de 2 grados
-            return Status.Running;
+        // (Nota: Quitamos el return Status.Running estricto para que camine y gire a la vez fluidamente)
 
         //Movimiento hacia el destino
         rb.MovePosition(rb.transform.position + dir * speed * Time.deltaTime);
@@ -200,25 +223,55 @@ public class ZNormalBehaviour : BehaviourRunner
         return Status.Running;
     }
 
-    private FunctionalAction CrearAccionMover() {
+    private FunctionalAction CrearAccionMover()
+    {
         return new FunctionalAction(MoverA);
     }
 
-    private Status ElegirDestino() {
+    private Status ElegirDestino()
+    {
         destino = transform.position + new Vector3(
             Random.Range(-rangoMovimiento, rangoMovimiento),
             0,
             Random.Range(-rangoMovimiento, rangoMovimiento)
-        );                  
+        );
 
         //Debug.Log("NUEVO DESTINO ELEGIDO: " + destino);
-        return Status.Success; 
+        return Status.Success;
     }
 
     private Status PerseguirPj()
     {
+        // Si el agente estaba apagado (porque estaba tirado), lo encendemos y lo ponemos de pie
+        if (agent != null && !agent.enabled)
+        {
+            // Rigidbody del padre de pie (Rotación X a 0)
+            rb.transform.rotation = Quaternion.Euler(0f, rb.transform.rotation.eulerAngles.y, 0f);
+
+            // Forzamos que el modelo hijo mire hacia adelante (Y = 0) si se había quedado girado
+            Transform modeloHijo = zombiAnim != null ? zombiAnim.transform : transform.GetChild(0);
+            if (modeloHijo != null)
+            {
+                modeloHijo.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+
+            // Nos aseguramos de que vuelva a ser físico antes de tocar sus velocidades
+            rb.isKinematic = false;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            agent.enabled = true;
+            int walkableMask = 1 << NavMesh.GetAreaFromName("Walkable");
+            agent.areaMask = walkableMask;
+            Debug.Log("¡El Zombi Normal se ha levantado de golpe y corregido su orientación!");
+        }
+
+        // SOLUCIÓN AL ESCALADO: Congelamos ejes para que no se hagan torres
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
         //Actgualizar distancia al jugador
         distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
+        Debug.Log($"[ZOMBIE NORMAL] La distancia al jugador es de {distanciaAlJugador}");
 
         // Calcular dirección y ángulo al jugador
         Vector3 direccionAlJugador = (jugador.position - rb.position).normalized;
@@ -229,7 +282,7 @@ public class ZNormalBehaviour : BehaviourRunner
             Debug.Log("Jugador null o perdido. Paso a BUSCANDO");
             return Status.Failure;
         }
-        
+
         if (distanciaAlJugador <= rangoAtaque)
         {
             zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
@@ -237,7 +290,9 @@ public class ZNormalBehaviour : BehaviourRunner
             return Status.Success; // El jugador está lo suficientemente cerca para atacar
         }
 
-        if (distanciaAlJugador > rangoPersecucion || anguloEntreZombiYJugador > anguloVision)
+        bool estaAtascado = rb.linearVelocity.magnitude < 0.2f;
+
+        if (distanciaAlJugador > rangoPersecucion || (anguloEntreZombiYJugador > anguloVision && distanciaAlJugador > rangoAtaque && !estaAtascado))
         {
             Debug.Log("Jugador perdido. Paso a BUSCANDO");
             zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
@@ -247,12 +302,11 @@ public class ZNormalBehaviour : BehaviourRunner
         // Activar animación de caminar
         zombiAnim.SetBool("Movimiento", true);
 
-        // Sincroniza la posición del agente
-        agent.nextPosition = rb.position;
-
         // Cálculo de dirección usando el NavMesh
         agent.SetDestination(jugador.position);
-        Vector3 direction = (agent.steeringTarget - rb.position).normalized;
+
+        // SOLUCIÓN ESQUINAS: desiredVelocity
+        Vector3 direction = agent.desiredVelocity.normalized;
         direction.y = 0; // Evita que el zombi se incline hacia arriba/abajo
 
         // Mover hacia el jugador
@@ -267,7 +321,7 @@ public class ZNormalBehaviour : BehaviourRunner
         );
 
         return Status.Running; // Continuar persiguiendo
-    }        
+    }
 
     private bool JugadorEnCono()
     {
@@ -286,11 +340,14 @@ public class ZNormalBehaviour : BehaviourRunner
         return enCono;
     }
 
-    private Status AtacarPj() 
+    private Status AtacarPj()
     {
+        // SOLUCIÓN ESCALADO EN ATAQUE
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
         //Debug.Log("Estoy en ATAQUE");
         zombiAnim.SetBool("Ataque", true); // Asegurar que la animación de ataque esté activa
-        if (jugador == null || (jugadorVida !=null && jugadorVida.GetVidaActual() <= 0))
+        if (jugador == null || (jugadorVida != null && jugadorVida.GetVidaActual() <= 0))
         {
             Debug.Log("No hay jugador. Paso a BUSCANDO");
             //zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
@@ -298,12 +355,10 @@ public class ZNormalBehaviour : BehaviourRunner
             return Status.Success;
         }
 
-        agent.nextPosition = rb.position; // Sincroniza la posición del agente con el Rigidbody
-
         distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
 
         // Si el jugador se escapa del rango de ataque, fallamos para volver a perseguir
-        if (distanciaAlJugador > rangoAtaque)
+        if (distanciaAlJugador > (rangoAtaque + 0.3f))
         {
             Debug.Log("Jugador en rango de ataque. Paso a PERSIGUIENDO");
             zombiAnim.SetBool("Ataque", false); // Parar animación
@@ -314,23 +369,47 @@ public class ZNormalBehaviour : BehaviourRunner
         // Mirar al jugador mientras ataca
         Vector3 dir = (jugador.position - rb.position).normalized;
         dir.y = 0;
-        rb.MoveRotation(Quaternion.LookRotation(dir));
+        if (dir != Vector3.zero)
+        {
+            rb.MoveRotation(Quaternion.LookRotation(dir));
+        }
 
         //Debug.Log("Enemigo colision con el jugador");
-        PlayerHealth saludJugador = collision.gameObject.GetComponent<PlayerHealth>();
-        if (saludJugador != null)
+
+        // --- DAÑO LIMPIO POR CADENCIA ---
+        if (Time.time >= ultimoAtaqueTime + cadenciaAtaque)
         {
-            saludJugador.RecibirDaño(damage);
+            if (jugadorVida != null)
+            {
+                jugadorVida.RecibirDaño(zombi.damage);
+                ultimoAtaqueTime = Time.time;
+            }
         }
 
         //Debug.Log("Movimiento: " + zombiAnim.GetBool("Movimiento"));
         //Debug.Log("Ataque: " + zombiAnim.GetBool("Ataque"));
 
+        return Status.Running;
+    }
+
+    private Status EstarTirado()
+    {
+        // Apagamos animaciones
+        zombiAnim.SetBool("Movimiento", false);
+        zombiAnim.SetBool("Ataque", false);
+
+        // Apagamos el NavMeshAgent temporalmente
+        if (agent != null && agent.enabled)
+        {
+            agent.enabled = false;
+        }
+
+        // Tumbamos al zombi 90 grados en el eje X
+        rb.transform.rotation = Quaternion.Euler(90f, rb.transform.rotation.eulerAngles.y, 0f);
 
         return Status.Running;
     }
 }
-
 
 // Clases custom de ejecución del BT y percepciones
 public class BehaviourTreeAction : Action
@@ -369,6 +448,4 @@ public class BehaviourTreeAction : Action
     {
         _bt.Stop();
     }
-
-    
 }
