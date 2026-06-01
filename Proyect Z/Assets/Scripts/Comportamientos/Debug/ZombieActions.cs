@@ -102,9 +102,8 @@ public class ZombieActions : MonoBehaviour
     {
         if (agent != null && agent.isOnNavMesh && !agent.pathPending)
         {
-            // Usamos la velocidad deseada del agente (que respeta las curvas del NavMesh) en lugar de ir en línea recta hacia el steeringTarget.
-            Vector3 dir = agent.desiredVelocity.normalized;
-            dir.y = 0;
+            Vector3 dir = (agent.steeringTarget - rb.position).normalized;
+            dir.y = 0; // Evita que el zombi se incline hacia arriba/abajo
             if (dir != Vector3.zero)
             {
                 rb.MovePosition(rb.position + dir * speed * Time.deltaTime);
@@ -259,12 +258,7 @@ public class ZombieActions : MonoBehaviour
     {
         if (target != null)
         {
-            // Aseguramos que la última posición conocida esté dentro del NavMesh azul
-            if (NavMesh.SamplePosition(target.position, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
-                lastKnownPlayerPos = hit.position;
-            else
-                lastKnownPlayerPos = target.position;
-
+            lastKnownPlayerPos = target.position;
             chaseLoseTimer = chaseLoseMaxTime;
         }
         if (agent != null && agent.isOnNavMesh)
@@ -283,12 +277,7 @@ public class ZombieActions : MonoBehaviour
         bool sees = vision != null && vision.CanSeePlayerSimple(target);
         if (sees)
         {
-            // Aseguramos que la última posición conocida esté dentro del NavMesh azul
-            if (NavMesh.SamplePosition(target.position, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
-                lastKnownPlayerPos = hit.position;
-            else
-                lastKnownPlayerPos = target.position;
-
+            lastKnownPlayerPos = target.position;
             chaseLoseTimer = chaseLoseMaxTime;
 
             if (Vector3.Distance(agent.destination, target.position) > destUpdateThreshold)
