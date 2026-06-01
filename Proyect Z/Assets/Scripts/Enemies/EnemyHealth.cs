@@ -52,11 +52,6 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    public float GetVidaActual()
-    {
-        return vidaActual;
-    }
-
     private void Morir()
     {
         if (isDead) return;
