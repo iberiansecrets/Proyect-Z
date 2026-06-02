@@ -4,6 +4,8 @@ using BehaviourAPI.Core.Actions;
 using BehaviourAPI.Core.Perceptions;
 using BehaviourAPI.StateMachines;
 using BehaviourAPI.UnityToolkit;
+using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -31,6 +33,10 @@ public class ZNormalBehaviour : BehaviourRunner
 
     public float speed;
     public float speedRotation;
+
+    [Header("Ataque")]
+    public float cadenciaAtaque = 1.5f; // Segundos entre cada zarpazo
+    private float ultimoAtaqueTime = 0f;
 
     // Destino de movimiento aleatorio
     private Vector3 destino;
@@ -109,7 +115,6 @@ public class ZNormalBehaviour : BehaviourRunner
             float random = Random.value;
             Debug.Log($"[ZOMBIE NORMAL] El valor del número aleatorio es de {random}");
             empiezaTirado = random > 0.5f; // 50% de probabilidad de empezar en el suelo si estaba en false
-
         }
 
         if (empiezaTirado)
@@ -159,11 +164,16 @@ public class ZNormalBehaviour : BehaviourRunner
             return Status.Running; // el BT sigue, pero la FSM cortará
         }
 
+        //Debug.Log("ESPERANDO");
+
         tiempo += Time.deltaTime;
 
         if (tiempo >= tiempoMax)
         {
             tiempo = 0f; // reset
+
+            //Debug.Log("TIEMPO ESPERANDO TERMINADO");
+            //zombiAnim.SetBool("Movimiento", true);
             return Status.Success;
         }
         return Status.Running;
@@ -177,11 +187,15 @@ public class ZNormalBehaviour : BehaviourRunner
             return Status.Running; // el BT sigue, pero la FSM cortará
         }
 
+        //Debug.Log("MOVIENDOME");
         // Activar animación de caminar
         zombiAnim.SetBool("Movimiento", true);
-                
-        // Usamos desiredVelocity para tomar las curvas perfectas sin salirnos de la malla
-        Vector3 dir = agent.desiredVelocity.normalized;
+
+        //Debug.Log("Movimiento: " + zombiAnim.GetBool("Movimiento"));
+        //Debug.Log("Ataque: " + zombiAnim.GetBool("Ataque"));
+
+        //Debug.Log("Moviendose a: " + destino);
+        Vector3 dir = (destino - rb.position).normalized; // Dirección del movimiento
 
         // Rotación suave hacia el destino
         Quaternion targetRot = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
@@ -192,12 +206,16 @@ public class ZNormalBehaviour : BehaviourRunner
         );
         rb.MoveRotation(smoothRot); // Rotación suave
 
-        // Movimiento hacia el destino
+        // Ver si ha completado el giro
+        // (Nota: Quitamos el return Status.Running estricto para que camine y gire a la vez fluidamente)
+
+        //Movimiento hacia el destino
         rb.MovePosition(rb.transform.position + dir * speed * Time.deltaTime);
 
         // ¿Ya en destino?
         if (Vector3.Distance(rb.position, destino) < 0.3f)
         {
+            //Debug.Log("Destino alcanzado");
             zombiAnim.SetBool("Movimiento", false);
             return Status.Success;
         }
@@ -218,6 +236,7 @@ public class ZNormalBehaviour : BehaviourRunner
             Random.Range(-rangoMovimiento, rangoMovimiento)
         );
 
+        //Debug.Log("NUEVO DESTINO ELEGIDO: " + destino);
         return Status.Success;
     }
 
@@ -247,7 +266,10 @@ public class ZNormalBehaviour : BehaviourRunner
             Debug.Log("¡El Zombi Normal se ha levantado de golpe y corregido su orientación!");
         }
 
-        // Actualizar distancia al jugador
+        // SOLUCIÓN AL ESCALADO: Congelamos ejes para que no se hagan torres
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
+        //Actgualizar distancia al jugador
         distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
         Debug.Log($"[ZOMBIE NORMAL] La distancia al jugador es de {distanciaAlJugador}");
 
@@ -282,7 +304,8 @@ public class ZNormalBehaviour : BehaviourRunner
 
         // Cálculo de dirección usando el NavMesh
         agent.SetDestination(jugador.position);
-        // Usamos desiredVelocity para tomar las curvas perfectas sin salirnos de la malla
+
+        // SOLUCIÓN ESQUINAS: desiredVelocity
         Vector3 direction = agent.desiredVelocity.normalized;
         direction.y = 0; // Evita que el zombi se incline hacia arriba/abajo
 
@@ -308,6 +331,7 @@ public class ZNormalBehaviour : BehaviourRunner
 
         if (distanciaAlJugador > rangoPersecucion)
         {
+            //Debug.Log("Jugador fuera de rango de persecución");
             return false; // El jugador está demasiado lejos
         }
 
@@ -318,11 +342,15 @@ public class ZNormalBehaviour : BehaviourRunner
 
     private Status AtacarPj()
     {
+        // SOLUCIÓN ESCALADO EN ATAQUE
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
         //Debug.Log("Estoy en ATAQUE");
         zombiAnim.SetBool("Ataque", true); // Asegurar que la animación de ataque esté activa
         if (jugador == null || (jugadorVida != null && jugadorVida.GetVidaActual() <= 0))
         {
             Debug.Log("No hay jugador. Paso a BUSCANDO");
+            //zombiAnim.SetBool("Movimiento", false); // Parar animación de caminar
             zombiAnim.SetBool("Ataque", false); // Parar animación de ataque
             return Status.Success;
         }
@@ -330,22 +358,36 @@ public class ZNormalBehaviour : BehaviourRunner
         distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
 
         // Si el jugador se escapa del rango de ataque, fallamos para volver a perseguir
-        if (distanciaAlJugador > rangoAtaque)
+        if (distanciaAlJugador > (rangoAtaque + 0.3f))
         {
             Debug.Log("Jugador en rango de ataque. Paso a PERSIGUIENDO");
             zombiAnim.SetBool("Ataque", false); // Parar animación
+            //zombiAnim.SetBool("Movimiento", true); // Iniciar animación de caminar
             return Status.Failure;
         }
 
         // Mirar al jugador mientras ataca
         Vector3 dir = (jugador.position - rb.position).normalized;
         dir.y = 0;
-        rb.MoveRotation(Quaternion.LookRotation(dir));
-
-        if (jugadorVida != null)
+        if (dir != Vector3.zero)
         {
-            jugadorVida.RecibirDaño(zombi.damage);
+            rb.MoveRotation(Quaternion.LookRotation(dir));
         }
+
+        //Debug.Log("Enemigo colision con el jugador");
+
+        // --- DAÑO LIMPIO POR CADENCIA ---
+        if (Time.time >= ultimoAtaqueTime + cadenciaAtaque)
+        {
+            if (jugadorVida != null)
+            {
+                jugadorVida.RecibirDaño(zombi.damage);
+                ultimoAtaqueTime = Time.time;
+            }
+        }
+
+        //Debug.Log("Movimiento: " + zombiAnim.GetBool("Movimiento"));
+        //Debug.Log("Ataque: " + zombiAnim.GetBool("Ataque"));
 
         return Status.Running;
     }
@@ -368,7 +410,6 @@ public class ZNormalBehaviour : BehaviourRunner
         return Status.Running;
     }
 }
-
 
 // Clases custom de ejecución del BT y percepciones
 public class BehaviourTreeAction : Action
@@ -406,5 +447,5 @@ public class BehaviourTreeAction : Action
     public override void Stop()
     {
         _bt.Stop();
-    }   
+    }
 }

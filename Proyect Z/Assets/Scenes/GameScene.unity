@@ -1138,6 +1138,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8538722962178020005, guid: e18d0f5b506669541b464122f133dc72, type: 3}
+      propertyPath: jugador
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7975,6 +7979,7 @@ MonoBehaviour:
   - {fileID: 1682183930884348105, guid: 8d06e3cd367fe2c4c94e3fd6881993f6, type: 3}
   - {fileID: 3252983824783760535, guid: 57c5e32cc9aa175439ee5f4d5d268c0a, type: 3}
   - {fileID: 4011342380962231938, guid: bbb3780ec04a740458c90dbbb483282c, type: 3}
+  - {fileID: 5085797134564901262, guid: e18d0f5b506669541b464122f133dc72, type: 3}
   spawnInterval: 0.7
   maxZombiesSimultaneos: 32
   spawnPoints:
@@ -7982,6 +7987,7 @@ MonoBehaviour:
   - {fileID: 29938304}
   - {fileID: 1081637506}
   - {fileID: 848521203}
+  zombiesSpawned: []
 --- !u!1001 &505380427
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10025,9 +10031,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15bb25e4a6ddc034da7420c783534d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crosshairImage: {fileID: 81381898}
-  useCrosshair: 1
-  isMobile: 0
 --- !u!1001 &765373125
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11325,9 +11328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 060dde1b8a6ecc240b66b6af6db60d1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pantallaFin: {fileID: 1132051717}
-  victoriaSprite: {fileID: 21300000, guid: 8d83cda00e9d4024d9bf4b75893e71dd, type: 3}
-  derrotaSprite: {fileID: 21300000, guid: 05d9f5cb307082c45b27289c94e98878, type: 3}
 --- !u!1 &1144431546
 GameObject:
   m_ObjectHideFlags: 0
@@ -12341,9 +12341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6f5b74be251f99448e0d5c794e63d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuUI: {fileID: 2125305401}
-  panelMejoras: {fileID: 1253263579}
-  musicManager: {fileID: 1144431547}
 --- !u!4 &1324857886
 Transform:
   m_ObjectHideFlags: 0
@@ -13606,28 +13603,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1522360549}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd67bea8223a7a240bf69ca49bef8191, type: 3}
+  m_Script: {fileID: 11500000, guid: ecb46ef8b14e03e43a2f667849098f9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerHealth: {fileID: 432614871}
   enemiesSpawner: {fileID: 498354696}
   gameOverUI: {fileID: 576696503}
-  gameOverText: {fileID: 310077744}
+  gameOverText: {fileID: 936848913}
   rondaText: {fileID: 1912862754}
   timerText: {fileID: 886168994}
   returnButton: {fileID: 1200904271}
   enemigosRestantesText: {fileID: 750185470}
   rondaActual: 1
   enemigosPorRonda: 7
-  dificultad: 1.3
+  dificultad: 1.6
   maxRondas: 10
   juegoTerminado: 0
   tiempoTotal: 600
-  mejorasUI: {fileID: 1253263579}
-  botonesMejoras:
-  - {fileID: 325367233}
-  - {fileID: 2015960605}
-  - {fileID: 1509196953}
+  maxTiempoSinMatar: 30
+  mejorasUI: {fileID: 0}
+  botonesMejoras: []
 --- !u!4 &1522360551
 Transform:
   m_ObjectHideFlags: 0
@@ -14614,6 +14609,53 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.3880253, y: 8.045595, z: 2.1736755}
   m_Center: {x: -0.32435513, y: 3.5227985, z: 0.039409637}
+--- !u!1 &1666842022
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1666842024}
+  - component: {fileID: 1666842023}
+  m_Layer: 0
+  m_Name: CursorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1666842023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666842022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d578c5457e11647a9e477bb7551bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crosshairImage: {fileID: 81381898}
+  useCrosshair: 1
+  isMobile: 0
+--- !u!4 &1666842024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666842022}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1673029729
 GameObject:
   m_ObjectHideFlags: 0
@@ -15687,13 +15729,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1842206133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7a72483bb3cf884fb70f95a2c8f66fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 359da831abd6e944aa43a8c7412b8af8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPickupPrefab: {fileID: 4180485943845387150, guid: ec8d73c2c62650f458dbda6f996f28da, type: 3}
-  areaCenter: {x: 0, y: 1, z: 0}
-  areaSize: {x: 55, y: 0, z: 55}
-  respawnDelay: 15
+  decoyPrefab: {fileID: 5932888860459228288, guid: 02e4abc2b0367ea41966d67995c53c69, type: 3}
+  areaCenter: {x: 0, y: 0, z: 0}
+  areaSize: {x: 20, y: 0, z: 20}
+  respawnDelay: 20
   checkRadius: 1
   maxIntentos: 20
 --- !u!4 &1842206135
@@ -15720,13 +15762,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1842206133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4c32a99bd3df83458a9cc6ee339b162, type: 3}
+  m_Script: {fileID: 11500000, guid: f1c9b743206358645aad512fce8f8c5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shotgunPrefab: {fileID: 1322309580865208067, guid: d105bceeaa135624285850e2ef880eca, type: 3}
-  areaCenter: {x: 0, y: 1, z: 0}
-  areaSize: {x: 55, y: 0, z: 55}
-  respawnDelay: 22
+  healthPickupPrefab: {fileID: 4180485943845387150, guid: ec8d73c2c62650f458dbda6f996f28da, type: 3}
+  areaCenter: {x: 0, y: 0, z: 0}
+  areaSize: {x: 20, y: 0, z: 20}
+  respawnDelay: 20
   checkRadius: 1.5
   maxIntentos: 20
 --- !u!114 &1842206137
@@ -15738,12 +15780,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1842206133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c02d361c0294a9499db8785698e7b8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b9b9fb54eca0aa418d2b8b4e02c4c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   riflePrefab: {fileID: 1253603883243199120, guid: 0967392f658a2aa448542447e7edb031, type: 3}
-  areaCenter: {x: 0, y: 1, z: 0}
-  areaSize: {x: 55, y: 0, z: 55}
+  areaCenter: {x: 0, y: 0, z: 0}
+  areaSize: {x: 20, y: 0, z: 20}
   respawnDelay: 20
   checkRadius: 1.5
   maxIntentos: 20
@@ -15756,13 +15798,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1842206133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5358a9d30edf4841a648b04e0896728, type: 3}
+  m_Script: {fileID: 11500000, guid: b4eb148f8e4d72b499d442f5b07c45bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sniperPrefab: {fileID: 2492467976512879928, guid: dd1e3a8ba07d1d947b6b3dff1ec7e089, type: 3}
-  areaCenter: {x: 0, y: 1, z: 0}
-  areaSize: {x: 55, y: 0, z: 55}
-  respawnDelay: 25
+  shotgunPrefab: {fileID: 2501810394174035226, guid: 05dd935334234494eb0600ba57fc3e84, type: 3}
+  areaCenter: {x: 0, y: 0, z: 0}
+  areaSize: {x: 20, y: 0, z: 20}
+  respawnDelay: 20
   checkRadius: 1.5
   maxIntentos: 20
 --- !u!114 &1842206139
@@ -15774,14 +15816,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1842206133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c519776ed17a7648afdc80505bc49f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b04257b7bed44e4ab43493d53d34301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decoyPrefab: {fileID: 5932888860459228288, guid: 02e4abc2b0367ea41966d67995c53c69, type: 3}
-  areaCenter: {x: 0, y: 1, z: 0}
-  areaSize: {x: 55, y: 0, z: 55}
-  respawnDelay: 40
-  checkRadius: 1
+  sniperPrefab: {fileID: 1322309580865208067, guid: d105bceeaa135624285850e2ef880eca, type: 3}
+  areaCenter: {x: 0, y: 0, z: 0}
+  areaSize: {x: 20, y: 0, z: 20}
+  respawnDelay: 20
+  checkRadius: 1.5
   maxIntentos: 20
 --- !u!1 &1850299613
 GameObject:
@@ -18991,6 +19033,7 @@ SceneRoots:
   - {fileID: 432614876}
   - {fileID: 1144431548}
   - {fileID: 1324857886}
+  - {fileID: 1666842024}
   - {fileID: 1869773960}
   - {fileID: 577397661}
   - {fileID: 505380427}

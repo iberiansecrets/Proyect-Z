@@ -50,11 +50,7 @@ public class EnemyHealth : MonoBehaviour
         {
             Morir();
         }
-    }
 
-    public float GetVidaActual()
-    {
-        return vidaActual;
     }
 
     private void Morir()
@@ -73,5 +69,10 @@ public class EnemyHealth : MonoBehaviour
 
         // Destruir el objeto
         Destroy(gameObject);
+    }
+
+    public float GetVidaActual()
+    {
+        return vidaActual;
     }
 }

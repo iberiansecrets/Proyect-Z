@@ -19,9 +19,9 @@ public class ZComandante : MonoBehaviour
     {
         jugador = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody>();
-        // Congela la rotación en los ejes X y Z para evitar que el enemigo se vuelque
-        //rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        
+
+        zBehaviour = GetComponent<ZComandanteBehaviour>();
+
     }
 
     void OnCollisionStay(Collision collision)
