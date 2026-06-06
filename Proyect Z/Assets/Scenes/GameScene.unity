@@ -15734,7 +15734,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decoyPrefab: {fileID: 5932888860459228288, guid: 02e4abc2b0367ea41966d67995c53c69, type: 3}
   areaCenter: {x: 0, y: 0, z: 0}
-  areaSize: {x: 20, y: 0, z: 20}
+  areaSize: {x: 20, y: 20, z: 20}
   respawnDelay: 20
   checkRadius: 1
   maxIntentos: 20
@@ -15767,7 +15767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthPickupPrefab: {fileID: 4180485943845387150, guid: ec8d73c2c62650f458dbda6f996f28da, type: 3}
   areaCenter: {x: 0, y: 0, z: 0}
-  areaSize: {x: 20, y: 0, z: 20}
+  areaSize: {x: 20, y: 10, z: 20}
   respawnDelay: 20
   checkRadius: 1.5
   maxIntentos: 20
@@ -15785,7 +15785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   riflePrefab: {fileID: 1253603883243199120, guid: 0967392f658a2aa448542447e7edb031, type: 3}
   areaCenter: {x: 0, y: 0, z: 0}
-  areaSize: {x: 20, y: 0, z: 20}
+  areaSize: {x: 20, y: 10, z: 20}
   respawnDelay: 20
   checkRadius: 1.5
   maxIntentos: 20

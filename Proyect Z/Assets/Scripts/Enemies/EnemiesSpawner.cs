@@ -16,6 +16,7 @@ public class EnemiesSpawner : MonoBehaviour
     public List<GameObject> zombiesSpawned = new List<GameObject>();
     private bool spawningActive = false; // Controla si la oleada está activa
     private int oleadaActual = 1;
+    private bool comandanteGenerado = false;
 
     public void GenerarOleada(int cantidad, int numeroOleada)
     {
@@ -64,10 +65,14 @@ public class EnemiesSpawner : MonoBehaviour
 
     private void SpawnComander()
     {
+        if (oleadaActual != 1 || oleadaActual != 10 || comandanteGenerado) return;
+
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
         GameObject newZombie = Instantiate(zombiesPrefab[3], spawnPoint.position, spawnPoint.rotation);
+
         zombiesSpawned.Add(newZombie);
+        comandanteGenerado = true;
 
         // Notificar al GameManager que hay un nuevo enemigo
         if (GameManager.Instance != null)
@@ -105,10 +110,13 @@ public class EnemiesSpawner : MonoBehaviour
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
         // Instancia un tipo aleatorio de zombie
+
         GameObject zombiePrefab = zombiesPrefab[Random.Range(0, zombiesPrefab.Count - 1)];
         GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
         zombiesSpawned.Add(newZombie);
+        newZombie.gameObject.tag = "Comandante";
+
         Debug.Log($"{zombiesSpawned.Count}");
 
         // Notificar al GameManager que hay un nuevo enemigo
@@ -190,6 +198,11 @@ public class EnemiesSpawner : MonoBehaviour
         if (zombiesSpawned.Contains(zombie))
             Debug.Log($"{zombiesSpawned.Count}");
             zombiesSpawned.Remove(zombie);
+        if (zombie.gameObject.tag == "Comandante")
+        {
+            comandanteGenerado = false;
+            Debug.Log("Comandante muerto");
+        }
 
         // Notificar al GameManager que un enemigo ha muerto
         if (GameManager.Instance != null)
