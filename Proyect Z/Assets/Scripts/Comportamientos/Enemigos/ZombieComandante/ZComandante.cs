@@ -45,44 +45,47 @@ public class ZComandante : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Vector3 direction = (jugador.position - rb.position).normalized;
-
-        float distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
-
-        if (distanciaAlJugador > zBehaviour.distanciaPanico)
+        if (jugador != null && rb != null && zBehaviour == null)
         {
+            Vector3 direction = (jugador.position - rb.position).normalized;
 
-            //Color del triángulo
-            if (distanciaAlJugador > zBehaviour.distanciaSegura)
+            float distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
+
+            if (distanciaAlJugador > zBehaviour.distanciaPanico)
             {
-                Gizmos.color = fovColor; // Amarillo opaco
-            }
-            else
-            {
-                Gizmos.color = new Color(1, 0, 0, 0.3f); // Opaco
-            }
 
-            //Calculamos la dirección izquierda y derecha del FOV
-            Vector3 forward = transform.forward * zBehaviour.distanciaSegura;
+                //Color del triángulo
+                if (distanciaAlJugador > zBehaviour.distanciaSegura)
+                {
+                    Gizmos.color = fovColor; // Amarillo opaco
+                }
+                else
+                {
+                    Gizmos.color = new Color(1, 0, 0, 0.3f); // Opaco
+                }
 
-            Vector3 leftDir = Quaternion.Euler(0, -anguloVision / 2f, 0) * forward;
-            Vector3 rightDir = Quaternion.Euler(0, anguloVision / 2f, 0) * forward;
+                //Calculamos la dirección izquierda y derecha del FOV
+                Vector3 forward = transform.forward * zBehaviour.distanciaSegura;
 
-            //Dibujamos las líneas del cono
-            Gizmos.DrawLine(transform.position, transform.position + leftDir);
-            Gizmos.DrawLine(transform.position, transform.position + rightDir);
+                Vector3 leftDir = Quaternion.Euler(0, -anguloVision / 2f, 0) * forward;
+                Vector3 rightDir = Quaternion.Euler(0, anguloVision / 2f, 0) * forward;
 
-            //Relleno del triángulo usando DrawLine
-            int steps = 10; // más pasos = más suave
-            Vector3 prevPoint = transform.position + leftDir;
+                //Dibujamos las líneas del cono
+                Gizmos.DrawLine(transform.position, transform.position + leftDir);
+                Gizmos.DrawLine(transform.position, transform.position + rightDir);
 
-            for (int i = 1; i <= steps; i++)
-            {
-                float t = i / (float)steps;
-                Vector3 point = transform.position + Quaternion.Euler(0, -anguloVision / 2f + anguloVision * t, 0) * forward;
-                Gizmos.DrawLine(prevPoint, point);
-                Gizmos.DrawLine(transform.position, point);
-                prevPoint = point;
+                //Relleno del triángulo usando DrawLine
+                int steps = 10; // más pasos = más suave
+                Vector3 prevPoint = transform.position + leftDir;
+
+                for (int i = 1; i <= steps; i++)
+                {
+                    float t = i / (float)steps;
+                    Vector3 point = transform.position + Quaternion.Euler(0, -anguloVision / 2f + anguloVision * t, 0) * forward;
+                    Gizmos.DrawLine(prevPoint, point);
+                    Gizmos.DrawLine(transform.position, point);
+                    prevPoint = point;
+                }
             }
         }
     }

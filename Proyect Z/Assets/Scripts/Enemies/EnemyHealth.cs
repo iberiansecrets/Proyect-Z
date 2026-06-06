@@ -69,4 +69,9 @@ public class EnemyHealth : MonoBehaviour
         // Destruir el objeto
         Destroy(gameObject);
     }
+
+    public float GetVidaActual()
+    {
+        return vidaActual;
+    }
 }
