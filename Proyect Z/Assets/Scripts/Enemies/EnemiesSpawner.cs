@@ -29,7 +29,7 @@ public class EnemiesSpawner : MonoBehaviour
 
         // Si ya hay una oleada activa, detenerla antes de iniciar una nueva
         StopAllCoroutines();
-        //StartCoroutine(SpawnRoutine(cantidad));  //DESCOMENTAR PARA ACTIVAR GENERADOR DE ZOMBIES
+        StartCoroutine(SpawnRoutine(cantidad));  //DESCOMENTAR PARA ACTIVAR GENERADOR DE ZOMBIES
 
         Debug.Log($"Cantidad de zombies generada: {cantidad}");
     }

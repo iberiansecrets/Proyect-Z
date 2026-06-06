@@ -75,7 +75,7 @@ public class ZComandanteBehaviour : BehaviourRunner
             panicTimer -= Time.deltaTime;
 
         // Detección reactiva de daño recibido
-        if (healthComponent != null && healthComponent.GetVidaActual() < lastHealth) // Asumiendo lógica destructiva o decremento
+            if (healthComponent != null && healthComponent.GetVidaActual() < lastHealth) // Asumiendo lógica destructiva o decremento
         {
             Debug.Log("ME HAN DADO");
             panicTimer = 5f; // 2.5 segundos de pánico máximo

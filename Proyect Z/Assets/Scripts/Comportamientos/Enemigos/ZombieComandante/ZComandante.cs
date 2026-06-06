@@ -19,9 +19,9 @@ public class ZComandante : MonoBehaviour
     {
         jugador = GameObject.FindGameObjectWithTag("Player").transform;
         rb = GetComponent<Rigidbody>();
-        // Congela la rotación en los ejes X y Z para evitar que el enemigo se vuelque
-        //rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        
+
+        zBehaviour = GetComponent<ZComandanteBehaviour>();
+
     }
 
     void OnCollisionStay(Collision collision)
@@ -45,47 +45,47 @@ public class ZComandante : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (jugador != null && rb != null && zBehaviour == null)
+        if (jugador == null || rb == null || zBehaviour == null)
+            return;
+
+        Vector3 direction = (jugador.position - rb.position).normalized;
+
+        float distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
+
+        if (distanciaAlJugador > zBehaviour.distanciaPanico)
         {
-            Vector3 direction = (jugador.position - rb.position).normalized;
 
-            float distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
-
-            if (distanciaAlJugador > zBehaviour.distanciaPanico)
+            //Color del triángulo
+            if (distanciaAlJugador > zBehaviour.distanciaSegura)
             {
+                Gizmos.color = fovColor; // Amarillo opaco
+            }
+            else
+            {
+                Gizmos.color = new Color(1, 0, 0, 0.3f); // Opaco
+            }
 
-                //Color del triángulo
-                if (distanciaAlJugador > zBehaviour.distanciaSegura)
-                {
-                    Gizmos.color = fovColor; // Amarillo opaco
-                }
-                else
-                {
-                    Gizmos.color = new Color(1, 0, 0, 0.3f); // Opaco
-                }
+            //Calculamos la dirección izquierda y derecha del FOV
+            Vector3 forward = transform.forward * zBehaviour.distanciaSegura;
 
-                //Calculamos la dirección izquierda y derecha del FOV
-                Vector3 forward = transform.forward * zBehaviour.distanciaSegura;
+            Vector3 leftDir = Quaternion.Euler(0, -anguloVision / 2f, 0) * forward;
+            Vector3 rightDir = Quaternion.Euler(0, anguloVision / 2f, 0) * forward;
 
-                Vector3 leftDir = Quaternion.Euler(0, -anguloVision / 2f, 0) * forward;
-                Vector3 rightDir = Quaternion.Euler(0, anguloVision / 2f, 0) * forward;
+            //Dibujamos las líneas del cono
+            Gizmos.DrawLine(transform.position, transform.position + leftDir);
+            Gizmos.DrawLine(transform.position, transform.position + rightDir);
 
-                //Dibujamos las líneas del cono
-                Gizmos.DrawLine(transform.position, transform.position + leftDir);
-                Gizmos.DrawLine(transform.position, transform.position + rightDir);
+            //Relleno del triángulo usando DrawLine
+            int steps = 10; // más pasos = más suave
+            Vector3 prevPoint = transform.position + leftDir;
 
-                //Relleno del triángulo usando DrawLine
-                int steps = 10; // más pasos = más suave
-                Vector3 prevPoint = transform.position + leftDir;
-
-                for (int i = 1; i <= steps; i++)
-                {
-                    float t = i / (float)steps;
-                    Vector3 point = transform.position + Quaternion.Euler(0, -anguloVision / 2f + anguloVision * t, 0) * forward;
-                    Gizmos.DrawLine(prevPoint, point);
-                    Gizmos.DrawLine(transform.position, point);
-                    prevPoint = point;
-                }
+            for (int i = 1; i <= steps; i++)
+            {
+                float t = i / (float)steps;
+                Vector3 point = transform.position + Quaternion.Euler(0, -anguloVision / 2f + anguloVision * t, 0) * forward;
+                Gizmos.DrawLine(prevPoint, point);
+                Gizmos.DrawLine(transform.position, point);
+                prevPoint = point;
             }
         }
     }
