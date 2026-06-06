@@ -7,7 +7,7 @@ public class RiflePickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController pc = other.GetComponent<PlayerController>();
-            ObjectSpawner ob = FindObjectOfType<ObjectSpawner>();
+            ObjectSpawner ob = FindAnyObjectByType<ObjectSpawner>();
             if (pc != null)
             {
                 pc.EquipRifle();

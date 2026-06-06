@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
-        FindObjectOfType<CursorManager>().ActivarCrosshair();
+        FindAnyObjectByType<CursorManager>().ActivarCrosshair();
     }
 
     void AcabarRonda()
@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
         temporizadorActivo = false;
         float random = Random.Range(3, 5 * dificultad);
         enemigosPorRonda += (int)random;
-        FindObjectOfType<CursorManager>().DesactivarCrosshair();
+        FindAnyObjectByType<CursorManager>().DesactivarCrosshair();
         // Si se completan todas las rondas, el jugador gana
         if (rondaActual >= maxRondas)
         {
@@ -272,14 +272,14 @@ public class GameManager : MonoBehaviour
             gameOverText.text = mensaje;
         }
 
-        var vialChanger = FindObjectOfType<VialChanger>();
+        var vialChanger = FindAnyObjectByType<VialChanger>();
         if (vialChanger != null)
         {
             bool victoria = mensaje == "Has ganado!";
             vialChanger.MostrarResultado(victoria);
         }
 
-        var cursorManager = FindObjectOfType<CursorManager>();
+        var cursorManager = FindAnyObjectByType<CursorManager>();
         if (cursorManager != null)
             cursorManager.DesactivarCrosshair();
 

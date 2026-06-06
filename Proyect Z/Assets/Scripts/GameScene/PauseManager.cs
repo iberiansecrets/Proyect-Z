@@ -15,7 +15,7 @@ public class PauseManager : MonoBehaviour
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(false);
 
-        cursorManager = FindObjectOfType<CursorManager>();
+        cursorManager = FindAnyObjectByType<CursorManager>();
     }
 
     void Update()
