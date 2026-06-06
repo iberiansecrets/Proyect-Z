@@ -45,6 +45,9 @@ public class ZComandante : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        if (jugador == null || rb == null || zBehaviour == null)
+            return;
+
         Vector3 direction = (jugador.position - rb.position).normalized;
 
         float distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
