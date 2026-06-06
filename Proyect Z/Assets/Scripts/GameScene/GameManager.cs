@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text gameOverText;
     public TMP_Text rondaText; // Texto de la ronda actual en pantalla
     public TMP_Text timerText; // Texto del temporizador total
-    public Button returnButton;    
+    public Button returnButton;
     public TMP_Text enemigosRestantesText; // Texto de enemigos restantes
 
     [Header("Rondas")]
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     private bool rondaActiva = false;
     public bool juegoTerminado = false;
 
-    [Header ("Temporizador")]
+    [Header("Temporizador")]
     public float tiempoTotal = 600f; // 10 minutos
     private bool temporizadorActivo = true;
 
@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Inicialización de las interfaces
         if (gameOverUI != null)
             gameOverUI.SetActive(false);
 
@@ -65,12 +64,11 @@ public class GameManager : MonoBehaviour
         if (returnButton != null)
             returnButton.onClick.AddListener(VolverAlMenu);
 
-        IniciarRonda(); // Inicia la primera ronda
+        IniciarRonda();
     }
 
     void Update()
     {
-        // Actualizar temporizador
         if (temporizadorActivo && !juegoTerminado)
         {
             tiempoTotal -= Time.deltaTime;
@@ -83,8 +81,6 @@ public class GameManager : MonoBehaviour
                 FinalizarJuego("Se acabo el tiempo!");
             }
         }
-
-        ActualizarEnemigosUI();
 
         // Lógica de inactividad
         if (rondaActiva && !juegoTerminado)
@@ -106,29 +102,29 @@ public class GameManager : MonoBehaviour
         int segundos = Mathf.FloorToInt(tiempoTotal % 60);
         timerText.text = $"{minutos:00}:{segundos:00}";
     }
-
+        
     private void ActualizarEnemigosUI()
     {
         if (enemigosRestantesText != null)
         {
-            enemigosRestantesText.text = $"Zombies restantes: {enemigosRestantes/2}";
-        }            
+            // Quitamos el "/2" para que la UI no invente datos erróneos
+            enemigosRestantesText.text = $"Zombies restantes: {enemigosRestantes}";
+        }
     }
 
     void IniciarRonda()
     {
         Debug.Log($"Iniciando ronda {rondaActual}");
 
-        ActualizarEnemigosUI();
-
-        // Calcula la cantidad de enemigos en función de la dificultad
+        // Calcula la cantidad de enemigos base de la ronda
         enemigosRestantes = enemigosPorRonda;
 
-        // Actualiza el texto de ronda
+        ActualizarEnemigosUI();
+
         if (rondaText != null)
             rondaText.text = $"Ronda: {rondaActual}";
 
-        // Genera los enemigos de la oleada
+        // Genera los enemigos de la oleada (El Comandante restará 1 de forma interna en su rutina)
         if (enemiesSpawner != null)
             enemiesSpawner.GenerarOleada(enemigosRestantes, rondaActual);
 
@@ -138,7 +134,9 @@ public class GameManager : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
-        FindObjectOfType<CursorManager>().ActivarCrosshair();
+
+        var cursorMgr = FindObjectOfType<CursorManager>();
+        if (cursorMgr != null) cursorMgr.ActivarCrosshair();
     }
 
     void AcabarRonda()
@@ -147,17 +145,19 @@ public class GameManager : MonoBehaviour
         rondaActiva = false;
         Time.timeScale = 0f;
         temporizadorActivo = false;
+
         float random = Random.Range(3, 5 * dificultad);
         enemigosPorRonda += (int)random;
-        FindObjectOfType<CursorManager>().DesactivarCrosshair();
-        // Si se completan todas las rondas, el jugador gana
+
+        var cursorMgr = FindObjectOfType<CursorManager>();
+        if (cursorMgr != null) cursorMgr.DesactivarCrosshair();
+
         if (rondaActual >= maxRondas)
         {
             FinalizarJuego("Has ganado!");
             return;
         }
 
-        // Muestra el menú de mejoras
         if (mejorasUI != null)
         {
             mejorasUI.SetActive(true);
@@ -165,7 +165,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Genera 3 mejoras aleatorias de 5 posibles
     void OpcionesMejoras()
     {
         List<string> opciones = new List<string>(mejoras);
@@ -184,12 +183,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Cuando el jugador selecciona una mejora
     void SeleccionarMejora(string mejora)
     {
         Debug.Log($"Mejora seleccionada: {mejora}");
 
-        // Aplicar efectos según mejora
         switch (mejora)
         {
             case "Salud":
@@ -209,7 +206,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        // Cerrar menú y empezar siguiente ronda
         mejorasUI.SetActive(false);
         Time.timeScale = 1f;
 
@@ -217,33 +213,38 @@ public class GameManager : MonoBehaviour
         IniciarRonda();
     }
 
-    // Llamado desde EnemyHealth al morir
+    // Llamado desde EnemySpawner u OnZombieDeath al morir un zombie
     public void EnemigoDerrotado()
     {
         if (juegoTerminado || !rondaActiva) return;
 
-        timerSinMatar = 0f; // Resetea el temporizador de inactividad
+        timerSinMatar = 0f; // Resetea la inactividad
 
         enemigosRestantes--;
         ActualizarEnemigosUI();
+
         if (enemigosRestantes <= 0)
         {
             AcabarRonda();
         }
     }
 
-    public void RegistrarEnemigo(GameObject enemigo)
+    public void RegistrarEnemigo(GameObject enemigo, bool esInvocado = false)
     {
         if (juegoTerminado) return;
-        enemigosRestantes++;
+                
+        if (esInvocado)
+        {
+            enemigosRestantes++;
+        }
+
         ActualizarEnemigosUI();
     }
 
     public void DesregistrarEnemigo(GameObject enemigo)
     {
         if (juegoTerminado) return;
-
-        enemigosRestantes--;
+        
         ActualizarEnemigosUI();
         if (enemigosRestantes <= 0 && rondaActiva)
         {
@@ -251,11 +252,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Llamado desde PlayerHealth al morir
     public void JugadorDerrotado()
     {
         if (juegoTerminado) return;
-
         FinalizarJuego("Has muerto");
     }
 
@@ -286,7 +285,6 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        // Desactiva el movimiento del jugador
         if (playerHealth != null)
         {
             var controller = playerHealth.GetComponent<PlayerController>();
@@ -298,6 +296,6 @@ public class GameManager : MonoBehaviour
     public void VolverAlMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu"); //Vuelve al menú principal
+        SceneManager.LoadScene("MainMenu");
     }
 }

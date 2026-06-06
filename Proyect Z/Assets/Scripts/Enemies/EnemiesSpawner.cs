@@ -29,7 +29,7 @@ public class EnemiesSpawner : MonoBehaviour
 
         // Si ya hay una oleada activa, detenerla antes de iniciar una nueva
         StopAllCoroutines();
-        StartCoroutine(SpawnRoutine(cantidad));  //DESCOMENTAR PARA ACTIVAR GENERADOR DE ZOMBIES
+        StartCoroutine(SpawnRoutine(cantidad));
 
         Debug.Log($"Cantidad de zombies generada: {cantidad}");
     }
@@ -39,9 +39,16 @@ public class EnemiesSpawner : MonoBehaviour
         spawningActive = true;
         zombiesSpawned.Clear();
 
-        SpawnComander();
+        int zombiesPorSpawnear = cantidad;
 
-        for (int i = 0; i < cantidad; i++)
+        // CONTROL DE FLUJO: Si no hay Comandante, lo creamos y resta de la cantidad de la horda total
+        if (!ExisteComandanteVivo())
+        {
+            SpawnComander();
+            zombiesPorSpawnear--; // El comandante cuenta como uno de los zombies de la ronda
+        }
+
+        for (int i = 0; i < zombiesPorSpawnear; i++)
         {
             // Esperar un momento antes de cada spawn
             yield return new WaitForSeconds(spawnInterval);
@@ -69,9 +76,9 @@ public class EnemiesSpawner : MonoBehaviour
         GameObject newZombie = Instantiate(zombiesPrefab[3], spawnPoint.position, spawnPoint.rotation);
         zombiesSpawned.Add(newZombie);
 
-        // Notificar al GameManager que hay un nuevo enemigo
+        // El comandante es parte de la horda base, no se marca como esInvocado
         if (GameManager.Instance != null)
-            GameManager.Instance.RegistrarEnemigo(newZombie);
+            GameManager.Instance.RegistrarEnemigo(newZombie, false);
 
         // Suscribirse al evento de muerte del zombie (si existe el componente EnemyHealth)
         EnemyHealth health = newZombie.GetComponent<EnemyHealth>();
@@ -101,27 +108,47 @@ public class EnemiesSpawner : MonoBehaviour
             return;
         }
 
-        // Escoge un punto de spawn aleatorio
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-        // Instancia un tipo aleatorio de zombie
-        GameObject zombiePrefab = zombiesPrefab[Random.Range(0, zombiesPrefab.Count - 1)];
+        // FILTRO DE SEGURIDAD MÁXIMA: Excluimos la posición [3] (Comandante)
+        GameObject zombiePrefab = zombiesPrefab[Random.Range(0, 3)];
         GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
         zombiesSpawned.Add(newZombie);
-        Debug.Log($"{zombiesSpawned.Count}");
 
-        // Notificar al GameManager que hay un nuevo enemigo
+        // Los zombies comunes de la oleada base tampoco se marcan como esInvocado
         if (GameManager.Instance != null)
-            GameManager.Instance.RegistrarEnemigo(newZombie);
+            GameManager.Instance.RegistrarEnemigo(newZombie, false);
 
-        // Suscribirse al evento de muerte del zombie (si existe el componente EnemyHealth)
         EnemyHealth health = newZombie.GetComponent<EnemyHealth>();
         if (health != null)
             health.onDeath += () => OnZombieDeath(newZombie);
     }
 
-    void SpawnZombieTipo(ZombieType.Tipo tipoBuscado)
+    public bool ExisteComandanteVivo()
+    {
+        return zombiesSpawned.Exists(z =>
+        {
+            if (z == null) return false;
+            var t = z.GetComponent<ZombieType>();
+            return t != null && t.tipo == ZombieType.Tipo.Comandante;
+        });
+    }
+
+    private void OnZombieDeath(GameObject zombie)
+    {
+        if (zombiesSpawned.Contains(zombie))
+        {
+            zombiesSpawned.Remove(zombie);
+        }
+
+        // Notificar al GameManager que un enemigo ha muerto para que reste 1
+        if (GameManager.Instance != null)
+            GameManager.Instance.EnemigoDerrotado();
+    }
+
+    // El método que utiliza la habilidad del Comandante para invocar esbirros reales y registrados
+    public void SpawnZombieTipo(ZombieType.Tipo tipoBuscado)
     {
         GameObject prefab = zombiesPrefab.Find(z =>
         {
@@ -131,7 +158,7 @@ public class EnemiesSpawner : MonoBehaviour
 
         if (prefab == null)
         {
-            Debug.LogWarning($"No se encontró prefab del tipo {tipoBuscado}");
+            Debug.Log($"No se encontró prefab del tipo {tipoBuscado}");
             return;
         }
 
@@ -140,9 +167,8 @@ public class EnemiesSpawner : MonoBehaviour
 
         zombiesSpawned.Add(newZombie);
 
-        // Notificar al GameManager que hay un nuevo enemigo
         if (GameManager.Instance != null)
-            GameManager.Instance.RegistrarEnemigo(newZombie);
+            GameManager.Instance.RegistrarEnemigo(newZombie, true);
 
         EnemyHealth health = newZombie.GetComponent<EnemyHealth>();
         if (health != null)
@@ -153,13 +179,9 @@ public class EnemiesSpawner : MonoBehaviour
     {
         Debug.Log("SPAWN BALANCEADO DETECTADO");
         int normales = GetNumNormales();
-        Debug.Log(normales);
         int corredores = GetNumCorredores();
-        Debug.Log(corredores);
         int colosales = GetNumColosales();
-        Debug.Log(colosales);
         int total = Mathf.Max(1, normales + corredores + colosales);
-        Debug.Log(total);
 
         int spawnNormales = Mathf.RoundToInt(cantidad * (normales / (float)total));
         int spawnCorredores = Mathf.RoundToInt(cantidad * (corredores / (float)total));
@@ -168,34 +190,16 @@ public class EnemiesSpawner : MonoBehaviour
         for (int i = 0; i < spawnNormales; i++)
         {
             SpawnZombieTipo(ZombieType.Tipo.Normal);
-            GameManager.Instance.RegistrarEnemigo(null);
         }
         for (int i = 0; i < spawnCorredores; i++)
         {
             SpawnZombieTipo(ZombieType.Tipo.Corredor);
-            GameManager.Instance.RegistrarEnemigo(null);
         }
         for (int i = 0; i < spawnColosales; i++)
         {
             SpawnZombieTipo(ZombieType.Tipo.Colosal);
-            GameManager.Instance.RegistrarEnemigo(null);
         }
-
-        Debug.Log($"Se han generado: {spawnNormales} normales, {spawnCorredores} corredores y {spawnColosales} colosales");        
     }
-
-    private void OnZombieDeath(GameObject zombie)
-    {
-        // Eliminarlo de la lista local
-        if (zombiesSpawned.Contains(zombie))
-            Debug.Log($"{zombiesSpawned.Count}");
-            zombiesSpawned.Remove(zombie);
-
-        // Notificar al GameManager que un enemigo ha muerto
-        if (GameManager.Instance != null)
-            GameManager.Instance.EnemigoDerrotado();
-    }
-    
 
     public void DestroyAllZombies()
     {
@@ -209,27 +213,24 @@ public class EnemiesSpawner : MonoBehaviour
 
     public int GetNumNormales()
     {
-        return zombiesSpawned.FindAll(z =>
-        {
-            var t = z.GetComponent<ZombieType>();
+        return zombiesSpawned.FindAll(z => {
+            var t = z?.GetComponent<ZombieType>();
             return t != null && t.tipo == ZombieType.Tipo.Normal;
         }).Count;
     }
 
     public int GetNumColosales()
     {
-        return zombiesSpawned.FindAll(z =>
-        {
-            var t = z.GetComponent<ZombieType>();
+        return zombiesSpawned.FindAll(z => {
+            var t = z?.GetComponent<ZombieType>();
             return t != null && t.tipo == ZombieType.Tipo.Colosal;
         }).Count;
     }
 
     public int GetNumCorredores()
     {
-        return zombiesSpawned.FindAll(z =>
-        {
-            var t = z.GetComponent<ZombieType>();
+        return zombiesSpawned.FindAll(z => {
+            var t = z?.GetComponent<ZombieType>();
             return t != null && t.tipo == ZombieType.Tipo.Corredor;
         }).Count;
     }

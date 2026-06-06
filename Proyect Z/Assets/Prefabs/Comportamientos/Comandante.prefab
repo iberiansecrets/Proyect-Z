@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.37
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.21
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       propertyPath: m_Name
-      value: ComandanteAnimado
+      value: Comandante
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       propertyPath: m_TagString
@@ -132,7 +132,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!136 &4773640332008872811
 CapsuleCollider:
@@ -4991,7 +4991,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &-2195357945385814356

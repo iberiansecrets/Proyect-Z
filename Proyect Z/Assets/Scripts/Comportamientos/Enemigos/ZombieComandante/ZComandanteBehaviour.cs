@@ -221,7 +221,7 @@ public class ZComandanteBehaviour : BehaviourRunner
         if (spawner != null)
         {
             // Genera una pequeña oleada de esbirros protectores (ej: 4 zombis normales, ronda actual)
-            spawner.GenerarOleada(4, 1);
+            spawner.SpawnBalanceado(4);
         }
 
         // Activamos el cooldown inmediatamente para ceder el peso a la Burla/Risa
