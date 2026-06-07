@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SinperSpawner : MonoBehaviour
+public class SniperSpawner : MonoBehaviour
 {
     public GameObject sniperPrefab;
 

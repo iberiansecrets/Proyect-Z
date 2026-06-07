@@ -59,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: c2a2f4eec8009324a814754909883b05, type: 2}
+      objectReference: {fileID: 9100000, guid: d908c3b4a7330084286adb806f3fd44a, type: 2}
     - target: {fileID: 5866666021909216657, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -88,19 +88,19 @@ PrefabInstance:
       addedObject: {fileID: 1447569847719380011}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -2195357945385814356}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6950242425949682198}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3038088775424126753}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8538722962178020005}
+      addedObject: {fileID: 2614718312603851767}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2614718312603851767}
+      addedObject: {fileID: 2224172835168550533}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 409257516205718221}
   m_SourcePrefab: {fileID: 100100000, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
 --- !u!1 &5085797134564901262 stripped
 GameObject:
@@ -4994,28 +4994,6 @@ NavMeshAgent:
   m_BaseOffset: 2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &-2195357945385814356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5085797134564901262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcf72f883349bb0429af01958cee58dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeOnLoop: 0
-  interruptOptions: 0
-  distanciaSegura: 30
-  distanciaPanico: 15
-  cooldownHabilidadMax: 8
-  speedAvanzar: 3
-  speedRetroceder: 2
-  speedHuir: 8
-  speedRotation: 500
-  jugador: {fileID: 0}
 --- !u!114 &6950242425949682198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5440,21 +5418,6 @@ MonoBehaviour:
   _eventHandler:
     debugStatusChanges: 0
     identifier: 
---- !u!114 &8538722962178020005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5085797134564901262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbb6e953c9feb1345b91a49874ac23f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jugador: {fileID: 0}
-  damage: 2
-  fovColor: {r: 0.227451, g: 0.4431373, b: 0.73333335, a: 0.3}
 --- !u!114 &2614718312603851767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5468,3 +5431,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipo: 3
+--- !u!114 &2224172835168550533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085797134564901262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13ec10b10eb50f64a9ac81171811e41d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jugador: {fileID: 0}
+  damage: 2
+  fovColor: {r: 1, g: 1, b: 0, a: 0.3}
+--- !u!114 &409257516205718221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085797134564901262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6201768b76ee994cb7cb70628014e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  distanciaSegura: 15
+  distanciaPanico: 5
+  cooldownHabilidadMax: 8
+  speedAvanzar: 3
+  speedRetroceder: 2
+  speedHuir: 5.5
+  speedRotation: 250
+  jugador: {fileID: 0}

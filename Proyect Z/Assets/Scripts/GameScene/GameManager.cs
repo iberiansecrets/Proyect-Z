@@ -107,6 +107,7 @@ public class GameManager : MonoBehaviour
     {
         if (enemigosRestantesText != null)
         {
+            enemigosRestantes = enemiesSpawner.zombiesSpawned.Count;
             // Quitamos el "/2" para que la UI no invente datos erróneos
             enemigosRestantesText.text = $"Zombies restantes: {enemigosRestantes}";
         }

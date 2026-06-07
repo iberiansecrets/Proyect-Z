@@ -110,7 +110,7 @@ public class EnemiesSpawner : MonoBehaviour
 
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
-        // FILTRO DE SEGURIDAD MÁXIMA: Excluimos la posición [3] (Comandante)
+        // Excluimos la posición [3] (Comandante)
         GameObject zombiePrefab = zombiesPrefab[Random.Range(0, 3)];
         GameObject newZombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
