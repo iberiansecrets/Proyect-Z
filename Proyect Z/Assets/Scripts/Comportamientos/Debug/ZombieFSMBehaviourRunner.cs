@@ -5,12 +5,14 @@ using BehaviourAPI.Core.Actions;
 using BehaviourAPI.Core.Perceptions;
 using BehaviourAPI.UnityToolkit;
 using BehaviourAPI.StateMachines;
-using UnityEngine.AI; // Añadido para controlar el frenado del NavMeshAgent
+using UnityEngine.AI;
 
 public class ZombieFSMBehaviourRunner : BehaviourRunner
 {
     [SerializeField] private ZombieActions m_ZombieActions;
-    [SerializeField] public Transform target;
+
+    [Header("Objetivo de la IA")]
+    public Transform target; // Objetivo dinámico modificable desde el script del señuelo
 
     [SerializeField] private bool debugLogs;
 
@@ -21,13 +23,13 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
     [SerializeField] private Animator zombiAnim;
     public float rangoAtaque = 1.5f;
     private PlayerHealth jugadorVida;
+    private Transform jugadorReal; // Referencia para restaurar el foco tras destruir el señuelo
 
-    // --- NUEVAS VARIABLES PARA FÍSICAS E IDLE ---
+    // Variables para controlar velocidades y componentes físicos
     private Rigidbody rb;
     private NavMeshAgent agent;
     private Vector3 lastFixedPosition;
     private float currentRealSpeed;
-    // --------------------------------------------
 
     protected override void Init()
     {
@@ -56,8 +58,14 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
             if (p != null)
             {
                 target = p.transform;
+                jugadorReal = p.transform;
                 jugadorVida = target.GetComponent<PlayerHealth>();
             }
+        }
+        else
+        {
+            jugadorReal = target;
+            jugadorVida = jugadorReal.GetComponent<PlayerHealth>();
         }
 
         if (debugLogs)
@@ -68,17 +76,32 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         base.Init();
     }
 
+    protected override void OnUpdated()
+    {
+        // Sincroniza el objetivo dinámico con el script de movimientos físicos de forma continua
+        if (m_ZombieActions != null && m_ZombieActions.target != target)
+        {
+            m_ZombieActions.target = target;
+        }
+
+        // Recupera la referencia del jugador si el objetivo actual se destruye
+        if (target == null)
+        {
+            target = jugadorReal;
+        }
+
+        base.OnUpdated();
+    }
+
     protected override BehaviourGraph CreateGraph()
     {
         FSM ZombieFSM = new FSM();
 
-        
         // Se llama cada vez que el zombie sale del estado de ataque para volver a moverse
         System.Action ResetAgentAndAttack = () => {
             if (zombiAnim != null) zombiAnim.SetBool("Ataque", false);
             if (agent != null && agent.isOnNavMesh) agent.isStopped = false;
         };
-        
 
         FunctionalAction Roaming_action = new FunctionalAction();
 
@@ -115,7 +138,7 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
                 zombiAnim.SetBool("Movimiento", false); // Forzamos Idle visual
                 zombiAnim.SetBool("Ataque", true);
             }
-                        
+
             if (rb != null)
             {
                 rb.linearVelocity = Vector3.zero;
@@ -132,12 +155,10 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
 
         ConditionPerception RoamToChase_perception = new ConditionPerception();
         RoamToChase_perception.onCheck = CheckCanSeePlayer;
-        //StateTransition RoamToChase = ZombieFSM.CreateTransition(Roaming, Chasing, RoamToChase_perception, statusFlags: StatusFlags.Running, StatusFlags.Finished);
         ZombieFSM.CreateTransition("RoamToChase", Roaming, Chasing, RoamToChase_perception);
 
         ConditionPerception SoundToChase_perception = new ConditionPerception();
         SoundToChase_perception.onCheck = CheckCanSeePlayer;
-        //StateTransition SoundToChase = ZombieFSM.CreateTransition(InvestigateSound, Chasing, SoundToChase_perception, statusFlags: StatusFlags.Running, Finished);
         ZombieFSM.CreateTransition("SoundToChase", InvestigateSound, Chasing, SoundToChase_perception);
 
         StateTransition FromChasing = ZombieFSM.CreateTransition(Chasing, Roaming, statusFlags: StatusFlags.Failure);
@@ -146,7 +167,6 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
 
         ConditionPerception RoamToInvestigate_perception = new ConditionPerception();
         RoamToInvestigate_perception.onCheck = CheckHasHeardSound;
-        //StateTransition RoamToInvestigate = ZombieFSM.CreateTransition(Roaming, InvestigateSound, RoamToInvestigate_perception, statusFlags: StatusFlags.Running, Finished);
         ZombieFSM.CreateTransition("RoamToInvestigate", Roaming, InvestigateSound, RoamToInvestigate_perception);
 
         // Transiciones para entrar y salir del ataque
@@ -160,9 +180,9 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
 
         return ZombieFSM;
     }
-    
+
     private void FixedUpdate()
-    {       
+    {
         currentRealSpeed = (transform.position - lastFixedPosition).magnitude / Time.fixedDeltaTime;
         lastFixedPosition = transform.position;
 
@@ -184,10 +204,15 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         bool isMoving = currentRealSpeed > 0.1f;
         zombiAnim.SetBool("Movimiento", isMoving);
     }
-    // -----------------------------------------------------
 
     private Boolean CheckCanSeePlayer()
     {
+        // Fuerza la persecución inmediata si detecta un señuelo activo en la escena
+        if (target != jugadorReal)
+        {
+            return true;
+        }
+
         if (visionSensor == null) visionSensor = GetComponent<VisionSensor>();
         if (visionSensor == null)
         {
@@ -208,6 +233,9 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
 
     private Boolean CheckHasHeardSound()
     {
+        // Ignora distracciones de sonido menores si ya está persiguiendo un señuelo activo
+        if (target != jugadorReal) return false;
+
         if (hearingSensor == null) hearingSensor = GetComponent<HearingSensor>();
         if (hearingSensor == null)
         {
@@ -232,7 +260,7 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
     {
         if (target != null)
         {
-            // Mirar al jugador mientras ataca
+            // Mirar al objetivo mientras ataca
             Vector3 dir = (target.position - transform.position).normalized;
             dir.y = 0;
             if (dir != Vector3.zero)
@@ -240,10 +268,10 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
                 transform.rotation = Quaternion.LookRotation(dir);
             }
 
-            // Aplicar daño
-            if (jugadorVida != null && jugadorVida.GetVidaActual() > 0)
+            // Aplica daño por segundo al jugador real o interactúa con el señuelo
+            if (target == jugadorReal && jugadorVida != null && jugadorVida.GetVidaActual() > 0)
             {
-                jugadorVida.RecibirDaño(10f); // Puedes ajustar este valor si el corredor hace más o menos daño
+                jugadorVida.RecibirDaño(10f * Time.deltaTime);
             }
         }
         return Status.Running;
