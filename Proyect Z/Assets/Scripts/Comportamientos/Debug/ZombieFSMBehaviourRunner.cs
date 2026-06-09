@@ -10,7 +10,7 @@ using UnityEngine.AI; // Añadido para controlar el frenado del NavMeshAgent
 public class ZombieFSMBehaviourRunner : BehaviourRunner
 {
     [SerializeField] private ZombieActions m_ZombieActions;
-    [SerializeField] private Transform target;
+    [SerializeField] public Transform target;
 
     [SerializeField] private bool debugLogs;
 

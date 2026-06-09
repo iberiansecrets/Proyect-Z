@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class EnemiesSpawner : MonoBehaviour
 {
@@ -233,5 +234,18 @@ public class EnemiesSpawner : MonoBehaviour
             var t = z?.GetComponent<ZombieType>();
             return t != null && t.tipo == ZombieType.Tipo.Corredor;
         }).Count;
+    }
+
+    public int GetNumComandantes()
+    {
+        return zombiesSpawned.FindAll(z => {
+            var t = z?.GetComponent<ZombieType>();
+            return t != null && t.tipo == ZombieType.Tipo.Comandante;
+        }).Count;
+    }
+
+    public int GetNumZombies()
+    {        
+        return GetNumColosales() + GetNumCorredores() + GetNumNormales() + GetNumComandantes();
     }
 }
