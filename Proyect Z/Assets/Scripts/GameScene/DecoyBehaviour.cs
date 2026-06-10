@@ -125,13 +125,6 @@ public class DecoyBehaviour : MonoBehaviour
         }
     }
 
-    // Dibuja el radio de acción en el editor de Unity al seleccionarlo
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, radioAtraccion);
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(1f, 0.92f, 0.01f, 0.15f);
