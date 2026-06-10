@@ -4,5 +4,6 @@ public enum SoundType
     Pistol,
     Rifle,
     Shotgun,
-    Sniper
+    Sniper,
+    Decoy
 }

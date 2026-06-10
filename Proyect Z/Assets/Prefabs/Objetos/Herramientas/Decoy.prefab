@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7602442077961889540}
   - component: {fileID: 5503880994583079774}
   - component: {fileID: 334680113719018800}
+  - component: {fileID: 3376435923849577362}
   m_Layer: 0
   m_Name: Decoy
   m_TagString: Untagged
@@ -116,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 935e7aabd2d38e34cb4432c320b3ba68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radioAtraccion: 15
+  radioAtraccion: 20
   duracion: 8
   alarmaSFX: {fileID: 8300000, guid: 09aa5e6bcde1092449ad492e6bb166b6, type: 3}
 --- !u!82 &334680113719018800
@@ -216,6 +217,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3376435923849577362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279487715909621298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ae09f44f479294986922b9384a3606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - type: 5
+    radius: 20
+    intensity: 1
 --- !u!1001 &4516061954254430959
 PrefabInstance:
   m_ObjectHideFlags: 0
