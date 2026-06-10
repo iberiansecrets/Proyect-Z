@@ -196,7 +196,7 @@ MonoBehaviour:
   rangoMovimiento: 10
   anguloVision: 45
   speed: 2
-  speedRotation: 36
+  speedRotation: 90
   damage: 7
   rb: {fileID: 0}
   jugador: {fileID: 0}
@@ -228,6 +228,7 @@ MonoBehaviour:
   speed: 3
   speedRotation: 0
   cadenciaAtaque: 1.5
+  targetActual: {fileID: 0}
   jugadorDetectado: 0
 --- !u!114 &8207246864813347335
 MonoBehaviour:
