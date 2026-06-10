@@ -3,11 +3,13 @@ using System.Collections;
 
 public class DecoyBehaviour : MonoBehaviour
 {
-    public int radioAtraccion = 15;   // Radio de atracción de enemigos
-    public float duracion = 8f;       // Tiempo que dura el señuelo activo
+    public int radioAtraccion = 15;
+    public float duracion = 8f;
+    public SoundType tipoSonidoDecoy; // Añade esta variable para seleccionar el sonido "Decoy" en el inspector
 
     public AudioClip alarmaSFX;
     private AudioSource audioSource;
+    private SoundEmitter soundEmitter; // Referencia al emisor de sonido
 
     private float debugGizmoTimer = 0f;
     private float debugGizmoDuration = 0.2f;
@@ -17,6 +19,8 @@ public class DecoyBehaviour : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        soundEmitter = GetComponent<SoundEmitter>(); // Pillamos el emisor
+
         if (audioSource != null && alarmaSFX != null)
         {
             audioSource.clip = alarmaSFX;
@@ -36,90 +40,96 @@ public class DecoyBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (debugGizmoTimer > 0)
-        {
-            debugGizmoTimer -= Time.deltaTime;
-        }
+        if (debugGizmoTimer > 0) debugGizmoTimer -= Time.deltaTime;
     }
 
     private IEnumerator DecoyLife()
     {
         float timer = 0f;
-
         while (timer < duracion)
         {
             AtraerZombies();
+            EmitirOndaSonora();
             timer += 1f;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f); // Pulso de sonido cada segundo
         }
-
         RestaurarZombies();
+        Destroy(soundEmitter);
         Destroy(gameObject);
+    }
+
+    private void EmitirOndaSonora()
+    {
+        debugGizmoTimer = debugGizmoDuration;
+
+        // Llama a los corredores por el sonido del Decoy
+        if (soundEmitter != null)
+        {
+            soundEmitter.EmitSound(tipoSonidoDecoy);
+        }
+        else
+        {
+            // Fallback por si acaso no tiene el componente SoundEmitter:
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radioAtraccion);
+            foreach (Collider collider in colliders)
+            {
+                HearingSensor hearing = collider.GetComponent<HearingSensor>() ?? collider.GetComponentInParent<HearingSensor>();
+                if (hearing != null)
+                {
+                    hearing.NotifySound(transform.position, 1f);
+                }
+            }
+        }
     }
 
     private void AtraerZombies()
     {
-        debugGizmoTimer = debugGizmoDuration;
-
         Collider[] colliders = Physics.OverlapSphere(transform.position, radioAtraccion);
-        foreach (Collider collider in colliders)
+        foreach(Collider collider in colliders)
         {
-            HearingSensor hearingSensor = collider.GetComponent<HearingSensor>() ?? collider.GetComponentInParent<HearingSensor>();
-            if (hearingSensor != null)
-            {
-                hearingSensor.NotifySound(transform.position, 1f);
-            }
-
-            SoundSensor soundSensor = collider.GetComponent<SoundSensor>() ?? collider.GetComponentInParent<SoundSensor>();
-            if (soundSensor != null)
-            {
-                soundSensor.NotifySound(transform.position, 1f);
-            }
-
             if (collider.CompareTag("Enemy"))
             {
-                // Intenta atraer al Zombie Normal
-                ZNormalBehaviour zombiNormal = collider.GetComponent<ZNormalBehaviour>();
-                if (zombiNormal != null)
+                // Atrae a los zombies normales
+                ZNormalBehaviour normal = collider.GetComponent<ZNormalBehaviour>();
+                if (normal != null)
                 {
-                    zombiNormal.targetActual = transform;
-                    continue; // Si ya es este, saltamos al siguiente enemigo
+                    normal.targetActual = transform;
+                    continue;
                 }
 
-                // Intenta atraer al Zombie Corredor
-                ZombieFSMBehaviourRunner zombieCorredor = collider.GetComponent<ZombieFSMBehaviourRunner>();
-                if (zombieCorredor != null)
+                // Atrae a los zombies corredores
+                ZombieFSMBehaviourRunner corredor = collider.GetComponent<ZombieFSMBehaviourRunner>();
+                if (corredor != null)
                 {
-                    // Le cambiamos el target de su FSM hacia este señuelo
-                    zombieCorredor.target = transform;
+                    corredor.target = transform;
                 }
-            }
+            }            
         }
     }
 
     private void RestaurarZombies()
     {
-        if (jugadorReal == null) return;
-
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radioAtraccion);
-        foreach (Collider collider in colliders)
+        if (jugadorReal != null)
         {
-            if (collider.CompareTag("Enemy"))
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radioAtraccion);
+            foreach(Collider collider in colliders)
             {
-                // 1 - Restaurar Zombie Normal
-                ZNormalBehaviour zombiNormal = collider.GetComponent<ZNormalBehaviour>();
-                if (zombiNormal != null && zombiNormal.targetActual == transform)
+                if (collider.CompareTag("Enemy"))
                 {
-                    zombiNormal.targetActual = jugadorReal;
-                    continue;
-                }
+                    // Restaurar zombies normales
+                    ZNormalBehaviour normal = collider.GetComponent<ZNormalBehaviour>();
+                    if(normal != null && normal.targetActual == transform)
+                    {
+                        normal.targetActual = jugadorReal;
+                        continue;
+                    }
 
-                // 2 - Restaurar Zombie Corredor
-                ZombieFSMBehaviourRunner zombieCorredor = collider.GetComponent<ZombieFSMBehaviourRunner>();
-                if (zombieCorredor != null && zombieCorredor.target == transform)
-                {
-                    // Le devolvemos el target al jugador real
-                    zombieCorredor.target = jugadorReal;
+                    // Restaurar zombies corredores
+                    ZombieFSMBehaviourRunner corredor = collider.GetComponent<ZombieFSMBehaviourRunner>();
+                    if(corredor != null && corredor.target == transform)
+                    {
+                        corredor.target = jugadorReal;
+                    }
                 }
             }
         }

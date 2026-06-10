@@ -7,11 +7,12 @@ public class DecoyPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             PlayerController pc = other.GetComponent<PlayerController>();
+            ObjectSpawner ob = FindAnyObjectByType<ObjectSpawner>();
             if (pc != null)
             {
                 pc.AddDecoy();
             }
-
+            ob.senueloGenerado = false;
             Destroy(gameObject);
         }
     }
