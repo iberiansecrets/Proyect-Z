@@ -2344,6 +2344,7 @@ MonoBehaviour:
   shotgunSFX: {fileID: 8300000, guid: 744d62c9557417c488c6ecaa1679455e, type: 3}
   rifleSFX: {fileID: 8300000, guid: 30711c61240c6754ab061a0a79a19ff0, type: 3}
   sniperSFX: {fileID: 8300000, guid: 07ce50394c87d3c40a8b648fd7c8a383, type: 3}
+  footstepSFX: {fileID: 8300000, guid: abde797eaf7b0614fa16519c921e3e18, type: 3}
   uiPistol: {fileID: 695357952}
   uiShotgun: {fileID: 743129403}
   uiRifle: {fileID: 1449407624}

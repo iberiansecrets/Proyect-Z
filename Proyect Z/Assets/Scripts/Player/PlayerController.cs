@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip shotgunSFX;
     public AudioClip rifleSFX;
     public AudioClip sniperSFX;
+    public AudioClip footstepSFX;
 
     [Header("UI Armas")]
     public GameObject uiPistol;
@@ -186,6 +187,12 @@ public class PlayerController : MonoBehaviour
             if (stepTimer <= 0f)
             {
                 if (soundEmitter != null) soundEmitter.EmitSound(SoundType.Footstep);
+
+                if (audioSource != null && footstepSFX != null)
+                {
+                    audioSource.PlayOneShot(footstepSFX);
+                }
+
                 stepTimer = timeBetweenSteps; // Reinicia el temporizador
             }
         }

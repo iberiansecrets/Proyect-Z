@@ -15,7 +15,7 @@ public class PauseManager : MonoBehaviour
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(false);
 
-        cursorManager = FindObjectOfType<CursorManager>();
+        cursorManager = FindAnyObjectByType<CursorManager>();
     }
 
     void Update()
@@ -48,6 +48,14 @@ public class PauseManager : MonoBehaviour
 
         if (musicManager != null)
             musicManager.Pause();
+
+        DecoyBehaviour[] decoys = FindObjectsByType<DecoyBehaviour>(FindObjectsSortMode.None);
+        foreach (DecoyBehaviour decoy in decoys)
+        {
+            AudioSource decoyAudio = decoy.GetComponent<AudioSource>();
+            if (decoyAudio != null)
+                decoyAudio.Pause();
+        }
     }
 
     public void ResumeGame()
@@ -65,7 +73,15 @@ public class PauseManager : MonoBehaviour
             cursorManager.ActivarCrosshair();
 
         if (musicManager != null)
-            musicManager.UnPause();        
+            musicManager.UnPause();
+
+        DecoyBehaviour[] decoys = FindObjectsByType<DecoyBehaviour>(FindObjectsSortMode.None);
+        foreach (DecoyBehaviour decoy in decoys)
+        {
+            AudioSource decoyAudio = decoy.GetComponent<AudioSource>();
+            if (decoyAudio != null)
+                decoyAudio.UnPause();
+        }
     }
 
     public void GoToMainMenu()
