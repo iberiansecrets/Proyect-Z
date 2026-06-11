@@ -6,6 +6,7 @@ using BehaviourAPI.StateMachines;
 using BehaviourAPI.UnityToolkit;
 using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,6 +19,7 @@ public class ZNormalBehaviour : BehaviourRunner
     public Transform jugador;
     private PlayerHealth jugadorVida;
     [SerializeField] private Animator zombiAnim;
+    private TextMeshPro zDormido;
 
 
     [Header("Datos del Zombi")]
@@ -64,6 +66,8 @@ public class ZNormalBehaviour : BehaviourRunner
 
         jugadorVida = jugador.GetComponent<PlayerHealth>();
         targetActual = jugador; // Al nacer, el objetivo por defecto es el jugador
+
+        
 
         agent = GetComponent<NavMeshAgent>();
         if (agent == null)
@@ -277,12 +281,16 @@ public class ZNormalBehaviour : BehaviourRunner
 
     private Status PerseguirPj()
     {
+        zDormido = GetComponentInChildren<TextMeshPro>(false);
+
         // Si el agente estaba apagado (porque estaba tirado), lo encendemos y lo ponemos de pie
         if (agent != null && !agent.enabled)
         {
             // Rigidbody del padre de pie (Rotación X a 0)
-            rb.transform.rotation = Quaternion.Euler(0f, rb.transform.rotation.eulerAngles.y, 0f);
+            //rb.transform.rotation = Quaternion.Euler(0f, rb.transform.rotation.eulerAngles.y, 0f);
 
+            
+            
             // Forzamos que el modelo hijo mire hacia adelante (Y = 0) si se había quedado girado
             Transform modeloHijo = zombiAnim != null ? zombiAnim.transform : transform.GetChild(0);
             if (modeloHijo != null)
@@ -432,6 +440,7 @@ public class ZNormalBehaviour : BehaviourRunner
 
     private Status EstarTirado()
     {
+
         // Apagamos animaciones
         zombiAnim.SetBool("Movimiento", false);
         zombiAnim.SetBool("Ataque", false);
@@ -442,8 +451,10 @@ public class ZNormalBehaviour : BehaviourRunner
             agent.enabled = false;
         }
 
-        // Tumbamos al zombi 90 grados en el eje X
-        rb.transform.rotation = Quaternion.Euler(90f, rb.transform.rotation.eulerAngles.y, 0f);
+        //Mostramos Z de dormido y modificamos tyransparencia
+
+        zDormido = GetComponentInChildren<TextMeshPro>(true);
+        
 
         return Status.Running;
     }
