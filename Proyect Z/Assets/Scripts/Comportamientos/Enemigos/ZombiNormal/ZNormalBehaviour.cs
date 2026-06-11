@@ -67,7 +67,7 @@ public class ZNormalBehaviour : BehaviourRunner
         jugadorVida = jugador.GetComponent<PlayerHealth>();
         targetActual = jugador; // Al nacer, el objetivo por defecto es el jugador
 
-        
+        zDormido = GetComponentInChildren<TextMeshPro>(true);
 
         agent = GetComponent<NavMeshAgent>();
         if (agent == null)
@@ -281,7 +281,7 @@ public class ZNormalBehaviour : BehaviourRunner
 
     private Status PerseguirPj()
     {
-        zDormido = GetComponentInChildren<TextMeshPro>(false);
+        zDormido.enabled = false;
 
         // Si el agente estaba apagado (porque estaba tirado), lo encendemos y lo ponemos de pie
         if (agent != null && !agent.enabled)
@@ -440,6 +440,7 @@ public class ZNormalBehaviour : BehaviourRunner
 
     private Status EstarTirado()
     {
+        zDormido.enabled = true;
 
         // Apagamos animaciones
         zombiAnim.SetBool("Movimiento", false);
@@ -453,7 +454,7 @@ public class ZNormalBehaviour : BehaviourRunner
 
         //Mostramos Z de dormido y modificamos tyransparencia
 
-        zDormido = GetComponentInChildren<TextMeshPro>(true);
+        
         
 
         return Status.Running;
