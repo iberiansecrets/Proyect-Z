@@ -45,7 +45,7 @@ public class EnemiesSpawner : MonoBehaviour
         // CONTROL DE FLUJO: Si no hay Comandante, lo creamos y resta de la cantidad de la horda total
         if (!ExisteComandanteVivo())
         {
-            SpawnComander();
+            //SpawnComander();
             zombiesPorSpawnear--; // El comandante cuenta como uno de los zombies de la ronda
         }
 

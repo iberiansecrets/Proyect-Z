@@ -20,6 +20,9 @@ GameObject:
   - component: {fileID: 4524679354372256911}
   - component: {fileID: 3790863303329972550}
   - component: {fileID: 4983424787120967676}
+  - component: {fileID: -5693143158727776965}
+  - component: {fileID: 2482299931684668051}
+  - component: {fileID: 2605267416855798466}
   m_Layer: 7
   m_Name: Colosal
   m_TagString: Enemy
@@ -153,7 +156,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929835613075624577}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
   m_Name: 
@@ -5182,6 +5185,70 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-5693143158727776965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929835613075624577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7eefca720058348a30d254e3b6b984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rangoVision: 15
+  rangoAtaque: 2.5
+  radioLlamadaHorda: 25
+  distanciaMinimaParaGritar: 8
+  radioOlfato: 12
+  speedPatrulla: 2
+  speedPersecucion: 4
+  speedRotation: 250
+  damageImpacto: 5
+  damageGolpeMelee: 25
+  cooldownGrito: 10
+  rb: {fileID: 0}
+  jugador: {fileID: 0}
+  fovColor: {r: 1, g: 0.5, b: 0, a: 0.2}
+--- !u!114 &2482299931684668051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929835613075624577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e874e3ede0506ba47b6c5abeea959876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  zombi: {fileID: 0}
+  "se\xF1ueloActivo": {fileID: 0}
+--- !u!195 &2605267416855798466
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929835613075624577}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5000001
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &6186685212408774005
 PrefabInstance:
   m_ObjectHideFlags: 0

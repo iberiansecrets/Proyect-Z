@@ -77,12 +77,12 @@ public class ZComandanteBehaviour : BehaviourRunner
         // Detección reactiva de daño recibido
             if (healthComponent != null && healthComponent.GetVidaActual() < lastHealth) // Asumiendo lógica destructiva o decremento
         {
-            Debug.Log("ME HAN DADO");
+            //Debug.Log("ME HAN DADO");
             panicTimer = 5f; // 2.5 segundos de pánico máximo
             
             lastHealth = healthComponent.GetVidaActual();
 
-            Debug.Log("paniTimerr = " + panicTimer + " ; VIDA Actual: " + lastHealth);
+            //Debug.Log("paniTimerr = " + panicTimer + " ; VIDA Actual: " + lastHealth);
         }
 
 
@@ -91,7 +91,7 @@ public class ZComandanteBehaviour : BehaviourRunner
 
         if (agent.hasPath)
         {
-            Debug.Log($"Agente moviéndose hacia: {agent.destination} | Distancia: {distanciaAlJugador}");
+            //Debug.Log($"Agente moviéndose hacia: {agent.destination} | Distancia: {distanciaAlJugador}");
         }
 
         base.OnUpdated();
@@ -109,7 +109,7 @@ public class ZComandanteBehaviour : BehaviourRunner
         VariableFactor fCooldown = us.CreateVariable(() => cooldownHabilidadTimer <= 0 ? 1f : 0f, 0f, 1f);
         VariableFactor fPanico = us.CreateVariable(() => Mathf.Clamp01(panicTimer / 2.5f), 0f, 1f);
 
-        Debug.Log("Factores creados. Distancia actual: " + distanciaAlJugador);
+        //Debug.Log("Factores creados. Distancia actual: " + distanciaAlJugador);
 
         // APLICACIÓN DE CURVAS
 
@@ -172,7 +172,7 @@ public class ZComandanteBehaviour : BehaviourRunner
 
     public Status EjecutarRetroceder()
     {
-        Debug.Log("RETROCEDO");
+        //Debug.Log("RETROCEDO");
         ejeVelocidadAnim = -1.0f; // Animación Retroceder de espaldas
         agent.speed = speedRetroceder;
 
@@ -187,7 +187,7 @@ public class ZComandanteBehaviour : BehaviourRunner
 
     public Status EjecutarHuir()
     {
-        Debug.Log("HUYO");
+        //Debug.Log("HUYO");
         ejeVelocidadAnim = 2.0f; // Animación de Huir rápido de espaldas (requisito cobarde)
         agent.speed = speedHuir;
 
@@ -201,7 +201,7 @@ public class ZComandanteBehaviour : BehaviourRunner
 
     public Status EjecutarOrden()
     {
-        Debug.Log("MANDO ZOMBIS");
+        //Debug.Log("MANDO ZOMBIS");
         agent.ResetPath();
         zombiAnim.SetTrigger("Ordenar"); // Animación Señalar hacia delante
         ejeVelocidadAnim = 0f; // Idle de animación de risa
@@ -231,7 +231,7 @@ public class ZComandanteBehaviour : BehaviourRunner
 
     public Status EjecutarBurla()
     {
-        Debug.Log("ME BURLO");
+        //Debug.Log("ME BURLO");
         agent.ResetPath();
         zombiAnim.SetBool("Burlarse", true);
         ejeVelocidadAnim = 0f; // Idle de animación de risa
@@ -250,10 +250,10 @@ public class ZComandanteBehaviour : BehaviourRunner
     // SUB-SISTEMA DE NAVEGACIÓN Y ORIENTACIÓN MANUAL
     private void MoverAgenteHaciaDestino(bool lookAtPlayer)
     {
-        Debug.Log("ME MUEVO");
+        //Debug.Log("ME MUEVO");
         zombiAnim.SetBool("Burlarse", false);
 
-        Debug.Log("PAthPending = " + agent.pathPending);
+        //Debug.Log("PathPending = " + agent.pathPending);
         if (agent.pathPending) return;
 
         // Sincronización del NavMeshAgent con el Rigidbody manual para evitar desfases de colisión

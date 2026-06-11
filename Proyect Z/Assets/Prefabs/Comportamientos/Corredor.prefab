@@ -744,6 +744,8 @@ MonoBehaviour:
   debugLogs: 0
   zombiAnim: {fileID: 0}
   rangoAtaque: 2
+  pushHordeSignal: 0
+  popHordeSignal: 0
 --- !u!198 &3387535297742465370
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -5609,7 +5611,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3883655744420111400}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a674b8cb6e4614da1d4a71eb05d335, type: 3}
   m_Name: 
