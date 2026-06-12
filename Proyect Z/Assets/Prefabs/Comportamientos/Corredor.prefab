@@ -743,7 +743,7 @@ MonoBehaviour:
   target: {fileID: 0}
   debugLogs: 0
   zombiAnim: {fileID: 0}
-  rangoAtaque: 2
+  rangoAtaque: 2.4
   pushHordeSignal: 0
   popHordeSignal: 0
 --- !u!198 &3387535297742465370

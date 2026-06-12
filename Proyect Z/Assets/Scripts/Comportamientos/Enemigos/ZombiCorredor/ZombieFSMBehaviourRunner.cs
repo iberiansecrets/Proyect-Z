@@ -261,7 +261,13 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
     }
 
     private Status TickAttacking()
-    {
+    {        
+        if (zombiAnim != null)
+        {
+            zombiAnim.SetBool("Movimiento", false);
+            zombiAnim.SetBool("Ataque", true);
+        }
+
         if (target != null)
         {
             Vector3 dir = (target.position - transform.position).normalized;
