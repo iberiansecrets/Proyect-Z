@@ -24,12 +24,16 @@ public class ZColosalBehaviour : BehaviourRunner
     private bool estaGritando = false;
     private OdorPerception percepcionOlor;
 
-    [Header("Objetivo Dinámico (Señuelo)")]
+    [Header("Objetivo Dinámico")]
     public Transform targetActual;
+    private DecoyBehaviour senueloDetectado;
 
-    // Variables para la patrulla
     private Vector3 destinoPatrulla;
     private float tiempoEsperaPatrulla = 0f;
+    
+    private int indiceMigaActual = 0;
+    private bool haTerminadoRastro = false;
+    private DecoyBehaviour ultimoSenuelo;
 
     private FSM fsmCombate;
     private BehaviourTree btGrito;
@@ -41,9 +45,7 @@ public class ZColosalBehaviour : BehaviourRunner
         colosalAnim = GetComponentInChildren<Animator>();
 
         if (zombi.jugador != null)
-        {
             jugadorVida = zombi.jugador.GetComponent<PlayerHealth>();
-        }
 
         agent = GetComponent<NavMeshAgent>();
         if (agent == null) agent = gameObject.AddComponent<NavMeshAgent>();
@@ -54,32 +56,46 @@ public class ZColosalBehaviour : BehaviourRunner
         percepcionOlor = new OdorPerception(transform, zombi.radioOlfato);
         destinoPatrulla = transform.position;
 
-        if (targetActual == null) targetActual = zombi.jugador;
+        ultimoGritoTime = Time.time; // Evita que grite nada más nacer
 
         base.Init();
     }
 
     protected override void OnUpdated()
     {
-        // Failsafe por si el señuelo se destruye
-        if (targetActual == null && zombi.jugador != null) targetActual = zombi.jugador;
+        DecoyBehaviour senueloActual = FindFirstObjectByType<DecoyBehaviour>();
+
+        // Si detecta un señuelo NUEVO en el mapa, pone a cero su memoria del rastro
+        if (senueloActual != null && senueloActual != ultimoSenuelo)
+        {
+            ultimoSenuelo = senueloActual;
+            haTerminadoRastro = false;
+        }
+
+        // Si hay señuelo y AÚN NO ha llegado a tu posición real, va a por él
+        if (senueloActual != null && !haTerminadoRastro)
+        {
+            targetActual = senueloActual.transform;
+        }
+        else
+        {
+            targetActual = zombi.jugador; // Si se acaba el rastro o no hay señuelo, va a por ti
+        }
 
         if (zombi != null && zombi.jugador != null)
         {
             distanciaAlJugador = Vector3.Distance(transform.position, zombi.jugador.position);
         }
+
         base.OnUpdated();
     }
 
     private void FixedUpdate()
     {
         if (agent != null && agent.enabled && !agent.updatePosition)
-        {
             agent.nextPosition = rb.position;
-        }
     }
 
-    // --- ARQUITECTURA DEL SISTEMA DE UTILIDAD COMPUESTO ---
     protected override BehaviourGraph CreateGraph()
     {
         UtilitySystem us = new UtilitySystem(1.3f);
@@ -90,20 +106,21 @@ public class ZColosalBehaviour : BehaviourRunner
         // 1. EVALUADOR GRITO
         VariableFactor fGritoDisponibilidad = us.CreateVariable(() =>
         {
-            if (estaGritando) return 1.0f; // Candado lógico irrompible
+            if (estaGritando) return 1.0f;
             if (Time.time < ultimoGritoTime + zombi.cooldownGrito) return 0f;
-            if (targetActual != zombi.jugador) return 0f; // No grita si hay señuelo activo
+            if (senueloDetectado != null) return 0f; // No grita si hay señuelo distrayendo
 
-            // Grita fijamente si está en la franja de distancia (Sin cono para evitar bugs de rotación)
-            if (distanciaAlJugador >= zombi.distanciaMinimaParaGritar && distanciaAlJugador <= zombi.rangoVision) return 1f;
+            // Llama a la horda si ve al jugador de lejos
+            if (distanciaAlJugador >= zombi.distanciaMinimaParaGritar && CheckJugadorEnCono()) return 1f;
             return 0f;
         }, 0f, 1f);
 
-        // 2. EVALUADOR OLOR (SOLO SI HAY SEÑUELO)
+        // 2. EVALUADOR OLOR
         VariableFactor fRastroOlor = us.CreateVariable(() =>
         {
-            // Verifica que targetActual NO sea el jugador (es decir, han tirado un señuelo) y huele el rastro
-            if (targetActual != null && targetActual != zombi.jugador && percepcionOlor != null && percepcionOlor.Check())
+            if (haTerminadoRastro) return 0f; // Si ya te ha encontrado, el olor se apaga
+
+            if (targetActual != zombi.jugador && percepcionOlor != null && percepcionOlor.Check())
             {
                 return 0.85f;
             }
@@ -113,7 +130,7 @@ public class ZColosalBehaviour : BehaviourRunner
         // 3. EVALUADOR COMBATE (ESTADO POR DEFECTO)
         VariableFactor fCombatePorDefecto = us.CreateVariable(() =>
         {
-            if (distanciaAlJugador <= zombi.rangoAtaque) return 0.95f;
+            if (distanciaAlJugador <= zombi.rangoAtaque && senueloDetectado == null) return 0.95f;
             return 0.4f;
         }, 0f, 1f);
 
@@ -125,7 +142,13 @@ public class ZColosalBehaviour : BehaviourRunner
             onStopped = () => btGrito.Stop()
         };
 
-        FunctionalAction actionRastreo = new FunctionalAction(TickRastreoOlor);
+        FunctionalAction actionRastreo = new FunctionalAction
+        {
+            onStarted = () => {
+                indiceMigaActual = 0; // Empieza a rastrear desde la primera huella
+            },
+            onUpdated = () => TickRastreoOlor()
+        };
 
         FunctionalAction actionCombate = new FunctionalAction
         {
@@ -141,7 +164,6 @@ public class ZColosalBehaviour : BehaviourRunner
         return us;
     }
 
-    // --- SUB-SISTEMA 1: FSM DE COMBATE ---
     private FSM CreateFSMCombate()
     {
         FSM fsm = new FSM();
@@ -168,14 +190,15 @@ public class ZColosalBehaviour : BehaviourRunner
         };
         State estadoAttack = fsm.CreateState("Attacking", attack);
 
-        ConditionPerception veAlJugador = new ConditionPerception(() => CheckJugadorEnCono() && distanciaAlJugador <= zombi.rangoVision);
-        ConditionPerception pierdeAlJugador = new ConditionPerception(() => !CheckJugadorEnCono() || distanciaAlJugador > zombi.rangoVision);
+        // Usamos "targetActual" para que la FSM persiga al jugador O al señuelo de forma dinámica
+        ConditionPerception veAlObjetivo = new ConditionPerception(() => CheckObjetivoEnCono() && Vector3.Distance(transform.position, targetActual.position) <= zombi.rangoVision);
+        ConditionPerception pierdeAlObjetivo = new ConditionPerception(() => !CheckObjetivoEnCono() || Vector3.Distance(transform.position, targetActual.position) > zombi.rangoVision);
 
-        ConditionPerception enRangoMelé = new ConditionPerception(() => distanciaAlJugador <= zombi.rangoAtaque);
-        ConditionPerception saleRangoMelé = new ConditionPerception(() => distanciaAlJugador > zombi.rangoAtaque);
+        ConditionPerception enRangoMelé = new ConditionPerception(() => Vector3.Distance(transform.position, targetActual.position) <= zombi.rangoAtaque);
+        ConditionPerception saleRangoMelé = new ConditionPerception(() => Vector3.Distance(transform.position, targetActual.position) > zombi.rangoAtaque);
 
-        fsm.CreateTransition("VeObjetivo", estadoRoam, estadoChase, veAlJugador);
-        fsm.CreateTransition("PierdeObjetivo", estadoChase, estadoRoam, pierdeAlJugador);
+        fsm.CreateTransition("VeObjetivo", estadoRoam, estadoChase, veAlObjetivo);
+        fsm.CreateTransition("PierdeObjetivo", estadoChase, estadoRoam, pierdeAlObjetivo);
 
         fsm.CreateTransition("EnRangoAtaque", estadoChase, estadoAttack, enRangoMelé);
         fsm.CreateTransition("FueraRangoAtaque", estadoAttack, estadoChase, saleRangoMelé);
@@ -184,7 +207,6 @@ public class ZColosalBehaviour : BehaviourRunner
         return fsm;
     }
 
-    // --- SUB-SISTEMA 2: ÁRBOL DE COMPORTAMIENTO (GRITO) ---
     private BehaviourTree CreateBTGrito()
     {
         BehaviourTree bt = new BehaviourTree();
@@ -238,7 +260,6 @@ public class ZColosalBehaviour : BehaviourRunner
         Collider[] cercanos = Physics.OverlapSphere(transform.position, zombi.radioLlamadaHorda);
         foreach (var col in cercanos)
         {
-            // IMPORTANTE: Ahora los zombis van a proteger al COLOSAL (transform), no al jugador
             var runner = col.GetComponent<ZombieFSMBehaviourRunner>();
             if (runner != null) { runner.target = transform; runner.pushHordeSignal = true; }
 
@@ -256,22 +277,37 @@ public class ZColosalBehaviour : BehaviourRunner
         var puntosRastro = PlayerOdorTrail.Instance.rastroPosiciones;
         if (puntosRastro.Count == 0) return Status.Failure;
 
-        // Persigue siempre el punto más NUEVO (el último que dejó el jugador)
-        Vector3 puntoObjetivo = puntosRastro[puntosRastro.Count - 1];
+        if (indiceMigaActual >= puntosRastro.Count)
+            indiceMigaActual = puntosRastro.Count - 1;
 
+        Vector3 puntoObjetivo = puntosRastro[indiceMigaActual];
         agent.SetDestination(puntoObjetivo);
         MoverFisicamenteHaciaCamino(zombi.speedPersecucion);
+
+        // Si llega a la huella, pasa a la siguiente
+        if (Vector3.Distance(transform.position, puntoObjetivo) < 1.5f)
+        {
+            if (indiceMigaActual < puntosRastro.Count - 1)
+            {
+                indiceMigaActual++;
+            }
+            else
+            {
+                // Ha llegado a la última miga de pan
+                haTerminadoRastro = true;
+                Debug.Log("<color=orange><b>[CEREBRO COLOSAL]</b> ¡Rastro terminado! He llegado hasta el jugador.</color>");
+            }
+        }
 
         return Status.Running;
     }
 
-    // --- PATRULLA REAL ---
+    // --- PATRULLA ---
     private Status ExecuteRoamingBasico()
     {
         if (Vector3.Distance(transform.position, destinoPatrulla) < 1f)
         {
             if (colosalAnim != null) colosalAnim.SetBool("Movimiento", false);
-
             tiempoEsperaPatrulla -= Time.deltaTime;
             if (tiempoEsperaPatrulla <= 0f) ElegirNuevoDestinoPatrulla();
         }
@@ -281,7 +317,6 @@ public class ZColosalBehaviour : BehaviourRunner
             agent.SetDestination(destinoPatrulla);
             MoverFisicamenteHaciaCamino(zombi.speedPatrulla);
         }
-
         return Status.Running;
     }
 
@@ -303,6 +338,9 @@ public class ZColosalBehaviour : BehaviourRunner
         {
             agent.SetDestination(targetActual.position);
             MoverFisicamenteHaciaCamino(zombi.speedPersecucion);
+
+            if (targetActual == senueloDetectado?.transform)
+                Debug.Log("<color=cyan><b>[CEREBRO COLOSAL]</b> Persiguiendo el SEÑUELO (Modo Combate normal).</color>");
         }
         return Status.Running;
     }
@@ -311,13 +349,14 @@ public class ZColosalBehaviour : BehaviourRunner
     {
         if (colosalAnim != null) { colosalAnim.SetBool("Movimiento", false); colosalAnim.SetBool("Ataque", true); }
 
-        if (zombi.jugador != null)
+        if (targetActual != null)
         {
-            Vector3 dir = (zombi.jugador.position - rb.position).normalized;
+            Vector3 dir = (targetActual.position - rb.position).normalized;
             dir.y = 0;
             if (dir != Vector3.zero) rb.MoveRotation(Quaternion.LookRotation(dir));
 
-            if (jugadorVida != null && jugadorVida.GetVidaActual() > 0 && distanciaAlJugador <= zombi.rangoAtaque)
+            // Si es el jugador y está en rango, daño
+            if (targetActual == zombi.jugador && jugadorVida != null && jugadorVida.GetVidaActual() > 0 && distanciaAlJugador <= zombi.rangoAtaque)
             {
                 jugadorVida.RecibirDaño(zombi.damageGolpeMelee * Time.deltaTime);
             }
@@ -347,6 +386,14 @@ public class ZColosalBehaviour : BehaviourRunner
         if (zombi.jugador == null) return false;
         Vector3 direccionAlJugador = (zombi.jugador.position - transform.position).normalized;
         float angulo = Vector3.Angle(transform.forward, direccionAlJugador);
+        return angulo <= 90f;
+    }
+
+    private bool CheckObjetivoEnCono()
+    {
+        if (targetActual == null) return false;
+        Vector3 direccion = (targetActual.position - transform.position).normalized;
+        float angulo = Vector3.Angle(transform.forward, direccion);
         return angulo <= 90f;
     }
 

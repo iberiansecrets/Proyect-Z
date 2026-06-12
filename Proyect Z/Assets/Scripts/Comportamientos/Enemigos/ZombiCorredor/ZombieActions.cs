@@ -129,7 +129,7 @@ public class ZombieActions : MonoBehaviour
         roamPhase = RoamPhase.Waiting;
         roamTimer = roamWaitDuration;
         roamTarget = transform.position; // no target yet
-        Debug.Log("[ZombieActions] EnterRoaming: waiting " + roamWaitDuration + "s");
+        //Debug.Log("[ZombieActions] EnterRoaming: waiting " + roamWaitDuration + "s");
     }
 
     public Status TickRoaming()
@@ -141,7 +141,7 @@ public class ZombieActions : MonoBehaviour
             // set last known for chasing
             lastKnownPlayerPos = target.position;
             chaseLoseTimer = chaseLoseMaxTime;
-            Debug.Log("[ZombieActions] TickRoaming: saw player -> interrupt Roaming");
+            //Debug.Log("[ZombieActions] TickRoaming: saw player -> interrupt Roaming");
             return Status.Success; // signal to FSM: go to Chasing (transition priority in editor)
         }
 
@@ -152,7 +152,7 @@ public class ZombieActions : MonoBehaviour
                 investigateTarget = pos;
             else if (target != null)
                 investigateTarget = target.position; // fallback
-            Debug.Log($"[ZombieActions] TickRoaming: heard sound at {investigateTarget} -> interrupt Roaming");
+            //Debug.Log($"[ZombieActions] TickRoaming: heard sound at {investigateTarget} -> interrupt Roaming");
             return Status.Success; // signal to FSM: go to Investigate (editor must prioritize Chasing over Investigate)
         }
 
@@ -172,14 +172,14 @@ public class ZombieActions : MonoBehaviour
                         agent.SetDestination(roamTarget);
                         roamPhase = RoamPhase.Moving;
                         roamTimer = roamMoveDuration;
-                        Debug.Log("[ZombieActions] Roaming: moving to " + roamTarget + " for " + roamMoveDuration + "s");
+                        //Debug.Log("[ZombieActions] Roaming: moving to " + roamTarget + " for " + roamMoveDuration + "s");
                     }
                     else
                     {
                         // no valid roam target -> wait again
                         roamPhase = RoamPhase.Waiting;
                         roamTimer = roamWaitDuration;
-                        Debug.Log("[ZombieActions] Roaming: no valid roam target found, waiting again");
+                        //Debug.Log("[ZombieActions] Roaming: no valid roam target found, waiting again");
                     }
                 }
                 break;
@@ -201,7 +201,7 @@ public class ZombieActions : MonoBehaviour
                         agent.ResetPath();
                         roamPhase = RoamPhase.Waiting;
                         roamTimer = roamWaitDuration;
-                        Debug.Log("[ZombieActions] Roaming: arrived early, switching to Waiting");
+                        //Debug.Log("[ZombieActions] Roaming: arrived early, switching to Waiting");
                         break;
                     }
                 }
@@ -216,7 +216,7 @@ public class ZombieActions : MonoBehaviour
                     }
                     roamPhase = RoamPhase.Waiting;
                     roamTimer = roamWaitDuration;
-                    Debug.Log("[ZombieActions] Roaming: finished move duration, switching to Waiting");
+                    //Debug.Log("[ZombieActions] Roaming: finished move duration, switching to Waiting");
                 }
                 break;
         }
@@ -271,7 +271,7 @@ public class ZombieActions : MonoBehaviour
         {
             agent.isStopped = false;
         }
-        Debug.Log("[ZombieActions] EnterChasing lastKnown = " + lastKnownPlayerPos);
+        //Debug.Log("[ZombieActions] EnterChasing lastKnown = " + lastKnownPlayerPos);
     }
 
     public Status TickChasing()
@@ -294,7 +294,7 @@ public class ZombieActions : MonoBehaviour
             if (Vector3.Distance(agent.destination, target.position) > destUpdateThreshold)
             {
                 agent.SetDestination(target.position);
-                Debug.Log("[TickChasing] SetDestination -> " + target.position);
+                //Debug.Log("[TickChasing] SetDestination -> " + target.position);
             }
             agent.speed = chaseSpeed;
 
@@ -312,7 +312,7 @@ public class ZombieActions : MonoBehaviour
             if (Vector3.Distance(agent.destination, lastKnownPlayerPos) > destUpdateThreshold)
             {
                 agent.SetDestination(lastKnownPlayerPos);
-                Debug.Log("[TickChasing] Lost sight -> moving to lastKnown " + lastKnownPlayerPos);
+                //Debug.Log("[TickChasing] Lost sight -> moving to lastKnown " + lastKnownPlayerPos);
             }
 
             // Movemos físicamente
@@ -323,7 +323,7 @@ public class ZombieActions : MonoBehaviour
                 // arrived to last known and didn't see player -> stop chasing
                 agent.isStopped = true;
                 agent.ResetPath();
-                Debug.Log("[TickChasing] Arrived lastKnown and didn't see player -> Failure");
+                //Debug.Log("[TickChasing] Arrived lastKnown and didn't see player -> Failure");
                 return Status.Failure;
             }
 
@@ -331,7 +331,7 @@ public class ZombieActions : MonoBehaviour
             {
                 agent.isStopped = true;
                 agent.ResetPath();
-                Debug.Log("[TickChasing] chase timeout expired -> Failure");
+                //Debug.Log("[TickChasing] chase timeout expired -> Failure");
                 return Status.Failure;
             }
 
@@ -354,7 +354,7 @@ public class ZombieActions : MonoBehaviour
         investigateNavPath.Clear();
         investigatePathIndex = 0;
 
-        Debug.Log($"[ZombieActions] StartInvestigateForSound: new sound at {pos} (t={time})");
+        //Debug.Log($"[ZombieActions] StartInvestigateForSound: new sound at {pos} (t={time})");
 
         // Preferimos ruta directa al player si player fue emisor y accesible (opcional)
         if (target != null && Vector3.Distance(target.position, pos) < 0.5f)
@@ -400,7 +400,7 @@ public class ZombieActions : MonoBehaviour
     {
         if (hearing == null)
         {
-            Debug.Log("[EnterInvestigateSound] no hearing sensor");
+            //Debug.Log("[EnterInvestigateSound] no hearing sensor");
             return;
         }
 
@@ -410,7 +410,7 @@ public class ZombieActions : MonoBehaviour
         }
         else
         {
-            Debug.Log("[EnterInvestigateSound] no recent sound info");
+            //Debug.Log("[EnterInvestigateSound] no recent sound info");
         }
     }
 
@@ -431,7 +431,7 @@ public class ZombieActions : MonoBehaviour
         // Prioridad: si vemos al jugador, salir a Chasing
         if (vision != null && target != null && vision.CanSeePlayerSimple(target))
         {
-            Debug.Log("[TickInvestigateSound] saw player -> leave investigate");
+            //Debug.Log("[TickInvestigateSound] saw player -> leave investigate");
             if (agent != null && agent.isOnNavMesh) { agent.isStopped = true; agent.ResetPath(); }
             return Status.Failure; // let FSM transition to Chasing
         }
@@ -441,7 +441,7 @@ public class ZombieActions : MonoBehaviour
         {
             if (newTime > currentInvestigateTimestamp)
             {
-                Debug.Log($"[TickInvestigateSound] Detected NEWER sound (t={newTime}) replacing current (t={currentInvestigateTimestamp})");
+                //Debug.Log($"[TickInvestigateSound] Detected NEWER sound (t={newTime}) replacing current (t={currentInvestigateTimestamp})");
                 StartInvestigateForSound(newPos, newTime);
                 // continuar; la StartInvestigateForSound ya ha llamado StartInvestigateMovement
             }
@@ -469,7 +469,7 @@ public class ZombieActions : MonoBehaviour
                             // exito: estamos cerca del origen
                             agent.isStopped = true;
                             agent.ResetPath();
-                            Debug.Log("[TickInvestigateSound] reached final proximity to origin -> Success");
+                            //Debug.Log("[TickInvestigateSound] reached final proximity to origin -> Success");
                             return Status.Success;
                         }
                         else
@@ -481,7 +481,7 @@ public class ZombieActions : MonoBehaviour
                                 // dirigirnos al punto final muestreado
                                 agent.SetDestination(finalHit.position);
                                 investigateNavTarget = finalHit.position;
-                                Debug.Log("[TickInvestigateSound] trying final sampled nav point near origin");
+                                //Debug.Log("[TickInvestigateSound] trying final sampled nav point near origin");
                                 return Status.Running;
                             }
                             else
@@ -489,7 +489,7 @@ public class ZombieActions : MonoBehaviour
                                 // no hay forma de acercarse más al origen; abortamos investigation para no quedarse pegado
                                 agent.isStopped = true;
                                 agent.ResetPath();
-                                Debug.Log("[TickInvestigateSound] cannot reach closer to origin -> Failure");
+                                //Debug.Log("[TickInvestigateSound] cannot reach closer to origin -> Failure");
                                 return Status.Failure;
                             }
                         }
@@ -499,7 +499,7 @@ public class ZombieActions : MonoBehaviour
                         // ponemos el siguiente nodo como destino
                         investigateNavTarget = investigateNavPath[investigatePathIndex];
                         agent.SetDestination(investigateNavTarget);
-                        Debug.Log($"[TickInvestigateSound] advancing to path node {investigatePathIndex} -> {investigateNavTarget}");
+                        //Debug.Log($"[TickInvestigateSound] advancing to path node {investigatePathIndex} -> {investigateNavTarget}");
                         return Status.Running;
                     }
                 }

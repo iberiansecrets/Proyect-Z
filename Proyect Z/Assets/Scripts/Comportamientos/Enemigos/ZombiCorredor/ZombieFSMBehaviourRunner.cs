@@ -180,6 +180,7 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         ZombieFSM.CreatePushTransition("EntrarEnHorda_Roam", Roaming, Horde, pushHordePerception);
         ZombieFSM.CreatePushTransition("EntrarEnHorda_Chase", Chasing, Horde, pushHordePerception);
         ZombieFSM.CreatePushTransition("EntrarEnHorda_Sound", InvestigateSound, Horde, pushHordePerception);
+        ZombieFSM.CreatePushTransition("EntrarEnHorda_Attack", Attacking, Horde, pushHordePerception);
 
         // Registramos el Pop: cuando se active, destruye el estado Horda y vuelve al anterior guardado
         ZombieFSM.CreatePopTransition("SalirDeHorda", Horde, popHordePerception);

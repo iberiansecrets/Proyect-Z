@@ -85,7 +85,7 @@ public class DecoyBehaviour : MonoBehaviour
     private void AtraerZombies()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, radioAtraccion);
-        foreach(Collider collider in colliders)
+        foreach (Collider collider in colliders)
         {
             if (collider.CompareTag("Enemy"))
             {
@@ -102,8 +102,17 @@ public class DecoyBehaviour : MonoBehaviour
                 if (corredor != null)
                 {
                     corredor.target = transform;
+                    continue; // Añadido un continue por limpieza y rendimiento
                 }
-            }            
+
+                // --- NUEVA CONEXIÓN: Atrae al Colosal (Activando su percepción de olor interna) ---
+                ZColosalBehaviour colosal = collider.GetComponent<ZColosalBehaviour>();
+                if (colosal != null)
+                {
+                    colosal.targetActual = transform;
+                }
+                // ----------------------------------------------------------------------------------
+            }
         }
     }
 
@@ -112,13 +121,13 @@ public class DecoyBehaviour : MonoBehaviour
         if (jugadorReal != null)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, radioAtraccion);
-            foreach(Collider collider in colliders)
+            foreach (Collider collider in colliders)
             {
                 if (collider.CompareTag("Enemy"))
                 {
                     // Restaurar zombies normales
                     ZNormalBehaviour normal = collider.GetComponent<ZNormalBehaviour>();
-                    if(normal != null && normal.targetActual == transform)
+                    if (normal != null && normal.targetActual == transform)
                     {
                         normal.targetActual = jugadorReal;
                         continue;
@@ -126,10 +135,19 @@ public class DecoyBehaviour : MonoBehaviour
 
                     // Restaurar zombies corredores
                     ZombieFSMBehaviourRunner corredor = collider.GetComponent<ZombieFSMBehaviourRunner>();
-                    if(corredor != null && corredor.target == transform)
+                    if (corredor != null && corredor.target == transform)
                     {
                         corredor.target = jugadorReal;
+                        continue;
                     }
+
+                    // --- NUEVA CONEXIÓN: Restaurar al Colosal al jugador original ---
+                    ZColosalBehaviour colosal = collider.GetComponent<ZColosalBehaviour>();
+                    if (colosal != null && colosal.targetActual == transform)
+                    {
+                        colosal.targetActual = jugadorReal;
+                    }
+                    // ----------------------------------------------------------------
                 }
             }
         }
