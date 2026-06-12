@@ -5045,7 +5045,7 @@ MonoBehaviour:
       nodes:
       - name: Distancia
         id: df1d82a9-fb4f-494c-9c0c-4d9c379c4b3c
-        position: {x: 189, y: -1209}
+        position: {x: 212, y: -1198}
         node:
           rid: 2372784199866253380
         references:
@@ -5056,14 +5056,13 @@ MonoBehaviour:
             PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
             PublicKeyToken=b77a5c561934e089
         parentIds:
-        - 5b8f2b54-4fa7-451b-9acf-dee741f3080d
         - d0b1d36d-3b74-494e-acf6-5aca23ca0372
         - d27a0135-255b-4fe8-a3e9-7b6d46f056b1
-        - 7f7e1baf-9c7e-4ce0-96da-8a59e30250cb
+        - 5b8f2b54-4fa7-451b-9acf-dee741f3080d
         childIds: []
       - name: Cooldown
         id: 5d5dcd81-a7b4-43ec-8aff-b4d44f652612
-        position: {x: 188, y: -1070}
+        position: {x: 212, y: -1029}
         node:
           rid: 2372784199866253382
         references:
@@ -5078,7 +5077,7 @@ MonoBehaviour:
         childIds: []
       - name: Panico
         id: 4be1496e-d125-49ec-be12-f5322ab7bfee
-        position: {x: 185, y: -919}
+        position: {x: 213, y: -1366}
         node:
           rid: 2372784199866253384
         references:
@@ -5088,7 +5087,8 @@ MonoBehaviour:
           fieldType: System.Func`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
             PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
             PublicKeyToken=b77a5c561934e089
-        parentIds: []
+        parentIds:
+        - 7423c116-8629-4e42-8364-05e27cfffe0a
         childIds: []
       - name: Huir
         id: 5b8f2b54-4fa7-451b-9acf-dee741f3080d
@@ -5104,7 +5104,7 @@ MonoBehaviour:
             Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0,
             Culture=neutral, PublicKeyToken=b77a5c561934e089
         parentIds:
-        - 7da0c198-543c-4d2d-a319-ef08b6f4151c
+        - f4b2d91c-708c-4a5a-82a8-6f396b6f28a1
         childIds:
         - df1d82a9-fb4f-494c-9c0c-4d9c379c4b3c
       - name: Retroceder
@@ -5144,10 +5144,9 @@ MonoBehaviour:
         - 6ac4aaa5-0a74-4170-a77f-12f4755b95b8
         childIds:
         - 5d5dcd81-a7b4-43ec-8aff-b4d44f652612
-        - df1d82a9-fb4f-494c-9c0c-4d9c379c4b3c
       - name: Burla
         id: fbf720f8-01c9-46f4-a762-d035ef325e9e
-        position: {x: 625, y: -824}
+        position: {x: 229, y: -803}
         node:
           rid: 2372784199866253392
         references:
@@ -5162,7 +5161,7 @@ MonoBehaviour:
         childIds: []
       - name: HuirAction
         id: 7da0c198-543c-4d2d-a319-ef08b6f4151c
-        position: {x: 1104, y: -1392}
+        position: {x: 1193, y: -1460}
         node:
           rid: 2372784199866253394
         references:
@@ -5173,10 +5172,10 @@ MonoBehaviour:
             Culture=neutral, PublicKeyToken=null
         parentIds: []
         childIds:
-        - 5b8f2b54-4fa7-451b-9acf-dee741f3080d
+        - f4b2d91c-708c-4a5a-82a8-6f396b6f28a1
       - name: RetrocederAction
         id: 263b1496-bb42-48b0-ac73-8d4e017f9385
-        position: {x: 1108, y: -1248}
+        position: {x: 1194, y: -1249}
         node:
           rid: 2372784199866253395
         references:
@@ -5190,7 +5189,7 @@ MonoBehaviour:
         - d0b1d36d-3b74-494e-acf6-5aca23ca0372
       - name: AvanzarAction
         id: 8154ad51-2877-421c-91d0-4124a377f9a1
-        position: {x: 1114, y: -1083}
+        position: {x: 1194, y: -1088}
         node:
           rid: 2372784199866253396
         references:
@@ -5204,7 +5203,7 @@ MonoBehaviour:
         - d27a0135-255b-4fe8-a3e9-7b6d46f056b1
       - name: OrdenarAction
         id: 6ac4aaa5-0a74-4170-a77f-12f4755b95b8
-        position: {x: 1114, y: -945}
+        position: {x: 1194, y: -957}
         node:
           rid: 2372784199866253397
         references:
@@ -5218,7 +5217,7 @@ MonoBehaviour:
         - 7f7e1baf-9c7e-4ce0-96da-8a59e30250cb
       - name: BurlarseAction
         id: d7035dc5-7552-4722-b6d9-4bdb85aaef21
-        position: {x: 1115, y: -822}
+        position: {x: 1194, y: -815}
         node:
           rid: 2372784199866253398
         references:
@@ -5230,6 +5229,34 @@ MonoBehaviour:
         parentIds: []
         childIds:
         - fbf720f8-01c9-46f4-a762-d035ef325e9e
+      - name: "Estr\xE9s Panico"
+        id: 7423c116-8629-4e42-8364-05e27cfffe0a
+        position: {x: 633, y: -1507}
+        node:
+          rid: 6697347700407402496
+        references:
+        - fieldName: Function
+          value:
+            rid: 6697347700407402497
+          fieldType: System.Func`2[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089],[System.Single, mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - f4b2d91c-708c-4a5a-82a8-6f396b6f28a1
+        childIds:
+        - 4be1496e-d125-49ec-be12-f5322ab7bfee
+      - name: 
+        id: f4b2d91c-708c-4a5a-82a8-6f396b6f28a1
+        position: {x: 924, y: -1438}
+        node:
+          rid: 6697347700407402498
+        references: []
+        parentIds:
+        - 7da0c198-543c-4d2d-a319-ef08b6f4151c
+        childIds:
+        - 7423c116-8629-4e42-8364-05e27cfffe0a
+        - 5b8f2b54-4fa7-451b-9acf-dee741f3080d
     pushPerceptions: []
   references:
     version: 2
@@ -5248,7 +5275,7 @@ MonoBehaviour:
       type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         componentName: 
-        methodName: LeerDistancia
+        methodName: distanciaAlJugador
     - rid: 2372784199866253382
       type: {class: VariableFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
       data:
@@ -5259,7 +5286,7 @@ MonoBehaviour:
       type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         componentName: 
-        methodName: LeerCooldown
+        methodName: cooldownHabilidadTimer
     - rid: 2372784199866253384
       type: {class: VariableFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
       data:
@@ -5270,7 +5297,7 @@ MonoBehaviour:
       type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         componentName: 
-        methodName: LeerPanico
+        methodName: panicTimer
     - rid: 2372784199866253386
       type: {class: CustomCurveFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
       data:
@@ -5312,7 +5339,7 @@ MonoBehaviour:
       type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
       data:
         componentName: 
-        methodName: 
+        methodName: factorBurla
     - rid: 2372784199866253394
       type: {class: UtilityAction, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
       data:
@@ -5428,6 +5455,19 @@ MonoBehaviour:
         unpause:
           componentName: 
           methodName: 
+    - rid: 6697347700407402496
+      type: {class: CustomCurveFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+    - rid: 6697347700407402497
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: 
+        methodName: 
+    - rid: 6697347700407402498
+      type: {class: MaxFusionFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
 --- !u!114 &3038088775424126753
 MonoBehaviour:
   m_ObjectHideFlags: 0

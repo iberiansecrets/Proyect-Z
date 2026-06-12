@@ -132,7 +132,7 @@ public class ZComandanteBehaviour : BehaviourRunner
         factorOrdenar.Weights = new float[] { 0.7f, 0.3f };
 
         // Burla:
-        VariableFactor factorBurla = us.CreateVariable(() => (cooldownHabilidadTimer > cooldownHabilidadMax - 1.5f) ? 1.0f : 0.0f, 0f, 1f);
+        VariableFactor factorBurla = us.CreateVariable(() => (cooldownHabilidadTimer > cooldownHabilidadMax - 3.0f) ? 2.0f : 0.0f, 0f, 2f);
 
         // ACCIONES
         us.CreateAction(curveHuir, new FunctionalAction(EjecutarHuir));
@@ -154,6 +154,9 @@ public class ZComandanteBehaviour : BehaviourRunner
     public Status EjecutarAvanzar()
     {
         Debug.Log("DEBO AVANZAR");
+
+        zombiAnim.SetBool("Burlarse", false);
+
         ejeVelocidadAnim = 1.0f; // Animación Avanzar frontal
         agent.speed = speedAvanzar;
         agent.SetDestination(jugador.position);
@@ -173,6 +176,9 @@ public class ZComandanteBehaviour : BehaviourRunner
     public Status EjecutarRetroceder()
     {
         Debug.Log("RETROCEDO");
+
+        zombiAnim.SetBool("Burlarse", false);
+
         ejeVelocidadAnim = -1.0f; // Animación Retroceder de espaldas
         agent.speed = speedRetroceder;
 
@@ -188,6 +194,9 @@ public class ZComandanteBehaviour : BehaviourRunner
     public Status EjecutarHuir()
     {
         Debug.Log("HUYO");
+
+        zombiAnim.SetBool("Burlarse", false);
+
         ejeVelocidadAnim = 2.0f; // Animación de Huir rápido de espaldas (requisito cobarde)
         agent.speed = speedHuir;
 
@@ -239,19 +248,11 @@ public class ZComandanteBehaviour : BehaviourRunner
         // Permanecerá en este estado mientras el factorBurla devuelva utilidad máxima (1.5s)
         return Status.Running;
     }
-
-    // Apagado de banderas específicas al salir de nodos de utilidad mediante interrupción
-    protected void OnDisable()
-    {
-        if (zombiAnim != null) zombiAnim.SetBool("Burlarse", false);
-    }
-
-    
+        
     // SUB-SISTEMA DE NAVEGACIÓN Y ORIENTACIÓN MANUAL
     private void MoverAgenteHaciaDestino(bool lookAtPlayer)
     {
         Debug.Log("ME MUEVO");
-        zombiAnim.SetBool("Burlarse", false);
 
         Debug.Log("PAthPending = " + agent.pathPending);
         if (agent.pathPending) return;
