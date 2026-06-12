@@ -1,10 +1,11 @@
-﻿using System;
-using UnityEngine;
-using BehaviourAPI.Core;
+﻿using BehaviourAPI.Core;
 using BehaviourAPI.Core.Actions;
 using BehaviourAPI.Core.Perceptions;
-using BehaviourAPI.UnityToolkit;
 using BehaviourAPI.StateMachines;
+using BehaviourAPI.StateMachines.StackFSMs;
+using BehaviourAPI.UnityToolkit;
+using System;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class ZombieFSMBehaviourRunner : BehaviourRunner
@@ -12,24 +13,26 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
     [SerializeField] private ZombieActions m_ZombieActions;
 
     [Header("Objetivo de la IA")]
-    public Transform target; // Objetivo dinámico modificable desde el script del señuelo
+    public Transform target;
 
     [SerializeField] private bool debugLogs;
 
     private VisionSensor visionSensor;
     private HearingSensor hearingSensor;
 
-    // Variables del animador, el rango de ataque y la vida del jugador
     [SerializeField] private Animator zombiAnim;
     public float rangoAtaque = 1.5f;
     private PlayerHealth jugadorVida;
-    private Transform jugadorReal; // Referencia para restaurar el foco tras destruir el señuelo
+    private Transform jugadorReal;
 
-    // Variables para controlar velocidades y componentes físicos
     private Rigidbody rb;
     private NavMeshAgent agent;
     private Vector3 lastFixedPosition;
     private float currentRealSpeed;
+
+    [Header("Control de Horda (Stack-FSM)")]
+    public bool pushHordeSignal = false; // El Colosal activará esto para meter al zombi en la horda
+    public bool popHordeSignal = false;  // El Colosal activará esto para sacarlo de la horda
 
     protected override void Init()
     {
@@ -37,15 +40,12 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         if (visionSensor == null) visionSensor = GetComponent<VisionSensor>();
         if (hearingSensor == null) hearingSensor = GetComponent<HearingSensor>();
 
-        // Engancha el animator del hijo
         zombiAnim = GetComponentInChildren<Animator>();
 
-        // Referencias físicas
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         lastFixedPosition = transform.position;
 
-        // Desacopla el movimiento del NavMesh
         if (agent != null)
         {
             agent.updatePosition = false;
@@ -68,23 +68,16 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
             jugadorVida = jugadorReal.GetComponent<PlayerHealth>();
         }
 
-        if (debugLogs)
-        {
-            Debug.Log($"[ZombieFSMBehaviourRunner.Init] actions={(m_ZombieActions != null)}, vision={(visionSensor != null)}, hearing={(hearingSensor != null)}, target={(target != null ? target.name : "NULL")}");
-        }
-
         base.Init();
     }
 
     protected override void OnUpdated()
     {
-        // Sincroniza el objetivo dinámico con el script de movimientos físicos de forma continua
         if (m_ZombieActions != null && m_ZombieActions.target != target)
         {
             m_ZombieActions.target = target;
         }
 
-        // Recupera la referencia del jugador si el objetivo actual se destruye
         if (target == null)
         {
             target = jugadorReal;
@@ -95,17 +88,16 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
 
     protected override BehaviourGraph CreateGraph()
     {
-        FSM ZombieFSM = new FSM();
+        // Soporte de pila
+        StackFSM ZombieFSM = new StackFSM();
 
-        // Se llama cada vez que el zombie sale del estado de ataque para volver a moverse
         System.Action ResetAgentAndAttack = () => {
             if (zombiAnim != null) zombiAnim.SetBool("Ataque", false);
             if (agent != null && agent.isOnNavMesh) agent.isStopped = false;
         };
 
+        // Estados
         FunctionalAction Roaming_action = new FunctionalAction();
-
-        // Animación de patrulla
         Roaming_action.onStarted = () => {
             m_ZombieActions.EnterRoaming();
             ResetAgentAndAttack();
@@ -114,15 +106,11 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         State Roaming = ZombieFSM.CreateState(Roaming_action);
 
         FunctionalAction Chasing_action = new FunctionalAction();
-
-        // Animación para perseguir
         Chasing_action.onStarted = ResetAgentAndAttack;
         Chasing_action.onUpdated = m_ZombieActions.TickChasing;
         State Chasing = ZombieFSM.CreateState(Chasing_action);
 
         FunctionalAction InvestigateSound_action = new FunctionalAction();
-
-        // Animación al investigar sonido
         InvestigateSound_action.onStarted = () => {
             m_ZombieActions.EnterInvestigateSound();
             ResetAgentAndAttack();
@@ -130,15 +118,13 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         InvestigateSound_action.onUpdated = m_ZombieActions.TickInvestigateSound;
         State InvestigateSound = ZombieFSM.CreateState(InvestigateSound_action);
 
-        // Estado de ataque
         FunctionalAction Attacking_action = new FunctionalAction();
         Attacking_action.onStarted = () => {
             if (zombiAnim != null)
             {
-                zombiAnim.SetBool("Movimiento", false); // Forzamos Idle visual
+                zombiAnim.SetBool("Movimiento", false);
                 zombiAnim.SetBool("Ataque", true);
             }
-
             if (rb != null)
             {
                 rb.linearVelocity = Vector3.zero;
@@ -146,13 +132,23 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
             }
             if (agent != null && agent.isOnNavMesh)
             {
-                agent.isStopped = true; // Corta la ruta del NavMesh para que no empuje
+                agent.isStopped = true;
                 agent.velocity = Vector3.zero;
             }
         };
         Attacking_action.onUpdated = TickAttacking;
         State Attacking = ZombieFSM.CreateState(Attacking_action);
 
+        // Estado de horda
+        FunctionalAction Horde_action = new FunctionalAction();
+        Horde_action.onStarted = () => {
+            pushHordeSignal = false; // Consumimos la señal de entrada para evitar bucles en la pila
+            ResetAgentAndAttack();
+        };
+        Horde_action.onUpdated = TickHordeBehavior;
+        State Horde = ZombieFSM.CreateState(Horde_action);
+
+        // Transiciones
         ConditionPerception RoamToChase_perception = new ConditionPerception();
         RoamToChase_perception.onCheck = CheckCanSeePlayer;
         ZombieFSM.CreateTransition("RoamToChase", Roaming, Chasing, RoamToChase_perception);
@@ -161,15 +157,13 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         SoundToChase_perception.onCheck = CheckCanSeePlayer;
         ZombieFSM.CreateTransition("SoundToChase", InvestigateSound, Chasing, SoundToChase_perception);
 
-        StateTransition FromChasing = ZombieFSM.CreateTransition(Chasing, Roaming, statusFlags: StatusFlags.Failure);
-
-        StateTransition FromInvestigate = ZombieFSM.CreateTransition(InvestigateSound, Roaming, statusFlags: StatusFlags.Success);
+        ZombieFSM.CreateTransition(Chasing, Roaming, statusFlags: StatusFlags.Failure);
+        ZombieFSM.CreateTransition(InvestigateSound, Roaming, statusFlags: StatusFlags.Success);
 
         ConditionPerception RoamToInvestigate_perception = new ConditionPerception();
         RoamToInvestigate_perception.onCheck = CheckHasHeardSound;
         ZombieFSM.CreateTransition("RoamToInvestigate", Roaming, InvestigateSound, RoamToInvestigate_perception);
 
-        // Transiciones para entrar y salir del ataque
         ConditionPerception InAttackRange_perception = new ConditionPerception();
         InAttackRange_perception.onCheck = CheckPlayerInAttackRange;
         ZombieFSM.CreateTransition("ChaseToAttack", Chasing, Attacking, InAttackRange_perception);
@@ -178,7 +172,54 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         OutOfAttackRange_perception.onCheck = () => !CheckPlayerInAttackRange();
         ZombieFSM.CreateTransition("AttackToChase", Attacking, Chasing, OutOfAttackRange_perception);
 
+        // Interrupción de la pila
+        ConditionPerception pushHordePerception = new ConditionPerception(() => pushHordeSignal);
+        ConditionPerception popHordePerception = new ConditionPerception(() => popHordeSignal);
+
+        // Registramos el Push desde cualquier estado de movimiento para congelar su comportamiento
+        ZombieFSM.CreatePushTransition("EntrarEnHorda_Roam", Roaming, Horde, pushHordePerception);
+        ZombieFSM.CreatePushTransition("EntrarEnHorda_Chase", Chasing, Horde, pushHordePerception);
+        ZombieFSM.CreatePushTransition("EntrarEnHorda_Sound", InvestigateSound, Horde, pushHordePerception);
+
+        // Registramos el Pop: cuando se active, destruye el estado Horda y vuelve al anterior guardado
+        ZombieFSM.CreatePopTransition("SalirDeHorda", Horde, popHordePerception);
+
+        ZombieFSM.SetEntryState(Roaming);
         return ZombieFSM;
+    }
+
+    private Status TickHordeBehavior()
+    {
+        popHordeSignal = false; // Aseguramos limpieza de la bandera de salida
+
+        if (zombiAnim != null) zombiAnim.SetBool("Movimiento", true);
+
+        // El Colosal controlará dinámicamente el target de este zombi. 
+        // El corredor se moverá hacia donde el líder le mande usando el NavMesh físico.
+        if (target != null && agent != null && agent.enabled)
+        {
+            agent.SetDestination(target.position);
+            Vector3 direction = agent.desiredVelocity.normalized;
+            direction.y = 0;
+
+            rb.MovePosition(rb.position + direction * (m_ZombieActions != null ? 3.5f : 2f) * Time.deltaTime);
+
+            if (direction != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                rb.MoveRotation(Quaternion.RotateTowards(rb.rotation, targetRotation, 300f * Time.deltaTime));
+            }
+        }
+
+        // Si han llegado a menos de 4 metros del Colosal, o si el Colosal ya no existe, salen del trance
+        if (target == null || Vector3.Distance(transform.position, target.position) < 4f)
+        {
+            popHordeSignal = true; // Hace Pop de la Stack-FSM y destruye el estado Horda
+            target = jugadorReal; // Vuelve a tener al jugador como objetivo
+            return Status.Success;
+        }
+
+        return Status.Running;
     }
 
     private void FixedUpdate()
@@ -186,7 +227,6 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         currentRealSpeed = (transform.position - lastFixedPosition).magnitude / Time.fixedDeltaTime;
         lastFixedPosition = transform.position;
 
-        // Arrastra el cerebro del NavMesh junto al cuerpo físico
         if (agent != null && !agent.updatePosition)
         {
             agent.nextPosition = rb.position;
@@ -195,80 +235,38 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
 
     private void LateUpdate()
     {
-        if (zombiAnim == null) return;
-
-        // Si está en medio de un ataque, respeta esa animación
-        if (zombiAnim.GetBool("Ataque")) return;
-
-        // Si se mueve a más de 0.1 unidades por segundo, corre. Si se frena, pasa a Idle.
-        bool isMoving = currentRealSpeed > 0.1f;
-        zombiAnim.SetBool("Movimiento", isMoving);
+        if (zombiAnim == null || zombiAnim.GetBool("Ataque")) return;
+        zombiAnim.SetBool("Movimiento", currentRealSpeed > 0.1f);
     }
 
     private Boolean CheckCanSeePlayer()
     {
-        // Fuerza la persecución inmediata si detecta un señuelo activo en la escena
-        if (target != jugadorReal)
-        {
-            return true;
-        }
-
-        if (visionSensor == null) visionSensor = GetComponent<VisionSensor>();
-        if (visionSensor == null)
-        {
-            if (debugLogs) Debug.Log("[ZombieRunner] Runner_CanSeePlayer = false (no visionSensor)");
-            return false;
-        }
-
-        if (target == null)
-        {
-            if (debugLogs) Debug.Log("[ZombieRunner] Runner_CanSeePlayer = false (no target)");
-            return false;
-        }
-
-        bool sees = visionSensor.CanSeePlayerSimple(target);
-        if (debugLogs) Debug.Log($"[ZombieRunner] Runner_CanSeePlayer = {sees}");
-        return sees;
+        if (target != jugadorReal) return true;
+        if (visionSensor == null || target == null) return false;
+        return visionSensor.CanSeePlayerSimple(target);
     }
 
     private Boolean CheckHasHeardSound()
     {
-        // Ignora distracciones de sonido menores si ya está persiguiendo un señuelo activo
         if (target != jugadorReal) return false;
-
-        if (hearingSensor == null) hearingSensor = GetComponent<HearingSensor>();
-        if (hearingSensor == null)
-        {
-            if (debugLogs) Debug.Log("[ZombieRunner] Runner_HasHeardSound = false (no hearingSensor)");
-            return false;
-        }
-
-        bool h = hearingSensor.HasHeardSound();
-        if (debugLogs) Debug.Log($"[ZombieRunner] Runner_HasHeardSound = {h}");
-        return h;
+        if (hearingSensor == null) return false;
+        return hearingSensor.HasHeardSound();
     }
 
-    // Funciones para el ataque
     private Boolean CheckPlayerInAttackRange()
     {
         if (target == null) return false;
-        float distance = Vector3.Distance(transform.position, target.position);
-        return distance <= rangoAtaque;
+        return Vector3.Distance(transform.position, target.position) <= rangoAtaque;
     }
 
     private Status TickAttacking()
     {
         if (target != null)
         {
-            // Mirar al objetivo mientras ataca
             Vector3 dir = (target.position - transform.position).normalized;
             dir.y = 0;
-            if (dir != Vector3.zero)
-            {
-                transform.rotation = Quaternion.LookRotation(dir);
-            }
+            if (dir != Vector3.zero) transform.rotation = Quaternion.LookRotation(dir);
 
-            // Aplica daño por segundo al jugador real o interactúa con el señuelo
             if (target == jugadorReal && jugadorVida != null && jugadorVida.GetVidaActual() > 0)
             {
                 jugadorVida.RecibirDaño(10f * Time.deltaTime);

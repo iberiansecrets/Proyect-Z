@@ -46,7 +46,7 @@ public class ObjectSpawner : MonoBehaviour
     private void Update()
     {
         EnemiesSpawner es = FindAnyObjectByType<EnemiesSpawner>();
-        Debug.Log($"Hay {es.GetNumZombies()} zombies");
+        //Debug.Log($"Hay {es.GetNumZombies()} zombies");
     }
 
     public bool VidaJugadorBaja()
