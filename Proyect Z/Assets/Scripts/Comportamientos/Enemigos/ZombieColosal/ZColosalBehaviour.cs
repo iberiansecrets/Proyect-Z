@@ -9,6 +9,7 @@ using BehaviourAPI.StateMachines;
 using BehaviourAPI.BehaviourTrees;
 using BehaviourAPI.UtilitySystems;
 using BehaviourAPI.UnityToolkit;
+using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
 
 public class ZColosalBehaviour : BehaviourRunner
 {
@@ -38,6 +39,7 @@ public class ZColosalBehaviour : BehaviourRunner
     private FSM fsmCombate;
     private BehaviourTree btGrito;
 
+    [SerializeField] private BSRuntimeDebugger _debugger;
     protected override void Init()
     {
         zombi = GetComponent<ZColosal>();
@@ -57,6 +59,8 @@ public class ZColosalBehaviour : BehaviourRunner
         destinoPatrulla = transform.position;
 
         ultimoGritoTime = Time.time; // Evita que grite nada más nacer
+
+        _debugger = GetComponent<BSRuntimeDebugger>();
 
         base.Init();
     }
@@ -104,35 +108,13 @@ public class ZColosalBehaviour : BehaviourRunner
         btGrito = CreateBTGrito();
 
         // 1. EVALUADOR GRITO
-        VariableFactor fGritoDisponibilidad = us.CreateVariable(() =>
-        {
-            if (estaGritando) return 1.0f;
-            if (Time.time < ultimoGritoTime + zombi.cooldownGrito) return 0f;
-            if (senueloDetectado != null) return 0f; // No grita si hay señuelo distrayendo
-
-            // Llama a la horda si ve al jugador de lejos
-            if (distanciaAlJugador >= zombi.distanciaMinimaParaGritar && CheckJugadorEnCono()) return 1f;
-            return 0f;
-        }, 0f, 1f);
+        VariableFactor fGritoDisponibilidad = us.CreateVariable(GetGritoDisponibilidad, 0f, 1f);
 
         // 2. EVALUADOR OLOR
-        VariableFactor fRastroOlor = us.CreateVariable(() =>
-        {
-            if (haTerminadoRastro) return 0f; // Si ya te ha encontrado, el olor se apaga
-
-            if (targetActual != zombi.jugador && percepcionOlor != null && percepcionOlor.Check())
-            {
-                return 0.85f;
-            }
-            return 0f;
-        }, 0f, 1f);
+        VariableFactor fRastroOlor = us.CreateVariable(GetRastroOlor, 0f, 1f);
 
         // 3. EVALUADOR COMBATE (ESTADO POR DEFECTO)
-        VariableFactor fCombatePorDefecto = us.CreateVariable(() =>
-        {
-            if (distanciaAlJugador <= zombi.rangoAtaque && senueloDetectado == null) return 0.95f;
-            return 0.4f;
-        }, 0f, 1f);
+        VariableFactor fCombatePorDefecto = us.CreateVariable(GetCombatePorDefecto, 0f, 1f);
 
         // ACCIONES
         FunctionalAction actionGrito = new FunctionalAction
@@ -160,6 +142,8 @@ public class ZColosalBehaviour : BehaviourRunner
         us.CreateAction(fGritoDisponibilidad, actionGrito);
         us.CreateAction(fRastroOlor, actionRastreo);
         us.CreateAction(fCombatePorDefecto, actionCombate);
+
+        _debugger.RegisterGraph(us, "Main US");
 
         return us;
     }
@@ -190,20 +174,22 @@ public class ZColosalBehaviour : BehaviourRunner
         };
         State estadoAttack = fsm.CreateState("Attacking", attack);
 
-        // Usamos "targetActual" para que la FSM persiga al jugador O al señuelo de forma dinámica
-        ConditionPerception veAlObjetivo = new ConditionPerception(() => CheckObjetivoEnCono() && Vector3.Distance(transform.position, targetActual.position) <= zombi.rangoVision);
-        ConditionPerception pierdeAlObjetivo = new ConditionPerception(() => !CheckObjetivoEnCono() || Vector3.Distance(transform.position, targetActual.position) > zombi.rangoVision);
-
-        ConditionPerception enRangoMelé = new ConditionPerception(() => Vector3.Distance(transform.position, targetActual.position) <= zombi.rangoAtaque);
-        ConditionPerception saleRangoMelé = new ConditionPerception(() => Vector3.Distance(transform.position, targetActual.position) > zombi.rangoAtaque);
+        // En CreateFSMCombate():
+        ConditionPerception veAlObjetivo = new ConditionPerception(CheckVeAlObjetivo);
+        ConditionPerception pierdeAlObjetivo = new ConditionPerception(CheckPierdeAlObjetivo);
+        ConditionPerception enRangoMele = new ConditionPerception(CheckEnRangoMele);
+        ConditionPerception saleRangoMele = new ConditionPerception(CheckSaleRangoMele);
 
         fsm.CreateTransition("VeObjetivo", estadoRoam, estadoChase, veAlObjetivo);
         fsm.CreateTransition("PierdeObjetivo", estadoChase, estadoRoam, pierdeAlObjetivo);
 
-        fsm.CreateTransition("EnRangoAtaque", estadoChase, estadoAttack, enRangoMelé);
-        fsm.CreateTransition("FueraRangoAtaque", estadoAttack, estadoChase, saleRangoMelé);
+        fsm.CreateTransition("EnRangoAtaque", estadoChase, estadoAttack, enRangoMele);
+        fsm.CreateTransition("FueraRangoAtaque", estadoAttack, estadoChase, saleRangoMele);
 
         fsm.SetEntryState(estadoRoam);
+
+        _debugger.RegisterGraph(fsm, "Sub_FSM");
+
         return fsm;
     }
 
@@ -250,6 +236,8 @@ public class ZColosalBehaviour : BehaviourRunner
         SequencerNode secuenciaGrito = bt.CreateComposite<SequencerNode>(false, nInicio, nAnim, nAlerta, nEspera);
         bt.SetRootNode(secuenciaGrito);
 
+        _debugger.RegisterGraph(bt, "Sub_BT");
+
         return bt;
     }
 
@@ -266,6 +254,58 @@ public class ZColosalBehaviour : BehaviourRunner
             var normal = col.GetComponent<ZNormalBehaviour>();
             if (normal != null) { normal.targetActual = transform; normal.pushHordeSignal = true; }
         }
+    }
+
+    // --- EVALUADORES DEL SISTEMA DE UTILIDAD ---
+
+    private float GetGritoDisponibilidad()
+    {
+        if (estaGritando) return 1.0f;
+        if (Time.time < ultimoGritoTime + zombi.cooldownGrito) return 0f;
+        if (senueloDetectado != null) return 0f; // No grita si hay señuelo distrayendo
+
+        // Llama a la horda si ve al jugador de lejos
+        if (distanciaAlJugador >= zombi.distanciaMinimaParaGritar && CheckJugadorEnCono()) return 1f;
+        return 0f;
+    }
+
+    private float GetRastroOlor()
+    {
+        if (haTerminadoRastro) return 0f; // Si ya te ha encontrado, el olor se apaga
+
+        // Solo activa el olor si hay un señuelo en el mapa Y además huele al jugador
+        if (targetActual != zombi.jugador && percepcionOlor != null && percepcionOlor.Check())
+        {
+            return 0.85f;
+        }
+        return 0f;
+    }
+
+    private float GetCombatePorDefecto()
+    {
+        if (distanciaAlJugador <= zombi.rangoAtaque && senueloDetectado == null) return 0.95f;
+        return 0.4f;
+    }
+
+    // --- PERCEPCIONES DE LA FSM DE COMBATE ---
+    private bool CheckVeAlObjetivo()
+    {
+        return CheckObjetivoEnCono() && Vector3.Distance(transform.position, targetActual.position) <= zombi.rangoVision;
+    }
+
+    private bool CheckPierdeAlObjetivo()
+    {
+        return !CheckObjetivoEnCono() || Vector3.Distance(transform.position, targetActual.position) > zombi.rangoVision;
+    }
+
+    private bool CheckEnRangoMele()
+    {
+        return Vector3.Distance(transform.position, targetActual.position) <= zombi.rangoAtaque;
+    }
+
+    private bool CheckSaleRangoMele()
+    {
+        return Vector3.Distance(transform.position, targetActual.position) > zombi.rangoAtaque;
     }
 
     // --- SEGUIMIENTO DE OLOR ---
