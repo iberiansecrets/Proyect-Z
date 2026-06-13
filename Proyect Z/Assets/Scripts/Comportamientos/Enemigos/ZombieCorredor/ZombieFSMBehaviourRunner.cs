@@ -145,7 +145,7 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
             pushHordeSignal = false; // Consumimos la señal de entrada para evitar bucles en la pila
             ResetAgentAndAttack();
         };
-        Horde_action.onUpdated = TickHordeBehavior;
+        Horde_action.onUpdated = TickHordeBehaviour;
         State Horde = ZombieFSM.CreateState(Horde_action);
 
         // Transiciones
@@ -189,7 +189,7 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         return ZombieFSM;
     }
 
-    private Status TickHordeBehavior()
+    private Status TickHordeBehaviour()
     {
         popHordeSignal = false; // Aseguramos limpieza de la bandera de salida
 
