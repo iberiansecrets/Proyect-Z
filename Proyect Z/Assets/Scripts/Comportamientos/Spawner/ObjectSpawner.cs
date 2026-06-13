@@ -86,10 +86,10 @@ public class ObjectSpawner : MonoBehaviour
         // Buscamos en un rango generoso para asegurar que si cae en una pared, lo devuelva a la arena de juego
         if (NavMesh.SamplePosition(posicionTentativa, out hit, radioMaximo, NavMesh.AllAreas))
         {
-            return hit.position; // Retorna la posición exacta sobre la malla azul del NavMesh
+            return hit.position + Vector3.up * 1f; // Retorna la posición exacta sobre la malla azul del NavMesh
         }
 
-        return posicionTentativa; // Si algo falla, devuelve el auxiliar
+        return posicionTentativa + Vector3.up * 1f; // Si algo falla, devuelve el auxiliar
     }
 
     public void SpawnBotiquin()

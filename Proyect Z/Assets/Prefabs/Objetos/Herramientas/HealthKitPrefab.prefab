@@ -34,11 +34,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
       propertyPath: m_LocalRotation.y
@@ -46,7 +46,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -76,8 +76,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealthKitPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1284755913174626908, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7356150578387918604, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1284755913174626908, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1d978b9f370423e4ea25d58aed8ea87e, type: 3}
