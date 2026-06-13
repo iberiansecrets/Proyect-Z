@@ -4,6 +4,7 @@ using BehaviourAPI.Core.Actions;
 using BehaviourAPI.Core.Perceptions;
 using BehaviourAPI.StateMachines.StackFSMs;
 using BehaviourAPI.UnityToolkit;
+using BehaviourAPI.UnityToolkit.GUIDesigner.Runtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -45,15 +46,19 @@ public class ZNormalBehaviour : BehaviourRunner
 
     public bool jugadorDetectado;
 
+    [SerializeField] private BSRuntimeDebugger _bsRuntimeDebugger;
+
     [Header("Control de Horda (Stack-FSM)")]
     public bool pushHordeSignal = false;
     public bool popHordeSignal = false;
 
+    AnglePerceptionCustom vision;
     protected override void Init()
     {
         jugador = GameObject.FindGameObjectWithTag("Player").transform;
         zombi = GetComponent<ZNormal>();
         rb = GetComponent<Rigidbody>();
+        _bsRuntimeDebugger = GetComponent<BSRuntimeDebugger>();
         rangoPersecucion = zombi.rangoPersecucion;
         rangoAtaque = zombi.rangoAtaque;
         rangoMovimiento = zombi.rangoMovimiento;
@@ -76,7 +81,7 @@ public class ZNormalBehaviour : BehaviourRunner
 
         agent.updatePosition = false;
         agent.updateRotation = false;
-
+        vision = new AnglePerceptionCustom(rb.transform, jugador, anguloVision);
         base.Init();
     }
 
@@ -118,7 +123,7 @@ public class ZNormalBehaviour : BehaviourRunner
         fsm.CreateTransition("Jugador muerto", atacar, buscarPJ, statusFlags: StatusFlags.Success);
         fsm.CreateTransition("Despertar", letargo, perseguir, jugadorMuyCerca);
 
-        // --- CONEXIONES DE INTERRUPCIÓN DE LA PILA ---
+        // Interrupción de la pila
         var pushHordePerception = new ConditionPerception(() => pushHordeSignal);
         var popHordePerception = new ConditionPerception(() => popHordeSignal);
 
@@ -137,6 +142,8 @@ public class ZNormalBehaviour : BehaviourRunner
 
         if (empiezaTirado) fsm.SetEntryState(letargo);
         else fsm.SetEntryState(buscarPJ);
+
+        _bsRuntimeDebugger.RegisterGraph(fsm, "Stack_FSM");        
 
         return fsm;
     }
@@ -199,6 +206,8 @@ public class ZNormalBehaviour : BehaviourRunner
 
         var root = bt.CreateDecorator<LoopNode>(Patrullando);
         bt.SetRootNode(root);
+
+        _bsRuntimeDebugger.RegisterGraph(bt, "Sub BT");
 
         return bt;
     }
@@ -354,8 +363,7 @@ public class ZNormalBehaviour : BehaviourRunner
 
     private bool JugadorEnCono()
     {
-        distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
-        AnglePerceptionCustom vision = new AnglePerceptionCustom(rb.transform, jugador, anguloVision);
+        distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);       
 
         if (distanciaAlJugador > rangoPersecucion) return false;
         return vision.Check();

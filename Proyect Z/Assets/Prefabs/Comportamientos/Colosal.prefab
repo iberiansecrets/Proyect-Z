@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 2482299931684668051}
   - component: {fileID: 2605267416855798466}
   - component: {fileID: -7525840456620256046}
+  - component: {fileID: 8872977292832930648}
   m_Layer: 7
   m_Name: Colosal
   m_TagString: Enemy
@@ -5265,6 +5266,29 @@ MonoBehaviour:
   hearingRadius: 12
   soundMemoryTime: 3
   debugLogs: 0
+--- !u!114 &8872977292832930648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929835613075624577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  _eventHandler:
+    debugStatusChanges: 0
+    identifier: 
+  data:
+    graphs: []
+    pushPerceptions: []
+  references:
+    version: 2
+    RefIds: []
 --- !u!1001 &6186685212408774005
 PrefabInstance:
   m_ObjectHideFlags: 0

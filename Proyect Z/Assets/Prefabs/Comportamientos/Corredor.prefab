@@ -26,7 +26,6 @@ GameObject:
   - component: {fileID: 3129710259606359071}
   - component: {fileID: 3387535297742465370}
   - component: {fileID: 4789684392639682024}
-  - component: {fileID: 239015702091626678}
   m_Layer: 7
   m_Name: Corredor
   m_TagString: Enemy
@@ -5604,21 +5603,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &239015702091626678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3883655744420111400}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75a674b8cb6e4614da1d4a71eb05d335, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  profundidadEnterrado: 3
-  tiempoElevacion: 2.5
-  compensacionPivote: 1.5
 --- !u!1001 &1128079527235035552
 PrefabInstance:
   m_ObjectHideFlags: 0
