@@ -40,11 +40,19 @@ public class ZColosalBehaviour : BehaviourRunner
     private BehaviourTree btGrito;
 
     [SerializeField] private BSRuntimeDebugger _debugger;
+    [SerializeField] private AudioClip audio;
+    private AudioSource _source;
     protected override void Init()
     {
         zombi = GetComponent<ZColosal>();
         rb = GetComponent<Rigidbody>();
         colosalAnim = GetComponentInChildren<Animator>();
+        _source = GetComponent<AudioSource>();
+
+        if(_source != null)
+        {
+            _source.clip = audio;
+        }
 
         if (zombi.jugador != null)
             jugadorVida = zombi.jugador.GetComponent<PlayerHealth>();
@@ -69,7 +77,7 @@ public class ZColosalBehaviour : BehaviourRunner
     {
         DecoyBehaviour senueloActual = FindFirstObjectByType<DecoyBehaviour>();
 
-        // Si detecta un señuelo NUEVO en el mapa, pone a cero su memoria del rastro
+        // Si detecta un señuelo nuevo en el mapa, pone a cero su memoria del rastro
         if (senueloActual != null && senueloActual != ultimoSenuelo)
         {
             ultimoSenuelo = senueloActual;
@@ -107,16 +115,16 @@ public class ZColosalBehaviour : BehaviourRunner
         fsmCombate = CreateFSMCombate();
         btGrito = CreateBTGrito();
 
-        // 1. EVALUADOR GRITO
+        // Evaluador del grito
         VariableFactor fGritoDisponibilidad = us.CreateVariable(GetGritoDisponibilidad, 0f, 1f);
 
-        // 2. EVALUADOR OLOR
+        // Evaluador del olor
         VariableFactor fRastroOlor = us.CreateVariable(GetRastroOlor, 0f, 1f);
 
-        // 3. EVALUADOR COMBATE (ESTADO POR DEFECTO)
+        // Evaluador del combate
         VariableFactor fCombatePorDefecto = us.CreateVariable(GetCombatePorDefecto, 0f, 1f);
 
-        // ACCIONES
+        // Acciones
         FunctionalAction actionGrito = new FunctionalAction
         {
             onStarted = () => btGrito.Start(),
@@ -173,8 +181,7 @@ public class ZColosalBehaviour : BehaviourRunner
             onStopped = () => { if (agent != null) agent.isStopped = false; }
         };
         State estadoAttack = fsm.CreateState("Attacking", attack);
-
-        // En CreateFSMCombate():
+                
         ConditionPerception veAlObjetivo = new ConditionPerception(CheckVeAlObjetivo);
         ConditionPerception pierdeAlObjetivo = new ConditionPerception(CheckPierdeAlObjetivo);
         ConditionPerception enRangoMele = new ConditionPerception(CheckEnRangoMele);
@@ -243,11 +250,12 @@ public class ZColosalBehaviour : BehaviourRunner
 
     private void EmitirGritoLiderDeHorda()
     {
-        Debug.Log("<color=red><b>[COLOSAL]</b> ¡RUGIDO INVOCADO! Reclutando a la horda...</color>");
+        //Debug.Log("[COLOSAL] ¡RUGIDO INVOCADO! Reclutando a la horda...");
 
         Collider[] cercanos = Physics.OverlapSphere(transform.position, zombi.radioLlamadaHorda);
+        _source.Play();
         foreach (var col in cercanos)
-        {
+        {            
             var runner = col.GetComponent<ZombieFSMBehaviourRunner>();
             if (runner != null) { runner.target = transform; runner.pushHordeSignal = true; }
 
@@ -256,7 +264,7 @@ public class ZColosalBehaviour : BehaviourRunner
         }
     }
 
-    // --- EVALUADORES DEL SISTEMA DE UTILIDAD ---
+    // Evaluadores del sistema de utilidad
 
     private float GetGritoDisponibilidad()
     {
@@ -287,7 +295,7 @@ public class ZColosalBehaviour : BehaviourRunner
         return 0.4f;
     }
 
-    // --- PERCEPCIONES DE LA FSM DE COMBATE ---
+    // Percepciones de la FSM
     private bool CheckVeAlObjetivo()
     {
         return CheckObjetivoEnCono() && Vector3.Distance(transform.position, targetActual.position) <= zombi.rangoVision;
@@ -308,7 +316,7 @@ public class ZColosalBehaviour : BehaviourRunner
         return Vector3.Distance(transform.position, targetActual.position) > zombi.rangoAtaque;
     }
 
-    // --- SEGUIMIENTO DE OLOR ---
+    // Seguimiento de olor
     private Status TickRastreoOlor()
     {
         if (colosalAnim != null) colosalAnim.SetBool("Movimiento", true);
@@ -335,14 +343,14 @@ public class ZColosalBehaviour : BehaviourRunner
             {
                 // Ha llegado a la última miga de pan
                 haTerminadoRastro = true;
-                Debug.Log("<color=orange><b>[CEREBRO COLOSAL]</b> ¡Rastro terminado! He llegado hasta el jugador.</color>");
+               // Debug.Log("<color=orange><b>[CEREBRO COLOSAL]</b> ¡Rastro terminado! He llegado hasta el jugador.</color>");
             }
         }
 
         return Status.Running;
     }
 
-    // --- PATRULLA ---
+    // Roaming
     private Status ExecuteRoamingBasico()
     {
         if (Vector3.Distance(transform.position, destinoPatrulla) < 1f)
@@ -379,8 +387,8 @@ public class ZColosalBehaviour : BehaviourRunner
             agent.SetDestination(targetActual.position);
             MoverFisicamenteHaciaCamino(zombi.speedPersecucion);
 
-            if (targetActual == senueloDetectado?.transform)
-                Debug.Log("<color=cyan><b>[CEREBRO COLOSAL]</b> Persiguiendo el SEÑUELO (Modo Combate normal).</color>");
+            //if (targetActual == senueloDetectado?.transform)
+                //Debug.Log("[CEREBRO COLOSAL] Persiguiendo el SEÑUELO (Modo Combate normal).");
         }
         return Status.Running;
     }

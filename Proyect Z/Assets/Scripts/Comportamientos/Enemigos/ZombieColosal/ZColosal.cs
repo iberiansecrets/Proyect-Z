@@ -24,7 +24,7 @@ public class ZColosal : MonoBehaviour
     private ZColosalBehaviour zBehaviour;
 
     [Header("Renderizado de FOV")]
-    public Color fovColor = new Color(1, 0.5f, 0, 0.2f); // Naranja translúcido para el jefe
+    public Color fovColor = new Color(1, 0.5f, 0, 0.2f);
 
     void Awake()
     {
@@ -61,7 +61,7 @@ public class ZColosal : MonoBehaviour
 
         float distanciaAlJugador = Vector3.Distance(jugador.position, rb.position);
 
-        // 1. DIBUJO DEL CONO DE VISIÓN (FOV)
+        // Dibujo de FOV
         if (distanciaAlJugador > rangoAtaque)
         {
             Gizmos.color = (distanciaAlJugador > rangoVision) ? fovColor : new Color(1, 0, 0, 0.3f);
@@ -88,7 +88,7 @@ public class ZColosal : MonoBehaviour
             }
         }
 
-        // 2. DIBUJO DEL RADIO DE RECOLECCIÓN DE LA HORDA (GIZMO ADICIONAL)
+        // Dibujo de la llamada de horda
         Gizmos.color = new Color(1f, 0f, 1f, 0.15f); // Magenta sutil
         Gizmos.DrawWireSphere(transform.position, radioLlamadaHorda);
     }

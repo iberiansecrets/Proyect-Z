@@ -94,8 +94,7 @@ public class ZNormalBehaviour : BehaviourRunner
     }
 
     protected override BehaviourGraph CreateGraph()
-    {
-        // MIGRACIÓN: Cambiado a Máquina con soporte de Pila
+    {        
         var fsm = new StackFSM();
 
         // Estados

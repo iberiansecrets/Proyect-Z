@@ -2,24 +2,21 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class ZNormal : MonoBehaviour
-{
-    //[Header("Referencias")]
-    
+{    
     public float rangoPersecucion = 10f;
     public float rangoAtaque = 2f;
     public float rangoMovimiento = 10f;
     public float anguloVision = 45f;
 
     public float speed = 3f;
-    public float speedRotation = 36f; //Grados por segundo
+    public float speedRotation = 36f; // Grados por segundo
 
     public float damage = 10f;
-
-    //public StateMachine fsm;
+        
     public Rigidbody rb;
     public Transform jugador;
 
-    //Cono de vision
+    // Cono de vision
     public Color fovColor = new Color(1, 1, 0, 0.3f);
 
 
@@ -27,7 +24,7 @@ public class ZNormal : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        //Busca al jugador en la escena
+        // Busca al jugador en la escena
         if (jugador == null)
         {
             GameObject playerObj = GameObject.FindGameObjectWithTag("Player");

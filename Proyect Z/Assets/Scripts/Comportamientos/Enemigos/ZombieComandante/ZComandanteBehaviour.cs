@@ -104,14 +104,12 @@ public class ZComandanteBehaviour : BehaviourRunner
         // Se inicializa el sistema con la inercia por defecto (1.3f)
         UtilitySystem us = new UtilitySystem(1.3f);
 
-        // DEFINICIÓN DE FACTORES DE ENTORNO (Usando CreateVariable)
+        // Factores del entorno
         VariableFactor fDistancia = us.CreateVariable(() => distanciaAlJugador, 0f, 25f);
         VariableFactor fCooldown = us.CreateVariable(() => cooldownHabilidadTimer <= 0 ? 1f : 0f, 0f, 1f);
         VariableFactor fPanico = us.CreateVariable(() => Mathf.Clamp01(panicTimer / 2.5f), 0f, 1f);
 
         Debug.Log("Factores creados. Distancia actual: " + distanciaAlJugador);
-
-        // APLICACIÓN DE CURVAS
 
         // Huir
         CustomCurveFactor curveHuir = us.CreateCurve<CustomCurveFactor>(fDistancia);
@@ -125,8 +123,7 @@ public class ZComandanteBehaviour : BehaviourRunner
         LinearCurveFactor curveAvanzar = us.CreateCurve<LinearCurveFactor>(fDistancia);
         curveAvanzar.Slope = 1f; 
         curveAvanzar.YIntercept = 0f;
-        //curveRetroceder.Function = (d) => 1.0f;
-
+        
         // Ordenar: 
         WeightedFusionFactor factorOrdenar = us.CreateFusion<WeightedFusionFactor>(fCooldown, fDistancia);
         factorOrdenar.Weights = new float[] { 0.7f, 0.3f };
@@ -134,7 +131,7 @@ public class ZComandanteBehaviour : BehaviourRunner
         // Burla:
         VariableFactor factorBurla = us.CreateVariable(() => (cooldownHabilidadTimer > cooldownHabilidadMax - 3.0f) ? 2.0f : 0.0f, 0f, 2f);
 
-        // ACCIONES
+        // Acciones
         us.CreateAction(curveHuir, new FunctionalAction(EjecutarHuir));
         us.CreateAction(curveRetroceder, new FunctionalAction(EjecutarRetroceder));
         us.CreateAction(curveAvanzar, new FunctionalAction(EjecutarAvanzar));
@@ -240,7 +237,7 @@ public class ZComandanteBehaviour : BehaviourRunner
 
     public Status EjecutarBurla()
     {
-        Debug.Log("ME BURLO");
+        //Debug.Log("ME BURLO");
         agent.ResetPath();
         zombiAnim.SetBool("Burlarse", true);
         ejeVelocidadAnim = 0f; // Idle de animación de risa
@@ -252,9 +249,9 @@ public class ZComandanteBehaviour : BehaviourRunner
     // SUB-SISTEMA DE NAVEGACIÓN Y ORIENTACIÓN MANUAL
     private void MoverAgenteHaciaDestino(bool lookAtPlayer)
     {
-        Debug.Log("ME MUEVO");
+        //Debug.Log("ME MUEVO");
 
-        Debug.Log("PAthPending = " + agent.pathPending);
+        //Debug.Log("PAthPending = " + agent.pathPending);
         if (agent.pathPending) return;
 
         // Sincronización del NavMeshAgent con el Rigidbody manual para evitar desfases de colisión
