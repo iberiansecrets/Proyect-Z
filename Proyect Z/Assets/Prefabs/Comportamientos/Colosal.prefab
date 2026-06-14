@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 7794632308789895918}
   - component: {fileID: 2447147420294141381}
   - component: {fileID: 8630005366983479084}
-  - component: {fileID: 5264683309477498494}
   - component: {fileID: 8881246742987631460}
   - component: {fileID: 4524679354372256911}
   - component: {fileID: 3790863303329972550}
@@ -186,31 +185,6 @@ MonoBehaviour:
   vidaMaxima: 50
   vidaActual: 0
   "cooldownDa\xF1oAlambre": 1
---- !u!114 &5264683309477498494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929835613075624577}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb375330f5499444893c1a42139f8881, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewDistance: 15
-  viewAngle: 90
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 0
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
-  drawGizmos: 1
-  drawRuntimeVision: 1
-  visionResolution: 30
-  idleColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  detectedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!120 &8881246742987631460
 LineRenderer:
   serializedVersion: 2
