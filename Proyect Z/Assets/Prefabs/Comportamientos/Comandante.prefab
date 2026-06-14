@@ -91,6 +91,9 @@ PrefabInstance:
       addedObject: {fileID: -2195357945385814356}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 6950242425949682198}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3038088775424126753}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       insertIndex: -1
@@ -98,6 +101,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2614718312603851767}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 361533752225626271}
   m_SourcePrefab: {fileID: 100100000, guid: 17710f560bd69ef4ebb4543d0838dde8, type: 3}
 --- !u!1 &5085797134564901262 stripped
 GameObject:
@@ -5013,6 +5019,455 @@ MonoBehaviour:
   speedHuir: 8
   speedRotation: 500
   jugador: {fileID: 0}
+--- !u!114 &6950242425949682198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085797134564901262}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  _eventHandler:
+    debugStatusChanges: 0
+    identifier: 
+  data:
+    graphs:
+    - name: ZComandanteUSBehaviour
+      id: ccc54b20-c0c3-4b01-9fbc-c2eaeba95d3f
+      graph:
+        rid: 2372784199866253379
+      nodes:
+      - name: Distancia
+        id: df1d82a9-fb4f-494c-9c0c-4d9c379c4b3c
+        position: {x: 212, y: -1198}
+        node:
+          rid: 2372784199866253380
+        references:
+        - fieldName: Variable
+          value:
+            rid: 2372784199866253381
+          fieldType: System.Func`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - d0b1d36d-3b74-494e-acf6-5aca23ca0372
+        - d27a0135-255b-4fe8-a3e9-7b6d46f056b1
+        - 5b8f2b54-4fa7-451b-9acf-dee741f3080d
+        childIds: []
+      - name: Cooldown
+        id: 5d5dcd81-a7b4-43ec-8aff-b4d44f652612
+        position: {x: 212, y: -1029}
+        node:
+          rid: 2372784199866253382
+        references:
+        - fieldName: Variable
+          value:
+            rid: 2372784199866253383
+          fieldType: System.Func`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - 7f7e1baf-9c7e-4ce0-96da-8a59e30250cb
+        childIds: []
+      - name: Panico
+        id: 4be1496e-d125-49ec-be12-f5322ab7bfee
+        position: {x: 213, y: -1366}
+        node:
+          rid: 2372784199866253384
+        references:
+        - fieldName: Variable
+          value:
+            rid: 2372784199866253385
+          fieldType: System.Func`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - 7423c116-8629-4e42-8364-05e27cfffe0a
+        childIds: []
+      - name: Huir
+        id: 5b8f2b54-4fa7-451b-9acf-dee741f3080d
+        position: {x: 623, y: -1382}
+        node:
+          rid: 2372784199866253386
+        references:
+        - fieldName: Function
+          value:
+            rid: 2372784199866253387
+          fieldType: System.Func`2[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089],[System.Single, mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - f4b2d91c-708c-4a5a-82a8-6f396b6f28a1
+        childIds:
+        - df1d82a9-fb4f-494c-9c0c-4d9c379c4b3c
+      - name: Retroceder
+        id: d0b1d36d-3b74-494e-acf6-5aca23ca0372
+        position: {x: 617, y: -1243}
+        node:
+          rid: 2372784199866253388
+        references:
+        - fieldName: Function
+          value:
+            rid: 2372784199866253389
+          fieldType: System.Func`2[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089],[System.Single, mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - 263b1496-bb42-48b0-ac73-8d4e017f9385
+        childIds:
+        - df1d82a9-fb4f-494c-9c0c-4d9c379c4b3c
+      - name: Avanzar
+        id: d27a0135-255b-4fe8-a3e9-7b6d46f056b1
+        position: {x: 620, y: -1104}
+        node:
+          rid: 2372784199866253390
+        references: []
+        parentIds:
+        - 8154ad51-2877-421c-91d0-4124a377f9a1
+        childIds:
+        - df1d82a9-fb4f-494c-9c0c-4d9c379c4b3c
+      - name: Ordenar
+        id: 7f7e1baf-9c7e-4ce0-96da-8a59e30250cb
+        position: {x: 620, y: -937}
+        node:
+          rid: 2372784199866253391
+        references: []
+        parentIds:
+        - 6ac4aaa5-0a74-4170-a77f-12f4755b95b8
+        childIds:
+        - 5d5dcd81-a7b4-43ec-8aff-b4d44f652612
+      - name: Burla
+        id: fbf720f8-01c9-46f4-a762-d035ef325e9e
+        position: {x: 229, y: -803}
+        node:
+          rid: 2372784199866253392
+        references:
+        - fieldName: Variable
+          value:
+            rid: 2372784199866253393
+          fieldType: System.Func`1[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - d7035dc5-7552-4722-b6d9-4bdb85aaef21
+        childIds: []
+      - name: HuirAction
+        id: 7da0c198-543c-4d2d-a319-ef08b6f4151c
+        position: {x: 1193, y: -1460}
+        node:
+          rid: 2372784199866253394
+        references:
+        - fieldName: Action
+          value:
+            rid: 2372784199866253400
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds: []
+        childIds:
+        - f4b2d91c-708c-4a5a-82a8-6f396b6f28a1
+      - name: RetrocederAction
+        id: 263b1496-bb42-48b0-ac73-8d4e017f9385
+        position: {x: 1194, y: -1249}
+        node:
+          rid: 2372784199866253395
+        references:
+        - fieldName: Action
+          value:
+            rid: 2372784199866253399
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds: []
+        childIds:
+        - d0b1d36d-3b74-494e-acf6-5aca23ca0372
+      - name: AvanzarAction
+        id: 8154ad51-2877-421c-91d0-4124a377f9a1
+        position: {x: 1194, y: -1088}
+        node:
+          rid: 2372784199866253396
+        references:
+        - fieldName: Action
+          value:
+            rid: 2372784199866253401
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds: []
+        childIds:
+        - d27a0135-255b-4fe8-a3e9-7b6d46f056b1
+      - name: OrdenarAction
+        id: 6ac4aaa5-0a74-4170-a77f-12f4755b95b8
+        position: {x: 1194, y: -957}
+        node:
+          rid: 2372784199866253397
+        references:
+        - fieldName: Action
+          value:
+            rid: 2372784199866253402
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds: []
+        childIds:
+        - 7f7e1baf-9c7e-4ce0-96da-8a59e30250cb
+      - name: BurlarseAction
+        id: d7035dc5-7552-4722-b6d9-4bdb85aaef21
+        position: {x: 1194, y: -815}
+        node:
+          rid: 2372784199866253398
+        references:
+        - fieldName: Action
+          value:
+            rid: 2372784199866253403
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds: []
+        childIds:
+        - fbf720f8-01c9-46f4-a762-d035ef325e9e
+      - name: "Estr\xE9s Panico"
+        id: 7423c116-8629-4e42-8364-05e27cfffe0a
+        position: {x: 633, y: -1507}
+        node:
+          rid: 6697347700407402496
+        references:
+        - fieldName: Function
+          value:
+            rid: 6697347700407402497
+          fieldType: System.Func`2[[System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089],[System.Single, mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        parentIds:
+        - f4b2d91c-708c-4a5a-82a8-6f396b6f28a1
+        childIds:
+        - 4be1496e-d125-49ec-be12-f5322ab7bfee
+      - name: 
+        id: f4b2d91c-708c-4a5a-82a8-6f396b6f28a1
+        position: {x: 924, y: -1438}
+        node:
+          rid: 6697347700407402498
+        references: []
+        parentIds:
+        - 7da0c198-543c-4d2d-a319-ef08b6f4151c
+        childIds:
+        - 7423c116-8629-4e42-8364-05e27cfffe0a
+        - 5b8f2b54-4fa7-451b-9acf-dee741f3080d
+    pushPerceptions: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 2372784199866253379
+      type: {class: UtilitySystem, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        Inertia: 1.3
+    - rid: 2372784199866253380
+      type: {class: VariableFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        min: 0
+        max: 25
+    - rid: 2372784199866253381
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: 
+        methodName: distanciaAlJugador
+    - rid: 2372784199866253382
+      type: {class: VariableFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        min: 0
+        max: 1
+    - rid: 2372784199866253383
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: 
+        methodName: cooldownHabilidadTimer
+    - rid: 2372784199866253384
+      type: {class: VariableFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        min: 0
+        max: 1
+    - rid: 2372784199866253385
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: 
+        methodName: panicTimer
+    - rid: 2372784199866253386
+      type: {class: CustomCurveFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+    - rid: 2372784199866253387
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: 
+        methodName: CurvaHuir
+    - rid: 2372784199866253388
+      type: {class: CustomCurveFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+    - rid: 2372784199866253389
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: 
+        methodName: CurvaRetroceder
+    - rid: 2372784199866253390
+      type: {class: LinearCurveFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        Slope: 1
+        YIntercept: 0
+    - rid: 2372784199866253391
+      type: {class: WeightedFusionFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        Weights:
+        - 0.7
+        - 0.3
+    - rid: 2372784199866253392
+      type: {class: VariableFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        min: 0
+        max: 1
+    - rid: 2372784199866253393
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: 
+        methodName: factorBurla
+    - rid: 2372784199866253394
+      type: {class: UtilityAction, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        FinishSystemOnComplete: 0
+    - rid: 2372784199866253395
+      type: {class: UtilityAction, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        FinishSystemOnComplete: 0
+    - rid: 2372784199866253396
+      type: {class: UtilityAction, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        FinishSystemOnComplete: 0
+    - rid: 2372784199866253397
+      type: {class: UtilityAction, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        FinishSystemOnComplete: 0
+    - rid: 2372784199866253398
+      type: {class: UtilityAction, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+        FinishSystemOnComplete: 0
+    - rid: 2372784199866253399
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: 
+          methodName: EjecutarRetroceder
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 2372784199866253400
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: 
+          methodName: EjecutarHuir
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 2372784199866253401
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: 
+          methodName: EjecutarAvanzar
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 2372784199866253402
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: 
+          methodName: EjecutarOrden
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 2372784199866253403
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: 
+          methodName: EjecutarBurla
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 6697347700407402496
+      type: {class: CustomCurveFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
+    - rid: 6697347700407402497
+      type: {class: SerializedContextMethod, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        componentName: 
+        methodName: 
+    - rid: 6697347700407402498
+      type: {class: MaxFusionFactor, ns: BehaviourAPI.UtilitySystems, asm: BehaviourAPI.UtilitySystems}
+      data:
+        PullingEnabled: 1
 --- !u!114 &3038088775424126753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5056,3 +5511,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipo: 3
+--- !u!114 &361533752225626271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5085797134564901262}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a674b8cb6e4614da1d4a71eb05d335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profundidadEnterrado: 3
+  tiempoElevacion: 2.5
+  compensacionPivote: 1.5

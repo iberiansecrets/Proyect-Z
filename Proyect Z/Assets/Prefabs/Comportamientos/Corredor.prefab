@@ -13,8 +13,10 @@ GameObject:
   - component: {fileID: 6713457227697749119}
   - component: {fileID: 3674733376530375927}
   - component: {fileID: 6490654625533468871}
+  - component: {fileID: 8838563949145840235}
   - component: {fileID: 19317489095808240}
   - component: {fileID: 3330874397582077000}
+  - component: {fileID: 7528732246096522735}
   - component: {fileID: 3641287360056221839}
   - component: {fileID: 566053544033812516}
   - component: {fileID: 1052013135092172827}
@@ -150,6 +152,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!114 &8838563949145840235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3883655744420111400}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 5
+  damage: 7
+  ratioAtaque: 0
+  velocidad: 0
+  zombiAnim: {fileID: 0}
 --- !u!114 &19317489095808240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +292,829 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &7528732246096522735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3883655744420111400}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe9422603bc44d0438aa750adebc2bbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeOnLoop: 0
+  interruptOptions: 0
+  _eventHandler:
+    debugStatusChanges: 0
+    identifier: 
+  data:
+    graphs:
+    - name: ZombieSFSM
+      id: 55053e65-6dc7-44d0-a61c-6a2b68a5ecf7
+      graph:
+        rid: 4430415346363006976
+      nodes:
+      - name: Roaming
+        id: 26a582c7-65e2-497b-abab-e38acffc5cb2
+        position: {x: 1063, y: 807}
+        node:
+          rid: 4430415346363006977
+        references:
+        - fieldName: Action
+          value:
+            rid: 4430415346363006978
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 8bb722b2-5b5b-4f74-80d0-b62a9ff318da
+        - 88337c62-2e45-4c1b-af4e-17a6c694893e
+        childIds:
+        - 10a2ae1f-1f75-421e-9904-6d8aa28a5bd0
+        - 8e00eb52-e7e7-4966-afba-37e3cb09b756
+        - 35ea2d36-b1ac-4055-8aa0-d88fa139bc1f
+      - name: RoamToChase
+        id: 10a2ae1f-1f75-421e-9904-6d8aa28a5bd0
+        position: {x: 1352, y: 690}
+        node:
+          rid: 4430415346363006979
+        references:
+        - fieldName: Perception
+          value:
+            rid: 4430415346363006980
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 26a582c7-65e2-497b-abab-e38acffc5cb2
+        childIds:
+        - 0afc37e4-68d4-44bb-ab22-946efb70aa8b
+      - name: Chasing
+        id: 0afc37e4-68d4-44bb-ab22-946efb70aa8b
+        position: {x: 1475, y: 504}
+        node:
+          rid: 4430415346363006981
+        references:
+        - fieldName: Action
+          value:
+            rid: 4430415346363006982
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 10a2ae1f-1f75-421e-9904-6d8aa28a5bd0
+        - 4dffecc4-8d95-4d67-b959-875e7b7045b1
+        childIds:
+        - 8bb722b2-5b5b-4f74-80d0-b62a9ff318da
+        - 5f66da97-7559-46e3-aeb5-d4ee207672fe
+      - name: FromChasing
+        id: 8bb722b2-5b5b-4f74-80d0-b62a9ff318da
+        position: {x: 1569, y: 807}
+        node:
+          rid: 4430415346363006983
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 0afc37e4-68d4-44bb-ab22-946efb70aa8b
+        childIds:
+        - 26a582c7-65e2-497b-abab-e38acffc5cb2
+      - name: RoamToInvestigate
+        id: 8e00eb52-e7e7-4966-afba-37e3cb09b756
+        position: {x: 701, y: 858}
+        node:
+          rid: 4430415346363006984
+        references:
+        - fieldName: Perception
+          value:
+            rid: 4430415346363006985
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 26a582c7-65e2-497b-abab-e38acffc5cb2
+        childIds:
+        - f7469344-2a85-40c2-a883-092c84e57885
+      - name: CheckHasHeardSound
+        id: f7469344-2a85-40c2-a883-092c84e57885
+        position: {x: 700, y: 490}
+        node:
+          rid: 4430415346363006986
+        references:
+        - fieldName: Action
+          value:
+            rid: 4430415346363006987
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 8e00eb52-e7e7-4966-afba-37e3cb09b756
+        childIds:
+        - 4dffecc4-8d95-4d67-b959-875e7b7045b1
+        - 88337c62-2e45-4c1b-af4e-17a6c694893e
+        - 60838d06-0e38-480f-9d29-8aad8e65dfe3
+      - name: SoundToChase
+        id: 4dffecc4-8d95-4d67-b959-875e7b7045b1
+        position: {x: 1184, y: 490}
+        node:
+          rid: 4430415346363006988
+        references:
+        - fieldName: Perception
+          value:
+            rid: 4430415346363006989
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - f7469344-2a85-40c2-a883-092c84e57885
+        childIds:
+        - 0afc37e4-68d4-44bb-ab22-946efb70aa8b
+      - name: FromInvestigate
+        id: 88337c62-2e45-4c1b-af4e-17a6c694893e
+        position: {x: 823, y: 682}
+        node:
+          rid: 4430415346363006990
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - f7469344-2a85-40c2-a883-092c84e57885
+        childIds:
+        - 26a582c7-65e2-497b-abab-e38acffc5cb2
+      - name: Horde
+        id: 598c4dbd-60d4-4ddf-98a0-1701e3e3a6f9
+        position: {x: 1061, y: 82}
+        node:
+          rid: 4430415346363006993
+        references:
+        - fieldName: Action
+          value:
+            rid: 4430415346363006994
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 5f66da97-7559-46e3-aeb5-d4ee207672fe
+        - 35ea2d36-b1ac-4055-8aa0-d88fa139bc1f
+        - 60838d06-0e38-480f-9d29-8aad8e65dfe3
+        childIds:
+        - 7317414d-63ee-4573-9af5-d3f25deebcea
+      - name: FromHorde
+        id: 7317414d-63ee-4573-9af5-d3f25deebcea
+        position: {x: 1061, y: -124}
+        node:
+          rid: 4430415346363006995
+        references:
+        - fieldName: Perception
+          value:
+            rid: 4430415346363006996
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 598c4dbd-60d4-4ddf-98a0-1701e3e3a6f9
+        childIds: []
+      - name: ChaseToHorde
+        id: 5f66da97-7559-46e3-aeb5-d4ee207672fe
+        position: {x: 1469, y: 63}
+        node:
+          rid: 4430415346363006997
+        references:
+        - fieldName: Perception
+          value:
+            rid: 4430415346363006998
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 0afc37e4-68d4-44bb-ab22-946efb70aa8b
+        childIds:
+        - 598c4dbd-60d4-4ddf-98a0-1701e3e3a6f9
+      - name: RoamToHorde
+        id: 35ea2d36-b1ac-4055-8aa0-d88fa139bc1f
+        position: {x: 1061, y: 292}
+        node:
+          rid: 4430415346363006999
+        references:
+        - fieldName: Perception
+          value:
+            rid: 4430415346363007000
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 26a582c7-65e2-497b-abab-e38acffc5cb2
+        childIds:
+        - 598c4dbd-60d4-4ddf-98a0-1701e3e3a6f9
+      - name: SoundToHorde
+        id: 60838d06-0e38-480f-9d29-8aad8e65dfe3
+        position: {x: 700, y: 270}
+        node:
+          rid: 4430415346363007001
+        references:
+        - fieldName: Perception
+          value:
+            rid: 4430415346363007002
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - f7469344-2a85-40c2-a883-092c84e57885
+        childIds:
+        - 598c4dbd-60d4-4ddf-98a0-1701e3e3a6f9
+    - name: ZombieFSM
+      id: 3eacaf99-30c8-4e28-bd01-8a3b010ee1c3
+      graph:
+        rid: 2287897920143622203
+      nodes:
+      - name: Roaming
+        id: 9859a67a-3d24-4ffc-9343-33b7d1dc23b2
+        position: {x: 521, y: 322}
+        node:
+          rid: 2287897920143622204
+        references:
+        - fieldName: Action
+          value:
+            rid: 2287897944607162368
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - ca6c6d77-0a02-49b5-ae40-e40d1c3fe77b
+        - ecad9222-7587-46dc-a344-c42197a288ae
+        childIds:
+        - 603857a2-f2b5-4478-a5fc-f444ffaf4a3f
+        - 497431c6-40fe-4552-ba31-adde5894d1cb
+      - name: Chasing
+        id: 49c597c1-6c1b-49ee-b278-1b712658fb16
+        position: {x: 1065, y: 221}
+        node:
+          rid: 2287897920143622211
+        references:
+        - fieldName: Action
+          value:
+            rid: 2287897920143622213
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 603857a2-f2b5-4478-a5fc-f444ffaf4a3f
+        - d3f8a629-861a-46ab-a375-e9a7f83c0125
+        childIds:
+        - ecad9222-7587-46dc-a344-c42197a288ae
+      - name: InvestigateSound
+        id: 9ba732ed-c1da-4ba5-9fb0-5c89c16d88d2
+        position: {x: 1057, y: 673}
+        node:
+          rid: 2287897920143622212
+        references:
+        - fieldName: Action
+          value:
+            rid: 2287897920143622214
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 497431c6-40fe-4552-ba31-adde5894d1cb
+        childIds:
+        - d3f8a629-861a-46ab-a375-e9a7f83c0125
+        - ca6c6d77-0a02-49b5-ae40-e40d1c3fe77b
+      - name: RoamToChase
+        id: 603857a2-f2b5-4478-a5fc-f444ffaf4a3f
+        position: {x: 784, y: 196}
+        node:
+          rid: 2287897920143622215
+        references:
+        - fieldName: Perception
+          value:
+            rid: 2287897920143622216
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 9859a67a-3d24-4ffc-9343-33b7d1dc23b2
+        childIds:
+        - 49c597c1-6c1b-49ee-b278-1b712658fb16
+      - name: SoundToChase
+        id: d3f8a629-861a-46ab-a375-e9a7f83c0125
+        position: {x: 1081, y: 447}
+        node:
+          rid: 2287897920143622221
+        references:
+        - fieldName: Perception
+          value:
+            rid: 2287897920143622222
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 9ba732ed-c1da-4ba5-9fb0-5c89c16d88d2
+        childIds:
+        - 49c597c1-6c1b-49ee-b278-1b712658fb16
+      - name: FromChasing
+        id: ecad9222-7587-46dc-a344-c42197a288ae
+        position: {x: 1078, y: -46}
+        node:
+          rid: 2287897920143622223
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 49c597c1-6c1b-49ee-b278-1b712658fb16
+        childIds:
+        - 9859a67a-3d24-4ffc-9343-33b7d1dc23b2
+      - name: FromInvestigate
+        id: ca6c6d77-0a02-49b5-ae40-e40d1c3fe77b
+        position: {x: 505, y: 852}
+        node:
+          rid: 2287897920143622226
+        references:
+        - fieldName: Perception
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 9ba732ed-c1da-4ba5-9fb0-5c89c16d88d2
+        childIds:
+        - 9859a67a-3d24-4ffc-9343-33b7d1dc23b2
+      - name: RoamToInvestigate
+        id: 497431c6-40fe-4552-ba31-adde5894d1cb
+        position: {x: 800, y: 548}
+        node:
+          rid: 2287897926603636795
+        references:
+        - fieldName: Perception
+          value:
+            rid: 2287897926603636796
+          fieldType: BehaviourAPI.Core.Perceptions.Perception, BehaviourAPI.Core,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        - fieldName: Action
+          value:
+            rid: -2
+          fieldType: BehaviourAPI.Core.Actions.Action, BehaviourAPI.Core, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        parentIds:
+        - 9859a67a-3d24-4ffc-9343-33b7d1dc23b2
+        childIds:
+        - 9ba732ed-c1da-4ba5-9fb0-5c89c16d88d2
+    pushPerceptions: []
+  target: {fileID: 0}
+  debugLogs: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2287897920143622203
+      type: {class: FSM, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 2287897920143622204
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 2287897920143622211
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 2287897920143622212
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 2287897920143622213
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: ZombieActions
+          methodName: TickChasing
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 2287897920143622214
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: ZombieActions
+          methodName: EnterInvestigateSound
+        update:
+          componentName: ZombieActions
+          methodName: TickInvestigateSound
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 2287897920143622215
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 7
+    - rid: 2287897920143622216
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: 
+          methodName: CheckCanSeePlayer
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 2287897920143622221
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 7
+    - rid: 2287897920143622222
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: 
+          methodName: CheckCanSeePlayer
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 2287897920143622223
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 4
+    - rid: 2287897920143622226
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 2
+    - rid: 2287897926603636795
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 7
+    - rid: 2287897926603636796
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: 
+          methodName: CheckHasHeardSound
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 2287897944607162368
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: ZombieActions
+          methodName: EnterRoaming
+        update:
+          componentName: ZombieActions
+          methodName: TickRoaming
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006976
+      type: {class: StackFSM, ns: BehaviourAPI.StateMachines.StackFSMs, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 4430415346363006977
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 4430415346363006978
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: ZombieActions
+          methodName: EnterRoaming
+        update:
+          componentName: ZombieActions
+          methodName: TickRoaming
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006979
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 7
+    - rid: 4430415346363006980
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: 
+          methodName: CheckCanSeePlayer
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006981
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 4430415346363006982
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: ZombieActions
+          methodName: TickChasing
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006983
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 4
+    - rid: 4430415346363006984
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 7
+    - rid: 4430415346363006985
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: 
+          methodName: CheckHasHeardSound
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006986
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 4430415346363006987
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: ZombieActions
+          methodName: EnterInvestigateSound
+        update:
+          componentName: ZombieActions
+          methodName: TickInvestigateSound
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006988
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 7
+    - rid: 4430415346363006989
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: 
+          methodName: CheckCanSeePlayer
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006990
+      type: {class: StateTransition, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: 2
+    - rid: 4430415346363006993
+      type: {class: State, ns: BehaviourAPI.StateMachines, asm: BehaviourAPI.StateMachines}
+      data: 
+    - rid: 4430415346363006994
+      type: {class: CustomAction, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        start:
+          componentName: 
+          methodName: 
+        update:
+          componentName: ZombieFSMBehaviourRunner
+          methodName: TickHordeBehaviour
+        stop:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006995
+      type: {class: PopTransition, ns: BehaviourAPI.StateMachines.StackFSMs, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: -1
+    - rid: 4430415346363006996
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ZombieFSMBehaviourRunner
+          methodName: popHordePerception
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006997
+      type: {class: PushTransition, ns: BehaviourAPI.StateMachines.StackFSMs, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: -1
+    - rid: 4430415346363006998
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ZombieFSMBehaviourRunner
+          methodName: pushHordePerception
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363006999
+      type: {class: PushTransition, ns: BehaviourAPI.StateMachines.StackFSMs, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: -1
+    - rid: 4430415346363007000
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ZombieFSMBehaviourRunner
+          methodName: pushHordePerception
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
+    - rid: 4430415346363007001
+      type: {class: PushTransition, ns: BehaviourAPI.StateMachines.StackFSMs, asm: BehaviourAPI.StateMachines}
+      data:
+        StatusFlags: -1
+    - rid: 4430415346363007002
+      type: {class: CustomPerception, ns: BehaviourAPI.UnityToolkit.GUIDesigner.Framework, asm: BehaviourAPI.UnityToolkit.GUIDesigner.Framework}
+      data:
+        init:
+          componentName: 
+          methodName: 
+        check:
+          componentName: ZombieFSMBehaviourRunner
+          methodName: pushHordeBehaviour
+        reset:
+          componentName: 
+          methodName: 
+        pause:
+          componentName: 
+          methodName: 
+        unpause:
+          componentName: 
+          methodName: 
 --- !u!114 &3641287360056221839
 MonoBehaviour:
   m_ObjectHideFlags: 0
