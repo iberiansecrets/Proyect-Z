@@ -13,9 +13,7 @@ GameObject:
   - component: {fileID: 1680972873611189169}
   - component: {fileID: 357089382874753836}
   - component: {fileID: 7794632308789895918}
-  - component: {fileID: 2447147420294141381}
   - component: {fileID: 8630005366983479084}
-  - component: {fileID: 5264683309477498494}
   - component: {fileID: 8881246742987631460}
   - component: {fileID: 4524679354372256911}
   - component: {fileID: 3790863303329972550}
@@ -24,7 +22,6 @@ GameObject:
   - component: {fileID: 2482299931684668051}
   - component: {fileID: 2605267416855798466}
   - component: {fileID: -7525840456620256046}
-  - component: {fileID: 8872977292832930648}
   - component: {fileID: 2156379073664762091}
   m_Layer: 7
   m_Name: Colosal
@@ -152,24 +149,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
---- !u!114 &2447147420294141381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929835613075624577}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ff26b3fd8daf6748b58b132ef23a300, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  speed: 2
-  damage: 15
-  ratioAtaque: 0
-  velocidad: 0
-  zombiAnim: {fileID: 0}
 --- !u!114 &8630005366983479084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,31 +164,6 @@ MonoBehaviour:
   vidaMaxima: 50
   vidaActual: 0
   "cooldownDa\xF1oAlambre": 1
---- !u!114 &5264683309477498494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929835613075624577}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb375330f5499444893c1a42139f8881, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewDistance: 15
-  viewAngle: 90
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 0
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 0
-  drawGizmos: 1
-  drawRuntimeVision: 1
-  visionResolution: 30
-  idleColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  detectedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!120 &8881246742987631460
 LineRenderer:
   serializedVersion: 2
@@ -5230,6 +5184,7 @@ MonoBehaviour:
   interruptOptions: 0
   zombi: {fileID: 0}
   targetActual: {fileID: 0}
+  _debugger: {fileID: 0}
 --- !u!195 &2605267416855798466
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -5267,32 +5222,10 @@ MonoBehaviour:
   hearingRadius: 12
   soundMemoryTime: 3
   debugLogs: 0
---- !u!114 &8872977292832930648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929835613075624577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7033c32493b38240a6a2c47736ac9c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  executeOnLoop: 0
-  interruptOptions: 0
-  _eventHandler:
-    debugStatusChanges: 0
-    identifier: 
-  data:
-    graphs: []
-    pushPerceptions: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &2156379073664762091
 MonoBehaviour:
   m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929835613075624577}
