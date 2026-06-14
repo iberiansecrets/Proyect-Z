@@ -182,7 +182,7 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         ZombieFSM.CreatePushTransition("EntrarEnHorda_Sound", InvestigateSound, Horde, pushHordePerception);
         ZombieFSM.CreatePushTransition("EntrarEnHorda_Attack", Attacking, Horde, pushHordePerception);
 
-        // Registramos el Pop: cuando se active, destruye el estado Horda y vuelve al anterior guardado
+        // Registramos el Pop, cuando se active, destruye el estado Horda y vuelve al anterior guardado
         ZombieFSM.CreatePopTransition("SalirDeHorda", Horde, popHordePerception);
 
         ZombieFSM.SetEntryState(Roaming);
@@ -191,12 +191,10 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
 
     private Status TickHordeBehaviour()
     {
-        popHordeSignal = false; // Aseguramos limpieza de la bandera de salida
+        popHordeSignal = false;
 
         if (zombiAnim != null) zombiAnim.SetBool("Movimiento", true);
 
-        // El Colosal controlará dinámicamente el target de este zombi. 
-        // El corredor se moverá hacia donde el líder le mande usando el NavMesh físico.
         if (target != null && agent != null && agent.enabled)
         {
             agent.SetDestination(target.position);
@@ -216,7 +214,7 @@ public class ZombieFSMBehaviourRunner : BehaviourRunner
         if (target == null || Vector3.Distance(transform.position, target.position) < 4f)
         {
             popHordeSignal = true; // Hace Pop de la Stack-FSM y destruye el estado Horda
-            target = jugadorReal; // Vuelve a tener al jugador como objetivo
+            target = jugadorReal;  // Vuelve a tener al jugador como objetivo
             return Status.Success;
         }
 

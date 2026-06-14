@@ -77,9 +77,6 @@ public class ZombieFSMEditorRunner : EditorBehaviourRunner
 
     #region ----------------------- Percepciones / Helpers -----------------------
 
-    // METODOS booleanos listos para usarse desde "Custom Perception -> Check" en transiciones.
-    // Estos devuelven true/false (el editor mapeará true -> Success y false -> Failure)
-
     /// Método booleano (alias) para chequear si el player está visible desde el sensor de visión.
     public bool Runner_CanSeePlayer()
     {

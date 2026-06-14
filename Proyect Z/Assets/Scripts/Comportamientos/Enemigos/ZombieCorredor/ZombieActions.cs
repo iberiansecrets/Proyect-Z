@@ -13,7 +13,7 @@ public class ZombieActions : MonoBehaviour
     public Transform target;
 
     [Header("Roaming")]
-    public float roamSpeed = 2f;              // velocidad (m/s) durante roaming
+    public float roamSpeed = 2f;              // velocidad durante roaming
     public float roamWaitDuration = 3f;       // espera antes de moverse
     public float roamMoveDuration = 3f;       // tiempo moviéndose en la dirección elegida
     public float roamMoveDistance = 6f;       // distancia objetivo (se calcula como preferencia), si =0, se usa roamSpeed*roamMoveDuration
@@ -112,58 +112,50 @@ public class ZombieActions : MonoBehaviour
             }
         }
     }
-    // ------------------------------------------------------------------
-
-    // -------------------- ROAMING --------------------
 
     public void EnterRoaming()
     {
-        // Make sure the agent will move the transform (we use NavMeshAgent for roaming here)
         if (agent != null && agent.isOnNavMesh)
         {
-            agent.isStopped = true;     // start in waiting phase
+            agent.isStopped = true;     // empezar en la fase de espera
             agent.ResetPath();
             agent.speed = roamSpeed;
         }
 
         roamPhase = RoamPhase.Waiting;
         roamTimer = roamWaitDuration;
-        roamTarget = transform.position; // no target yet
-        //Debug.Log("[ZombieActions] EnterRoaming: waiting " + roamWaitDuration + "s");
+        roamTarget = transform.position; // sin objetivo todavía
+        //Debug.Log("[ZombieActions] EnterRoaming: esperando " + roamWaitDuration + "s");
     }
 
     public Status TickRoaming()
     {
-        // Interruptions: vision OR sound -> return Success so transition can fire.
-        // IMPORTANT: in the editor ensure Roaming->Chasing transition is above Roaming->Investigate so vision has priority.
         if (vision != null && target != null && vision.CanSeePlayerSimple(target))
         {
-            // set last known for chasing
+            // establecer la última posición conocida para la persecución
             lastKnownPlayerPos = target.position;
             chaseLoseTimer = chaseLoseMaxTime;
-            //Debug.Log("[ZombieActions] TickRoaming: saw player -> interrupt Roaming");
-            return Status.Success; // signal to FSM: go to Chasing (transition priority in editor)
+            //Debug.Log("[ZombieActions] TickRoaming: jugador visto -> interrumpir Roaming");
+            return Status.Success;
         }
 
         if (hearing != null && hearing.HasHeardSound())
         {
-            // store center of sound as investigateTarget (the sensor gives the last heard position / center)
             if (hearing.TryGetLastHeardPosition(out Vector3 pos))
                 investigateTarget = pos;
             else if (target != null)
                 investigateTarget = target.position; // fallback
-            //Debug.Log($"[ZombieActions] TickRoaming: heard sound at {investigateTarget} -> interrupt Roaming");
-            return Status.Success; // signal to FSM: go to Investigate (editor must prioritize Chasing over Investigate)
+            //Debug.Log($"[ZombieActions] TickRoaming: sonido escuchado en {investigateTarget} -> interrumpir Roaming");
+            return Status.Success;
         }
 
-        // normal roaming behavior
         switch (roamPhase)
         {
             case RoamPhase.Waiting:
                 roamTimer -= Time.deltaTime;
                 if (roamTimer <= 0f)
                 {
-                    // choose a direction and target on NavMesh
+                    // elegir una dirección y un objetivo en el NavMesh
                     ChooseRoamTarget();
                     if (roamTarget != transform.position && agent != null && agent.isOnNavMesh)
                     {
@@ -172,43 +164,41 @@ public class ZombieActions : MonoBehaviour
                         agent.SetDestination(roamTarget);
                         roamPhase = RoamPhase.Moving;
                         roamTimer = roamMoveDuration;
-                        //Debug.Log("[ZombieActions] Roaming: moving to " + roamTarget + " for " + roamMoveDuration + "s");
+                        //Debug.Log("[ZombieActions] Roaming: moviéndose hacia " + roamTarget + " durante " + roamMoveDuration + "s");
                     }
                     else
                     {
-                        // no valid roam target -> wait again
+                        // no hay objetivo de deambulación válido
                         roamPhase = RoamPhase.Waiting;
                         roamTimer = roamWaitDuration;
-                        //Debug.Log("[ZombieActions] Roaming: no valid roam target found, waiting again");
+                        //Debug.Log("[ZombieActions] Roaming: no se encontró un objetivo de deambulación válido, esperando de nuevo");
                     }
                 }
                 break;
 
             case RoamPhase.Moving:
-                // countdown movement time
+                // cuenta regresiva del tiempo de movimiento
                 roamTimer -= Time.deltaTime;
 
                 // Usamos la función física en lugar de dejar que el NavMesh mueva al zombi
                 MoveTowardsNavTarget(roamSpeed);
 
-                // If reached target earlier, we can stop early
                 if (agent != null && agent.isOnNavMesh && !agent.pathPending)
                 {
                     if (agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, arriveThreshold))
                     {
-                        // arrived
                         agent.isStopped = true;
                         agent.ResetPath();
                         roamPhase = RoamPhase.Waiting;
                         roamTimer = roamWaitDuration;
-                        //Debug.Log("[ZombieActions] Roaming: arrived early, switching to Waiting");
+                        //Debug.Log("[ZombieActions] Roaming: llegó temprano, cambiando a Waiting");
                         break;
                     }
                 }
 
                 if (roamTimer <= 0f)
                 {
-                    // stop movement and wait
+                    // detener el movimiento y esperar
                     if (agent != null && agent.isOnNavMesh)
                     {
                         agent.isStopped = true;
@@ -216,7 +206,7 @@ public class ZombieActions : MonoBehaviour
                     }
                     roamPhase = RoamPhase.Waiting;
                     roamTimer = roamWaitDuration;
-                    //Debug.Log("[ZombieActions] Roaming: finished move duration, switching to Waiting");
+                    //Debug.Log("[ZombieActions] Roaming: terminó la duración del movimiento, cambiando a Waiting");
                 }
                 break;
         }
@@ -226,20 +216,16 @@ public class ZombieActions : MonoBehaviour
 
     private void ChooseRoamTarget()
     {
-        // pick random direction, then sample a navmesh position at distance roamMoveDistance
         for (int attempt = 0; attempt < 12; attempt++)
         {
             Vector2 rnd = Random.insideUnitCircle.normalized;
             Vector3 dir = new Vector3(rnd.x, 0f, rnd.y);
             Vector3 desired = transform.position + dir * roamMoveDistance;
 
-            // Se cambió el '1.0f' original por 'roamMoveDistance' para evitar que la búsqueda falle cerca de paredes
             if (NavMesh.SamplePosition(desired, out NavMeshHit hit, roamMoveDistance, NavMesh.AllAreas))
             {
-                // check reachability via path
                 if (IsPathCompleteTo(hit.position, out float pathLen))
                 {
-                    // avoid trivially short path (i.e., target sampled near our position)
                     if (pathLen > 0.25f)
                     {
                         roamTarget = hit.position;
@@ -249,11 +235,9 @@ public class ZombieActions : MonoBehaviour
             }
         }
 
-        // fallback: no valid target found -> stay put
+        // fallback
         roamTarget = transform.position;
     }
-
-    // -------------------- CHASING --------------------
 
     public void EnterChasing()
     {
@@ -279,7 +263,6 @@ public class ZombieActions : MonoBehaviour
         if (target == null || agent == null || !agent.isOnNavMesh)
             return Status.Failure;
 
-        // If we see player -> update lastKnown and move directly
         bool sees = vision != null && vision.CanSeePlayerSimple(target);
         if (sees)
         {
@@ -304,7 +287,6 @@ public class ZombieActions : MonoBehaviour
             return Status.Running;
         }
 
-        // Lost sight: go to lastKnown for a bit
         if (chaseLoseTimer > 0f)
         {
             chaseLoseTimer -= Time.deltaTime;
@@ -320,7 +302,6 @@ public class ZombieActions : MonoBehaviour
 
             if (!agent.pathPending && agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, arriveThreshold))
             {
-                // arrived to last known and didn't see player -> stop chasing
                 agent.isStopped = true;
                 agent.ResetPath();
                 //Debug.Log("[TickChasing] Arrived lastKnown and didn't see player -> Failure");
@@ -338,11 +319,8 @@ public class ZombieActions : MonoBehaviour
             return Status.Running;
         }
 
-        // no knowledge, give up
         return Status.Failure;
     }
-
-    // -------------------- INVESTIGATE (sound) --------------------
 
     private void StartInvestigateForSound(Vector3 pos, float time)
     {
@@ -390,7 +368,6 @@ public class ZombieActions : MonoBehaviour
             }
         }
 
-        // no encontrado -> abortar, dejar fallback rb movement
         investigateNavTarget = Vector3.zero;
         if (agent != null) { agent.isStopped = true; agent.ResetPath(); }
         
@@ -414,8 +391,6 @@ public class ZombieActions : MonoBehaviour
         }
     }
 
-
-    // Helper: enable agent and set destination to current investigateNavTarget
     private void StartInvestigateMovement()
     {
         if (agent != null && agent.isOnNavMesh)
@@ -474,7 +449,7 @@ public class ZombieActions : MonoBehaviour
                         }
                         else
                         {
-                            // Intentamos un ultimo muestreo directo en torno al origen (posiblemente dentro de la habitación)
+                            // Intentamos un ultimo muestreo directo en torno al origen
                             if (NavMesh.SamplePosition(investigateTarget, out NavMeshHit finalHit, 1.5f, NavMesh.AllAreas)
                                 && IsPathCompleteTo(finalHit.position, out float _))
                             {
@@ -509,7 +484,6 @@ public class ZombieActions : MonoBehaviour
             return Status.Running;
         }
 
-        // Si no hay ruta navegable creada: fallback RB move hacia el origin (esto se mantendra si no hay NavMesh path)
         Vector3 dir = investigateTarget - transform.position;
         dir.y = 0f;
         if (dir.magnitude < finalProximityThreshold) return Status.Success;
@@ -519,7 +493,6 @@ public class ZombieActions : MonoBehaviour
         return Status.Running;
     }
 
-    // -------------------- NAV UTILS --------------------
 
     private bool BuildInvestigateNavPathTowardsOrigin(Vector3 origin)
     {
@@ -560,12 +533,10 @@ public class ZombieActions : MonoBehaviour
             if (t >= 1f) break;
         }
 
-        // Como extra: intentar samplear alrededor del origin para tener un posible último punto
         if (NavMesh.SamplePosition(origin, out NavMeshHit originHit, sampleRadius * 1.5f, NavMesh.AllAreas))
         {
             if (IsPathCompleteTo(originHit.position, out float len) && len > 0.25f)
             {
-                // añadir sólo si mejora (más cercano al origin)
                 if (investigateNavPath.Count == 0 || Vector3.Distance(originHit.position, origin) < Vector3.Distance(lastAdded, origin))
                 {
                     investigateNavPath.Add(originHit.position);
